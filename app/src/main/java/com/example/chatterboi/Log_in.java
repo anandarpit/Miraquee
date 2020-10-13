@@ -24,6 +24,7 @@ public class Log_in extends AppCompatActivity {
     TextView forgotpassword;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+    Button login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class Log_in extends AppCompatActivity {
         firebaseAuth = firebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         forgotpassword = findViewById(R.id.forgot_password);
+        login = findViewById(R.id.login);
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mview) {
@@ -71,11 +73,8 @@ public class Log_in extends AppCompatActivity {
                         else{
                             Snackbar.make(view, "Email is Empty!", Snackbar.LENGTH_LONG).show();
                         }
-
                     }
                 });
-
-
             }});
-            }
+    }
 }
