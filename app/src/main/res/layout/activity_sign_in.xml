@@ -6,135 +6,124 @@
     android:id="@+id/register_activity"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".Register">
+    tools:context=".sign_in">
+
+
+    <ImageView
+        android:id="@+id/imagetop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/welcome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2126709"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/username_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alegreya"
+        android:gravity="center"
+        android:paddingHorizontal="10dp"
+        android:textStyle="bold"
+        android:text="@string/chatter_community"
+        android:textColor="#56585C"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagetop"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="100:80"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/username_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alegreya"
+        android:hint="Username"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_edittext"
+        app:layout_constraintWidth_percent="0.85"
+        app:met_baseColor="#000000"
+        app:met_errorColor="#F44336"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="#8805ad"
+        app:met_primaryColor="?colorAccent"
+        app:met_singleLineEllipsis="true" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/name_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/alegreya"
+        android:hint="Name"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username_textView"
+        app:layout_constraintWidth_percent="0.85"
+        app:met_baseColor="#000000"
+        app:met_errorColor="#F44336"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="#8805ad"
+        app:met_primaryColor="?colorAccent"
+        app:met_singleLineEllipsis="true" />
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/green"
+        android:src="@drawable/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.2126709"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintVertical_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signin" />
-
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="47dp"
-        android:fontFamily="@font/allura"
-        android:gravity="center"
-        android:text="Chatter Boi"
-        android:textColor="#000000"
-        android:textSize="55dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/roboto"
-        android:hint="Email"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register"
-        app:layout_constraintWidth_percent="0.85"
-        app:met_baseColor="#000000"
-        app:met_errorColor="#F44336"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextColor="#8805ad"
-        app:met_primaryColor="?colorAccent"
-        app:met_singleLineEllipsis="true" />
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/newpass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:hint="New password"
-        android:inputType="textPassword"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email"
-        app:layout_constraintWidth_percent="0.85"
-        app:met_baseColor="#000000"
-        app:met_errorColor="#F44336"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextColor="#8805ad"
-        app:met_primaryColor="?colorAccent"
-        app:met_singleLineEllipsis="true" />
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/confirmpass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:hint="Confirm password"
-        android:inputType="textPassword"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/newpass"
-        app:layout_constraintWidth_percent="0.85"
-        app:met_baseColor="#000000"
-        app:met_errorColor="#F44336"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextColor="#8805ad"
-        app:met_primaryColor="?colorAccent"
-        app:met_singleLineEllipsis="true" />
-
+        app:layout_constraintBottom_toBottomOf="parent" />
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/button"
         android:fontFamily="@font/roboto"
-        android:text="Register"
+        android:text="Join"
         android:textColor="#ffffff"
         android:textSize="22dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="100:37"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmpass"
+        app:layout_constraintTop_toBottomOf="@+id/username_edittext"
         app:layout_constraintVertical_bias="0.05"
         app:layout_constraintWidth_percent="0.4" />
-
-    <TextView
-        android:id="@+id/notmember"
-        android:layout_width="wrap_content"
+    
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:text="Already a member?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button"
-        app:layout_constraintVertical_bias="0.05" />
-
-    <Button
-        android:id="@+id/signin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:fontFamily="@font/roboto"
-        android:text="sign in"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.09" />
-
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+    </LinearLayout>
+        
 </androidx.constraintlayout.widget.ConstraintLayout>
