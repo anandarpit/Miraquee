@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -24,6 +25,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Register extends AppCompatActivity {
     MaterialEditText email, password, cnfpassword;
@@ -44,6 +48,14 @@ public class Register extends AppCompatActivity {
 
         mAuth= FirebaseAuth.getInstance();
 
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri;
+                Intent intent = new Intent(Register.this, Log_in.class);
+                startActivity(intent);
+            }
+        });
         
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +64,11 @@ public class Register extends AppCompatActivity {
                 final String Pass=password.getText().toString().trim();
                 final String cnfpass = cnfpassword.getText().toString().trim();
                 if(TextUtils.isEmpty(Email)) {
-
                     email.setError("Email is Required");
                     return;
+                }
+                else if(!isEmailValid(Email)){
+                    email.setError("Enter a valid Email");
                 }
                 else if(TextUtils.isEmpty(Pass))
                 {
@@ -74,23 +88,29 @@ public class Register extends AppCompatActivity {
                 else{
                     //to Close the keyboard when the user hits the register button
                     View keyview = getCurrentFocus();
-                    if (view != null) {
+                    if (keyview != null) {
                         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
 
                 registerUser(Email,Pass);
-                Snackbar.make(activity, " Register Pressed", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                Snackbar.make(activity, "Sending Email...", Snackbar.LENGTH_LONG).setAction("Action",null).show();
                 }}
         });
     }
+    public boolean isEmailValid(String email){
+        Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
+        Matcher emailMatcher = emailPattern.matcher(email);
+        return emailMatcher.matches();
+    }
 
-    public void registerUser(String uEmail, String uPass){
+    public void registerUser(final String uEmail, String uPass){
         mAuth.createUserWithEmailAndPassword(uEmail,uPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
                     firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -98,7 +118,9 @@ public class Register extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                        startActivity(new Intent(Register.this, sign_in.class));
+                                        Intent intent = new Intent(Register.this, username_page.class);
+                                        intent.putExtra("Email", uEmail);
+                                        startActivity(intent);
                                         finish();
                                 }
                             }, 2500);
@@ -107,14 +129,25 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Snackbar.make(activity, "Error Occured", Snackbar.LENGTH_LONG).setAction("Action",null).show();
-
                         }
                     });
                     String uId = firebaseUser.getUid();
                     reference = FirebaseDatabase.getInstance().getReference("UserId").child(uId);
                 }
-
+                else{
+                    Snackbar.make(activity, "Error! "+task.getException().getMessage(), Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                }
             }
         });
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
     }
 }

@@ -99,7 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/button"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/alegreya"
         android:text="Register"
         android:textColor="#ffffff"
         android:textSize="22dp"
@@ -109,7 +109,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmpass"
         app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent="0.4" />
+        app:layout_constraintWidth_percent="0.32" />
 
     <TextView
         android:id="@+id/notmember"
