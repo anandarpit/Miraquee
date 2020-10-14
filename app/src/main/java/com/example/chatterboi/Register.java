@@ -104,7 +104,7 @@ public class Register extends AppCompatActivity {
         return emailMatcher.matches();
     }
 
-    public void registerUser(final String uEmail, String uPass) {
+    public void registerUser(final String uEmail, final String uPass) {
         mAuth.createUserWithEmailAndPassword(uEmail, uPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -120,6 +120,7 @@ public class Register extends AppCompatActivity {
                                 public void run() {
                                     Intent intent = new Intent(Register.this, username_page.class);
                                     intent.putExtra("Email", uEmail);
+                                    intent.putExtra("Pass",uPass);
                                     startActivity(intent);
                                     finish();
                                 }

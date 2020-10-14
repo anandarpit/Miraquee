@@ -3,6 +3,7 @@ package com.example.chatterboi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.nfc.Tag;
@@ -16,10 +17,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -37,8 +41,10 @@ public class username_page extends AppCompatActivity {
     FirebaseFirestore db;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
-    String Email,Name;
+    String Email,Name, Pass;
     String userId;
+    ConstraintLayout username_page;
+    private static final String TAG = "MyActivity";
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     MaterialEditText name;
@@ -49,34 +55,48 @@ public class username_page extends AppCompatActivity {
         back = findViewById(R.id.back);
         join = findViewById(R.id.button);
         name = findViewById(R.id.name_edittext);
+        username_page = findViewById(R.id.username_page);
         mAuth = FirebaseAuth.getInstance();
-        firebaseUser = mAuth.getCurrentUser();
         Email = getIntent().getStringExtra("Email");
+        Pass = getIntent().getStringExtra("Pass");
 
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Name= name.getText().toString();
-                userId= mAuth.getCurrentUser().getUid();
-                db = FirebaseFirestore.getInstance();
-                DocumentReference documentReference=db.collection("Users").document(userId);
-                Map<String,Object> user=new HashMap<>();
-                user.put("Full_Name",Name);
-                user.put("Email_Id",Email);
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                mAuth.signInWithEmailAndPassword(Email,Pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v("Tag","On Success: User Profile Created for"+userId);
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+
+                            firebaseUser = mAuth.getCurrentUser();
+
+                            Name= name.getText().toString();
+                            userId= mAuth.getCurrentUser().getUid();
+                            db = FirebaseFirestore.getInstance();
+                            DocumentReference documentReference=db.collection("Users").document(userId);
+                            Map<String,Object> user=new HashMap<>();
+                            user.put("Full_Name",Name);
+                            user.put("Email_Id",Email);
+                            user.put("Pass",Pass);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.v("Tag","On Success: User Profile Created for"+userId);
+                                }
+                            });
+                            if(firebaseUser.isEmailVerified()){
+                                Intent intent = new Intent(username_page.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else{
+                                popupDialog();
+                            }
+                        }else{
+                            Snackbar.make(username_page, "Error! Not Signed In", Snackbar.LENGTH_LONG).show();
+                        }
                     }
                 });
-                if(firebaseUser.isEmailVerified()){
-                    Intent intent = new Intent(username_page.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else{
-                    popupDialog();
-                }
             }
         });
     }
