@@ -3,12 +3,15 @@ package com.example.chatterboi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ public class Log_in extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     Button log;
+    ConstraintLayout log_in;
     MaterialEditText email, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,10 @@ public class Log_in extends AppCompatActivity {
         firebaseAuth = firebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         forgotpassword = findViewById(R.id.forgot_password);
-       log =  findViewById(R.id.login);
-       email= findViewById(R.id.login_email);
+        log =  findViewById(R.id.login);
+        email= findViewById(R.id.login_email);
         pass= findViewById(R.id.login_password);
+        log_in = findViewById(R.id.log_in);
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mview) {
@@ -91,6 +96,11 @@ public class Log_in extends AppCompatActivity {
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                View keyview = getCurrentFocus();
+                if (keyview != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 final String Email=email.getText().toString().trim();
                 final String Pass=pass.getText().toString().trim();
                 if(TextUtils.isEmpty(Email)) {
@@ -116,16 +126,17 @@ public class Log_in extends AppCompatActivity {
                             FirebaseUser users=firebaseAuth.getCurrentUser();
                             if (users.isEmailVerified()) {
                                 Toast.makeText(Log_in.this, "Login Sucessful!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(Log_in.this, HomeActivity.class);
+                                Intent intent = new Intent(Log_in.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
                             }
                             else {
-                                Toast.makeText(Log_in.this, "Email not Verified", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(log_in, "Email not Verified", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                             }
                         }
                         else
-                            Toast.makeText(Log_in.this, "Login Failed!"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Snackbar.make(log_in, "Login Failed!"+task.getException().getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     }
                 });
             }

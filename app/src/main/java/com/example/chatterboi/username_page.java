@@ -42,9 +42,7 @@ public class username_page extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     String Email,Name, Pass;
-    String userId;
     ConstraintLayout username_page;
-    private static final String TAG = "MyActivity";
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     MaterialEditText name;
@@ -52,40 +50,33 @@ public class username_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_username_page);
+
         back = findViewById(R.id.back);
         join = findViewById(R.id.button);
         name = findViewById(R.id.name_edittext);
         username_page = findViewById(R.id.username_page);
+
         mAuth = FirebaseAuth.getInstance();
+
         Email = getIntent().getStringExtra("Email");
         Pass = getIntent().getStringExtra("Pass");
 
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Name= name.getText().toString();
                 mAuth.signInWithEmailAndPassword(Email,Pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-
                             firebaseUser = mAuth.getCurrentUser();
 
-                            Name= name.getText().toString();
-                            userId= mAuth.getCurrentUser().getUid();
-                            db = FirebaseFirestore.getInstance();
-                            DocumentReference documentReference=db.collection("Users").document(userId);
-                            Map<String,Object> user=new HashMap<>();
-                            user.put("Full_Name",Name);
-                            user.put("Email_Id",Email);
-                            user.put("Pass",Pass);
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.v("Tag","On Success: User Profile Created for"+userId);
-                                }
-                            });
                             if(firebaseUser.isEmailVerified()){
-                                Intent intent = new Intent(username_page.this, HomeActivity.class);
+                                Intent intent = new Intent(username_page.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("Name",Name);
+                                intent.putExtra("Email",Email);
+                                intent.putExtra("Pass",Pass);
                                 startActivity(intent);
                                 finish();
                             }
