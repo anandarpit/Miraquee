@@ -41,6 +41,7 @@ public class Log_in extends AppCompatActivity {
     FirebaseUser users;
     FirebaseFirestore db;
     Button log;
+    Preferences pref;
     String userId;
     ConstraintLayout log_in;
     MaterialEditText email, pass;
@@ -54,7 +55,9 @@ public class Log_in extends AppCompatActivity {
         email= findViewById(R.id.login_email);
         pass= findViewById(R.id.login_password);
         log_in = findViewById(R.id.log_in);
-        
+
+        pref = new Preferences(getApplicationContext());
+
         firebaseAuth = firebaseAuth.getInstance();
 
         forgotpassword.setOnClickListener(new View.OnClickListener() {
@@ -150,10 +153,12 @@ public class Log_in extends AppCompatActivity {
                                         Log.v("Tag","On Success: User Profile Created for"+userId);
                                     }
                                 });
+                                pref.setData("isVerified?","true");
 
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
+
                                         Intent intent = new Intent(Log_in.this, MainActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
@@ -168,7 +173,6 @@ public class Log_in extends AppCompatActivity {
                                     dialog = builder.create();
                                     dialog.show();
                                 }
-
                         }
                         else
                             Snackbar.make(log_in, "Login Failed!"+task.getException().getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();

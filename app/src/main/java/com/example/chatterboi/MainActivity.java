@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     String userId, Name, Email, Pass;
 
+    ImageView logout;
+
+    popupLogout popupLogout;
+
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
@@ -31,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         arpit = findViewById(R.id.arpit);
         shivam = findViewById(R.id.shivam);
+        logout = findViewById(R.id.logout);
         mAuth = FirebaseAuth.getInstance();
+        popupLogout = new popupLogout(getApplicationContext());
 
         Name = getIntent().getStringExtra("Name");
         Email = getIntent().getStringExtra("Email");
@@ -45,7 +52,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupLogout.showPopupDialog();
+            }
+        });
 
         shivam.setOnClickListener(new View.OnClickListener() {
             @Override

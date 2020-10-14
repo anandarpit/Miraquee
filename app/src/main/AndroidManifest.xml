@@ -15,12 +15,15 @@
         <activity android:name=".Log_in" />
         <activity android:name=".username_page" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".Register">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".Register"/>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashScreen">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
 
         <meta-data
