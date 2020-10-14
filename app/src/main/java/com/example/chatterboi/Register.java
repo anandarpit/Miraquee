@@ -10,9 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,8 +27,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,8 +40,8 @@ public class Register extends AppCompatActivity {
     MaterialEditText email, password, cnfpassword;
     Button register, signin;
     FirebaseAuth mAuth;
-    DatabaseReference reference;
     ConstraintLayout activity;
+    String Email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +52,7 @@ public class Register extends AppCompatActivity {
         register = findViewById(R.id.button);
         signin = findViewById(R.id.signin);
         activity = findViewById(R.id.register_activity);
-
-        mAuth= FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,98 +62,86 @@ public class Register extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String Email=email.getText().toString().trim();
-                final String Pass=password.getText().toString().trim();
+                 Email = email.getText().toString().trim();
+                final String Pass = password.getText().toString().trim();
                 final String cnfpass = cnfpassword.getText().toString().trim();
-                if(TextUtils.isEmpty(Email)) {
+                if (TextUtils.isEmpty(Email)) {
                     email.setError("Email is Required");
                     return;
-                }
-                else if(!isEmailValid(Email)){
+                } else if (!isEmailValid(Email)) {
                     email.setError("Enter a valid Email");
-                }
-                else if(TextUtils.isEmpty(Pass))
-                {
+                } else if (TextUtils.isEmpty(Pass)) {
                     password.setError("Password is Required");
                     return;
-                }
-                else if (Pass.length()<7)
-                {
+                } else if (Pass.length() < 7) {
                     password.setError("Password must contain atleast 8 characters");
                     return;
-                }
-                else if(!Pass.equals(cnfpass)){
+                } else if (!Pass.equals(cnfpass)) {
                     cnfpassword.setError("Passwords Do not match");
                     password.setError("Password Do not match");
                     return;
-                }
-                else{
+                } else {
                     //to Close the keyboard when the user hits the register button
                     View keyview = getCurrentFocus();
                     if (keyview != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
 
-                registerUser(Email,Pass);
-                Snackbar.make(activity, "Sending Email...", Snackbar.LENGTH_LONG).setAction("Action",null).show();
-                }}
+                    registerUser(Email, Pass);
+                    Snackbar.make(activity, "Sending Email...", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+            }
         });
     }
-    public boolean isEmailValid(String email){
+
+    public boolean isEmailValid(String email) {
         Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
         Matcher emailMatcher = emailPattern.matcher(email);
         return emailMatcher.matches();
     }
 
-    public void registerUser(final String uEmail, String uPass){
-        mAuth.createUserWithEmailAndPassword(uEmail,uPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public void registerUser(final String uEmail, String uPass) {
+        mAuth.createUserWithEmailAndPassword(uEmail, uPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
                     firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Snackbar.make(activity, "Verification Mail sent! Please Verify Your Email!", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                            Snackbar.make(activity, "Verification Mail sent! Please Verify Your Email!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                        Intent intent = new Intent(Register.this, username_page.class);
-                                        intent.putExtra("Email", uEmail);
-                                        startActivity(intent);
-                                        finish();
+                                    Intent intent = new Intent(Register.this, username_page.class);
+                                    intent.putExtra("Email", uEmail);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             }, 2500);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Snackbar.make(activity, "Error Occured", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                            Snackbar.make(activity, "Error Occured", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         }
                     });
-                    String uId = firebaseUser.getUid();
-                    reference = FirebaseDatabase.getInstance().getReference("UserId").child(uId);
-                }
-                else{
-                    Snackbar.make(activity, "Error! "+task.getException().getMessage(), Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                } else {
+                    Snackbar.make(activity, "Error! " + task.getException().getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
     }
+
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
-
-    private void updateUI(FirebaseUser currentUser) {
     }
 }

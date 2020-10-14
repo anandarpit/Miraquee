@@ -3,4 +3,7 @@
     <string name="chatter_community">Join the most efficient and simple to use Chatter community! What should we call you?</string>
     <string name="verify_yourself">You have not verified yourself. In order to continue you need to verify your email. The email link has been sent to your email id.</string>
     <string name="forgot_password">Please enter your email to receive the reset email</string>
+    <string name="hint_create_room">Enter room name&#8230;</string>
+    <string name="create_room">Create room</string>
+    <string name="error_empty_room">Please enter a room name</string>
 </resources>
