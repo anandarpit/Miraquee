@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -24,15 +25,23 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Log_in extends AppCompatActivity {
 //a
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     TextView forgotpassword;
     FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
+    FirebaseUser users;
+    FirebaseFirestore db;
     Button log;
+    String userId;
     ConstraintLayout log_in;
     MaterialEditText email, pass;
     @Override
@@ -40,13 +49,14 @@ public class Log_in extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        firebaseAuth = firebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
         forgotpassword = findViewById(R.id.forgot_password);
         log =  findViewById(R.id.login);
         email= findViewById(R.id.login_email);
         pass= findViewById(R.id.login_password);
         log_in = findViewById(R.id.log_in);
+        
+        firebaseAuth = firebaseAuth.getInstance();
+
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mview) {
@@ -62,6 +72,12 @@ public class Log_in extends AppCompatActivity {
                 resetEmail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
+                        View keyview = getCurrentFocus();
+                        if (keyview != null) {
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+
                         final String Email = email.getText().toString().trim();
                         if (!Email.isEmpty()){
                             Snackbar.make(view, "Sending Email...", Snackbar.LENGTH_LONG).show();
@@ -113,27 +129,46 @@ public class Log_in extends AppCompatActivity {
                     pass.setError("Password is Required");
                     return;
                 }
-                if (Pass.length()<7)
-                {
-                    pass.setError("Password must contain atleast 8 characters");
-                    return;
-                }
                 firebaseAuth.signInWithEmailAndPassword(Email,Pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
-                            FirebaseUser users=firebaseAuth.getCurrentUser();
+
+                            users =firebaseAuth.getCurrentUser();
                             if (users.isEmailVerified()) {
-                                Toast.makeText(Log_in.this, "Login Sucessful!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(Log_in.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
+                                Snackbar.make(log_in, "Successful!!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                                userId= firebaseAuth.getCurrentUser().getUid();
+                                db = FirebaseFirestore.getInstance();
+                                DocumentReference documentReference=db.collection("All Users").document(userId);
+                                Map<String,Object> user=new HashMap<>();
+                                user.put("Pass",Pass);
+                                documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.v("Tag","On Success: User Profile Created for"+userId);
+                                    }
+                                });
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(Log_in.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }, 1500);
                             }
                             else {
-                                Snackbar.make(log_in, "Email not Verified", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                            }
+                                    builder = new AlertDialog.Builder(Log_in.this);
+                                    View view = getLayoutInflater().inflate(R.layout.popup_verification,null);
+                                    builder.setView(view);
+                                    dialog = builder.create();
+                                    dialog.show();
+                                }
+
                         }
                         else
                             Snackbar.make(log_in, "Login Failed!"+task.getException().getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();

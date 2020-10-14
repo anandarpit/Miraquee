@@ -26,7 +26,7 @@
         android:fontFamily="@font/alegreya"
         android:gravity="center"
         android:paddingVertical="5dp"
-        android:text="We missed you!"
+        android:text="Sign In"
         android:textColor="#000000"
         android:textSize="37dp"
         android:textStyle="bold"

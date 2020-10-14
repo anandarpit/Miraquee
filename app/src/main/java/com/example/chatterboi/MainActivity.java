@@ -40,19 +40,6 @@ public class MainActivity extends AppCompatActivity {
         arpit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userId= mAuth.getCurrentUser().getUid();
-                db = FirebaseFirestore.getInstance();
-                DocumentReference documentReference=db.collection("Arpit").document(userId);
-                Map<String,Object> user=new HashMap<>();
-                user.put("Full_Name",Name);
-                user.put("Email_Id",Email);
-                user.put("Pass",Pass);
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v("Tag","On Success: User Profile Created for"+userId);
-                    }
-                });
                 Intent intent = new Intent(MainActivity.this, HomeActivityArpit.class);
                 startActivity(intent);
             }
@@ -63,20 +50,6 @@ public class MainActivity extends AppCompatActivity {
         shivam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                userId= mAuth.getCurrentUser().getUid();
-                db = FirebaseFirestore.getInstance();
-                DocumentReference documentReference=db.collection("Shivam").document(userId);
-                Map<String,Object> user=new HashMap<>();
-                user.put("Full_Name",Name);
-                user.put("Email_Id",Email);
-                user.put("Pass",Pass);
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v("Tag","On Success: User Profile Created for"+userId);
-                    }
-                });
                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
             }

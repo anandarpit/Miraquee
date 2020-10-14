@@ -40,8 +40,11 @@ public class Register extends AppCompatActivity {
     MaterialEditText email, password, cnfpassword;
     Button register, signin;
     FirebaseAuth mAuth;
+    String userId, Email;
     ConstraintLayout activity;
-    String Email;
+    FirebaseFirestore db;
+    FirebaseUser firebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,7 @@ public class Register extends AppCompatActivity {
         register = findViewById(R.id.button);
         signin = findViewById(R.id.signin);
         activity = findViewById(R.id.register_activity);
+
         mAuth = FirebaseAuth.getInstance();
 
         signin.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +113,19 @@ public class Register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                    firebaseUser = mAuth.getCurrentUser();
+                    userId= mAuth.getCurrentUser().getUid();
+                    db = FirebaseFirestore.getInstance();
+                    DocumentReference documentReference=db.collection("All Users").document(userId);
+                    Map<String,Object> user=new HashMap<>();
+                    user.put("Email_Id",uEmail);
+                    user.put("Pass",uPass);
+                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.v("Tag","On Success: User Profile Created for"+userId);
+                        }
+                    });
 
                     firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
