@@ -9,4 +9,5 @@
     <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/spash_activity</item>
     </style>
+
 </resources>
