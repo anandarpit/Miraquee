@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.chatterboi.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,6 +47,9 @@ public class schatRoomActivity extends AppCompatActivity {
     private RecyclerView chats;
     private ChatsAdapter adapter;
 
+    FirebaseAuth mAuth;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +72,13 @@ public class schatRoomActivity extends AppCompatActivity {
 
         showChatMessages();
     }
+
     private String getCurrentUserKey() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getString(CURRENT_USER_KEY, "");
+        /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString(CURRENT_USER_KEY, "");*/
+
+        mAuth =FirebaseAuth.getInstance();
+        return mAuth.getCurrentUser().getUid();
     }
     private void initUI() {
         message = findViewById(R.id.message_text);
