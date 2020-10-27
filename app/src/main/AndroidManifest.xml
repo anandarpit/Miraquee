@@ -9,19 +9,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".shivam.schatRoomActivity"
+        <activity android:name=".arpit.ChatInterface"
+            android:theme="@style/AppTheme3"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".arpit.HomePageArpit"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".arpit.AddGroups"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".shivam.schatRoomActivity"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".HomeActivityArpit" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".shivam.screateRoomActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity android:name=".shivam.HomeActivity" />
-        <activity android:name=".Log_in" />
-        <activity android:name=".username_page" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Register" />
+        <activity
+            android:name=".Log_in"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".username_page"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".Register"
+            android:launchMode="singleTask" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashScreen">

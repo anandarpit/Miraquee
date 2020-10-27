@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class Register extends AppCompatActivity {
     String userId, Email;
     ConstraintLayout activity;
     FirebaseFirestore db;
+    Preferences prefs;
     FirebaseUser firebaseUser;
 
     @Override
@@ -58,6 +60,8 @@ public class Register extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        prefs = new Preferences(getApplicationContext());
+
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +73,7 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 Email = email.getText().toString().trim();
+                Email = email.getText().toString().trim();
                 final String Pass = password.getText().toString().trim();
                 final String cnfpass = cnfpassword.getText().toString().trim();
                 if (TextUtils.isEmpty(Email)) {
@@ -124,6 +128,7 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.v("Tag","On Success: User Profile Created for"+userId);
+                            prefs.setData("Registered","true");
                         }
                     });
 

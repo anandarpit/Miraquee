@@ -60,6 +60,7 @@
         android:fontFamily="@font/alegreya"
         android:hint="Username"
         android:textSize="20dp"
+        android:inputType=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name_edittext"

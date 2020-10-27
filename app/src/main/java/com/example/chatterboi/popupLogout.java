@@ -23,6 +23,5 @@ public class popupLogout {
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
-
     }
 }

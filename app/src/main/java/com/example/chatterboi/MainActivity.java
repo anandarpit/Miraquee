@@ -4,20 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.chatterboi.arpit.HomePageArpit;
 import com.example.chatterboi.shivam.HomeActivity;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     Button arpit , shivam;
@@ -44,11 +39,14 @@ public class MainActivity extends AppCompatActivity {
         Name = getIntent().getStringExtra("Name");
         Email = getIntent().getStringExtra("Email");
         Pass = getIntent().getStringExtra("Pass");
+        Intent intent = new Intent(MainActivity.this, HomePageArpit.class);
+        startActivity(intent);
+        finish();
 
         arpit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, HomeActivityArpit.class);
+                Intent intent = new Intent(MainActivity.this, HomePageArpit.class);
                 startActivity(intent);
             }
         });

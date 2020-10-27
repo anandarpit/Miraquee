@@ -12,11 +12,14 @@ import android.view.View;
 
 import com.example.chatterboi.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,21 +57,23 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
     private void getChatRooms() {
+
         chatRoomRepository.getRooms(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot snapshots, FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.e("homeActivity", "Listen failed.", e);
-                    return;
-                }
+                    @Override
+                    public void onEvent(QuerySnapshot snapshots, FirebaseFirestoreException e) {
 
-                List<ChatRoom> rooms = new ArrayList<>();
-                for (QueryDocumentSnapshot doc : snapshots) {
-                    rooms.add(new ChatRoom(doc.getId(), doc.getString("name")));
-                }
+                        if (e != null) {
+                            Log.e("homeActivity", "Listen failed.", e);
+                            return;
+                        }
 
-                adapter = new ChatRoomsAdapter(rooms,listener);
-                chatRooms.setAdapter(adapter);
+                        List<ChatRoom> rooms = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : snapshots) {
+                            rooms.add(new ChatRoom(doc.getId(), doc.getString("name")));
+                        }
+
+                        adapter = new ChatRoomsAdapter(rooms,listener);
+                        chatRooms.setAdapter(adapter);
             }
         });
     }

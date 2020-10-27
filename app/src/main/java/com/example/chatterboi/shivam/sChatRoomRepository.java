@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +26,7 @@ public class sChatRoomRepository {
     public void createRoom(String name,
                            final OnSuccessListener<DocumentReference> successCallback,
                            final OnFailureListener failureCallback) {
+
         Map<String, Object> room = new HashMap<>();
         room.put("name", name);
         db.collection("sRooms").add(room)
@@ -47,6 +49,8 @@ public class sChatRoomRepository {
                 .orderBy("name")
                 .addSnapshotListener(listener);
     }
+
+
     public void addMessageToChatRoom(String roomId,
                                      String senderId,
                                      String message,

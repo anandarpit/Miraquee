@@ -34,10 +34,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Log_in extends AppCompatActivity {
-//a
+
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
-    TextView forgotpassword;
+    TextView forgotpassword, newuser;
     FirebaseAuth firebaseAuth;
     FirebaseUser users;
     FirebaseFirestore db;
@@ -56,10 +56,21 @@ public class Log_in extends AppCompatActivity {
         email= findViewById(R.id.login_email);
         pass= findViewById(R.id.login_password);
         log_in = findViewById(R.id.log_in);
+        newuser = findViewById(R.id.new_user);
 
         pref = new Preferences(getApplicationContext());
 
         firebaseAuth = firebaseAuth.getInstance();
+
+        newuser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Log_in.this, Register.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +165,7 @@ public class Log_in extends AppCompatActivity {
                                         Log.v("Tag","On Success: User Profile Created for"+userId);
                                     }
                                 });
-                                pref.setData("isVerified?","true");
+                                pref.setData("LoggedIn","true");
 
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
