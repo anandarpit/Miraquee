@@ -7,8 +7,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose an image"
+        android:textSize="30dp"
+        android:textColor="#7F7F82"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/addimage"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        app:civ_shadow="true"
+        android:src="@drawable/avatar_login"
+        android:background="#F1F0F0"
+        android:clickable="true"
+        app:civ_shadow_gravity="center"
+        app:civ_shadow_color="#000"
+        app:civ_shadow_radius="20dp"/>
+
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/room_name"
+        android:id="@+id/add_room_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter group name"
@@ -20,6 +44,5 @@
         app:met_floatingLabelTextColor="@color/colorAccent"
         app:met_primaryColor="?colorAccent"
         app:met_singleLineEllipsis="true" />
-
 
 </LinearLayout>

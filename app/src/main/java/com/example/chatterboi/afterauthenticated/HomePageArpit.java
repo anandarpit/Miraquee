@@ -1,4 +1,4 @@
-package com.example.chatterboi.arpit;
+package com.example.chatterboi.afterauthenticated;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,12 +11,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -25,11 +27,15 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.chatterboi.Preferences;
 import com.example.chatterboi.R;
 import com.example.chatterboi.Register;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -46,6 +52,15 @@ public class HomePageArpit extends AppCompatActivity {
     Toolbar toolbar;
     TabLayout tabLayout;
 
+    FirebaseFirestore firestore;
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+
+    String  uid;
+
+    TextView title;
+    ImageView imageView;
+
     com.example.chatterboi.Preferences pref;
     ViewPager myViewPager;
 
@@ -59,16 +74,43 @@ public class HomePageArpit extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
         myViewPager = findViewById(R.id.myViewPager);
         tabLayout = findViewById(R.id.tablayout);
+        title = findViewById(R.id.title);
+        imageView = findViewById(R.id.icon);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Chatter Boi");
-
+        title.setText("ChatterBoi");
+        imageView.setImageResource(R.drawable.faceid);
         Context context;
+
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        firestore = FirebaseFirestore.getInstance();
+
+        uid = mAuth.getCurrentUser().getUid();
 
         String CHANNEL_ID = "MESSAGE";
         String CHANNEL_NAME = "MESSAGE";
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        DocumentReference docRef = firestore.collection("All Users").document(uid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String username = document.getString("username");
+                        Log.d("Check1", "Username " + username);
+                        pref.setData("username",username);
+                    } else {
+                        Log.d("Check1", "No such document");
+                    }
+                } else {
+                    Log.d("Check1", "get failed with ", task.getException());
+                }
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
@@ -121,7 +163,6 @@ public class HomePageArpit extends AppCompatActivity {
             Intent intent = new Intent(HomePageArpit.this , Register.class);
             startActivity(intent);
             finish();
-
         }
         return true;
     }

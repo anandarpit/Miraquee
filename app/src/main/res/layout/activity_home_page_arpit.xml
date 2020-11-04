@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".arpit.HomePageArpit">
+    tools:context=".afterauthenticated.HomePageArpit">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -21,12 +21,40 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:titleTextColor="#ffffff"
-            style="@style/ToolbarTheme"
+            android:theme="@style/MyToolbarStyle"
             android:textAlignment="textStart"
             android:textColorPrimary = "#ffffff"
             android:background="#2B772E"
             android:colorForeground ="#ffffff"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="63dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:src="@drawable/avatar_login"
+                    />
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Chat gjngngngngn"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:paddingLeft="4dp"/>
+
+            </LinearLayout>
+
+
+
+        </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayout"

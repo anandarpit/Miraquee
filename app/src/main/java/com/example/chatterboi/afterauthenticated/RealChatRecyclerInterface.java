@@ -1,6 +1,5 @@
-package com.example.chatterboi.arpit;
+package com.example.chatterboi.afterauthenticated;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatterboi.Preferences;
 import com.example.chatterboi.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
     public RealChatRecyclerInterface(String userId, List<ChatModel> list) {
         this.list = list;
         this.userId = userId;
-
     }
 
     @NonNull
@@ -83,14 +80,14 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
             messageText.setText(chatModel.getMessage());
             currentUid = chatModel.getUserId();
 
-            if(currentUid != uid) {
+
                 try {
                     nameText.setText("@" + chatModel.getUsername());
                     uid = chatModel.getUserId();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+
         }
     }
 }

@@ -1,6 +1,5 @@
-package com.example.chatterboi.arpit;
+package com.example.chatterboi.afterauthenticated;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,9 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatterboi.R;
-import com.example.chatterboi.shivam.ChatRoom;
-import com.example.chatterboi.shivam.HomeActivity;
-import com.example.chatterboi.shivam.screateRoomActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
@@ -55,7 +51,8 @@ public class Groups extends Fragment {
         View view = inflater.inflate(R.layout.afragment_groups, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerGroups);
-        recyclerView.setHasFixedSize(false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);    // This somehow makes recycler view if inside scroll view smoothly work.
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         final List<ChatLists> list = new ArrayList<>();

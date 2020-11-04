@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.chatterboi.shivam.HomeActivity;
+import com.example.chatterboi.afterauthenticated.HomePageArpit;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -171,7 +171,7 @@ public class Log_in extends AppCompatActivity {
                                     @Override
                                     public void run() {
 
-                                        Intent intent = new Intent(Log_in.this, MainActivity.class);
+                                        Intent intent = new Intent(Log_in.this, HomePageArpit.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();

@@ -1,4 +1,4 @@
-package com.example.chatterboi.arpit;
+package com.example.chatterboi.afterauthenticated;
 
 import android.os.Bundle;
 

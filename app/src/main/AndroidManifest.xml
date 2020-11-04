@@ -9,33 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".arpit.ChatInterface"
+        <activity android:name=".afterauthenticated.ChatInterface"
             android:theme="@style/AppTheme3"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".arpit.HomePageArpit"
+            android:name=".afterauthenticated.HomePageArpit"
             android:launchMode="singleTask" />
         <activity
-            android:name=".arpit.AddGroups"
+            android:name=".afterauthenticated.AddGroups"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme2" />
-        <activity
-            android:name=".shivam.schatRoomActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".shivam.screateRoomActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        <activity android:name=".shivam.HomeActivity" />
         <activity
             android:name=".Log_in"
             android:launchMode="singleTask" />
         <activity
             android:name=".username_page"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".MainActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".Register"
@@ -54,5 +42,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 </manifest>

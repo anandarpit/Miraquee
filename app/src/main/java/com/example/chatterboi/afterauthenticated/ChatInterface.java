@@ -1,15 +1,12 @@
-package com.example.chatterboi.arpit;
+package com.example.chatterboi.afterauthenticated;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +26,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -72,8 +68,6 @@ public class ChatInterface extends AppCompatActivity {
 
         preferences = new Preferences(getApplicationContext());
 
-
-
         Gname = getIntent().getStringExtra("GroupName");
         Gid = getIntent().getStringExtra("GroupID");
         time_created = getIntent().getStringExtra("Time");
@@ -103,7 +97,7 @@ public class ChatInterface extends AppCompatActivity {
                     chat.put("groupId",Gid);
                     chat.put("username",preferences.getData("username"));
                     chat.put("name",preferences.getData("usernameAdded"));
-                    firestore.collection("aChats").add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    firestore.collection("aGroups").document(Gid).collection("Chat").add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Toast.makeText(ChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
@@ -122,7 +116,7 @@ public class ChatInterface extends AppCompatActivity {
     }
 
     private void showChatMessages() {
-        firestore.collection("aChats").whereEqualTo("groupId", Gid)
+        firestore.collection("aGroups").document(Gid).collection("Chat")
                 .orderBy("time", Query.Direction.DESCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -132,6 +126,7 @@ public class ChatInterface extends AppCompatActivity {
                 }
 
                 else{
+                    Log.d("Check", "Snapshot worked");
                     List<ChatModel> list = new ArrayList<>();
                     for(QueryDocumentSnapshot query : value){
                     list.add(new ChatModel(

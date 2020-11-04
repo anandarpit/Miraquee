@@ -1,4 +1,4 @@
-package com.example.chatterboi.arpit;
+package com.example.chatterboi.afterauthenticated;
 
 public class ChatLists {
     String groupname;

@@ -1,18 +1,13 @@
 package com.example.chatterboi;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import com.example.chatterboi.arpit.HomePageArpit;
+import com.example.chatterboi.afterauthenticated.HomePageArpit;
 
 public class SplashActivity extends AppCompatActivity {
     Preferences preferences;
@@ -41,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
             Log.d("Check", "The user has completed the whole process but needs to sign in");
         }
         else if(!LoggedIn.isEmpty()){
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomePageArpit.class));
             finish();
             Log.d("Check", "The user is already logged in");
         }

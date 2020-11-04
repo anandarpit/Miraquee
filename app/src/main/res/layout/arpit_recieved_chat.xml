@@ -12,7 +12,7 @@
         app:cardCornerRadius="10dp"
         android:elevation="0dp"
         app:cardBackgroundColor="#E4E2E2"
-        android:layout_margin="1dp"
+        android:layout_margin="5dp"
         android:layout_gravity="start">
 
         <LinearLayout

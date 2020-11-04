@@ -1,4 +1,4 @@
-package com.example.chatterboi.arpit;
+package com.example.chatterboi.afterauthenticated;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
