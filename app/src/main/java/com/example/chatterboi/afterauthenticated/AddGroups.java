@@ -25,12 +25,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.util.FileUtil;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +47,7 @@ public class AddGroups extends AppCompatActivity {
     CircularImageView imageView;
     String room;
     Uri imageUri;
+
     StorageReference storageReference;
 
     @Override
@@ -103,7 +106,13 @@ public class AddGroups extends AppCompatActivity {
                 }
                 else
                     {
+                        Uri urri;
                         room = roomname.getText().toString();
+                        if(imageUri != null){
+//                            File filePath = new File(SiliCompressor.with(this)
+//                                    .compress(FileUtils.getPath(this, imageUri),
+//                                            new File(this.getCacheDir(),"temp")));
+//                             urri = Uri.fromFile(filePath);
 
                         final StorageReference fileref = storageReference.child("Groups Photo").child(room);
                         fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -135,7 +144,7 @@ public class AddGroups extends AppCompatActivity {
                                 },1000);
                             }
                         });
-                    }
+                    }}
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -32,11 +32,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-                <ImageView
+
+                <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/icon"
                     android:layout_width="63dp"
+                    android:padding="2dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    app:civ_border_color="#000"
+                    app:civ_border_width="0.5dp"
                     android:src="@drawable/avatar_login"
                     />
                 <TextView
@@ -90,6 +94,7 @@
         android:src="@drawable/ic_add_white_24dp"
         android:backgroundTint="#2B772E"
         android:background="#2B772E"
+        android:visibility="gone"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

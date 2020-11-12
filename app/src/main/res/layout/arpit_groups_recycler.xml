@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="409dp"
             android:layout_height="wrap_content">
 
             <com.mikhaellopez.circularimageview.CircularImageView
@@ -29,15 +29,15 @@
                 android:layout_height="60dp"
                 android:layout_margin="5dp"
                 android:layout_marginVertical="30dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/group_icon"
                 app:civ_border_color="#1A581C"
                 app:civ_border_width="3dp"
-                android:scaleType="centerCrop"
                 app:civ_shadow="true"
-                app:civ_shadow_radius="0dp"
                 app:civ_shadow_color="#C0F484"
-                app:layout_constraintHorizontal_bias="0"
+                app:civ_shadow_radius="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,21 +45,21 @@
                 android:id="@+id/groupname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="10dp"
-                android:text="@string/group_name"
                 android:layout_marginRight="40dp"
                 android:ellipsize="end"
-                android:textStyle="bold"
                 android:fontFamily="@font/alegreya"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:text="@string/group_name"
                 android:textColor="#000000"
                 android:textSize="18dp"
-                app:layout_constraintVertical_bias="0.1"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toEndOf="@id/civ"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
 
             <ImageView
                 android:id="@+id/PubPriv"
@@ -67,22 +67,22 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:src="@drawable/ic_unlock"
+                app:layout_constraintBottom_toBottomOf="@id/groupname"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/groupname"
-                app:layout_constraintTop_toTopOf="@id/groupname"
-                app:layout_constraintBottom_toBottomOf="@id/groupname"/>
+                app:layout_constraintTop_toTopOf="@id/groupname" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#314CE1"
                 android:src="@drawable/ic_group"
-                app:layout_constraintStart_toEndOf="@id/civ"
-                app:layout_constraintEnd_toStartOf="@id/textView2"
-                app:layout_constraintTop_toBottomOf="@id/groupname"
+                android:textColor="#314CE1"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textView2"
                 app:layout_constraintHorizontal_bias="0.9"
-                app:layout_constraintVertical_bias="0.0"/>
+                app:layout_constraintStart_toEndOf="@id/civ"
+                app:layout_constraintTop_toBottomOf="@id/groupname"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -92,21 +92,21 @@
                 android:textColor="#476328"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/civ"
-                app:layout_constraintTop_toBottomOf="@id/groupname" />
+                app:layout_constraintTop_toBottomOf="@id/groupname"
+                app:layout_constraintVertical_bias="0" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_admin"
                 android:layout_marginRight="2dp"
+                android:src="@drawable/ic_admin"
+                app:layout_constraintBottom_toBottomOf="@id/username"
                 app:layout_constraintEnd_toStartOf="@id/username"
                 app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="@id/civ"
                 app:layout_constraintTop_toTopOf="@id/username"
-                app:layout_constraintBottom_toBottomOf="@id/username"
-                app:layout_constraintVertical_bias="0.5"/>
+                app:layout_constraintVertical_bias="0.5" />
 
 
             <TextView
@@ -115,12 +115,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/admin_name"
                 android:textColor="#3F51B5"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.96"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@id/groupname"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.96"
-                app:layout_constraintVertical_bias="0.61"/>
+                app:layout_constraintVertical_bias="0.61" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
