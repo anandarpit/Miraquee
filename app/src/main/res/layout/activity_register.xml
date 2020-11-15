@@ -102,6 +102,7 @@
         android:fontFamily="@font/alegreya"
         android:text="Register"
         android:textColor="#ffffff"
+        android:layout_centerInParent="true"
         android:textSize="22dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="100:37"

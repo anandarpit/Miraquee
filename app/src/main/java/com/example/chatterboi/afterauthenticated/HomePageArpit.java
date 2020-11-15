@@ -72,8 +72,6 @@ public class HomePageArpit extends AppCompatActivity {
     int[] colorIntArray = {R.color.colorAccent,R.color.colorPrimaryDark,0};
     int[] iconIntArray = {R.drawable.ic_add_post, R.drawable.ic_add_group,0};
 
-
-
     TextView title;
     ImageView imageView;
 
@@ -107,53 +105,6 @@ public class HomePageArpit extends AppCompatActivity {
         String CHANNEL_NAME = "MESSAGE";
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
-
-        DocumentReference docRef = firestore.collection("All Users").document(uid);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String username = document.getString("username");
-                        String name = document.getString("Name");
-                        Log.d("Check1", "Username " + username);
-                        pref.setData("usernameAdded",name);
-                        pref.setData("username",username);
-                    } else {
-                        Log.d("Check1", "No such document");
-                    }
-                } else {
-                    Log.d("Check1", "get failed with ", task.getException());
-                }
-            }
-        });
-
-        List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
-        for(File file : files){
-            if(file.getName().equals(uid + ".jpg")){
-                Toast.makeText(getApplicationContext(), "Uri loaded through file", Toast.LENGTH_SHORT).show();
-                Picasso
-                        .get() // if file found then load it
-                        .load(file)
-                        .into(imageView);
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            manager.createNotificationChannel(channel);
-        }
-
-        Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Title")
-                .setContentText("Message")
-                .build();
-        manager.notify(22, notification);
-
-
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -195,13 +146,61 @@ public class HomePageArpit extends AppCompatActivity {
             }
         });
 
+        List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
+        for(File file : files){
+            if(file.getName().equals(uid + ".jpg")){
+                Toast.makeText(getApplicationContext(), "Uri loaded through file", Toast.LENGTH_SHORT).show();
+                Picasso
+                        .get() // if file found then load it
+                        .load(file)
+                        .into(imageView);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            manager.createNotificationChannel(channel);
+        }
+
+        Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Title")
+                .setContentText("Message")
+                .build();
+        manager.notify(22, notification);
+
+
         pref = new Preferences(getApplicationContext());
-
         tabAdapter = new TabAdapter(getSupportFragmentManager());
-
         myViewPager.setAdapter(tabAdapter);
-
         tabLayout.setupWithViewPager(myViewPager);
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                DocumentReference docRef = firestore.collection("All Users").document(uid);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String username = document.getString("username");
+                                String name = document.getString("Name");
+                                Log.d("Check1", "Username " + username);
+                                pref.setData("usernameAdded", name);
+                                pref.setData("username", username);
+                            } else {
+                                Log.d("Check1", "No such document");
+                            }
+                        } else {
+                            Log.d("Check1", "get failed with ", task.getException());
+                        }
+                    }
+                });
+            }};
+        thread.start();
     }
 
     @Override
@@ -236,7 +235,7 @@ public class HomePageArpit extends AppCompatActivity {
 
         // Scale down animation
         ScaleAnimation shrink = new ScaleAnimation(1f, 0.1f, 1f, 0.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        shrink.setDuration(50);     // animation duration in milliseconds
+        shrink.setDuration(10);     // animation duration in milliseconds
         shrink.setInterpolator(new AccelerateInterpolator());
         shrink.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -255,12 +254,12 @@ public class HomePageArpit extends AppCompatActivity {
                 Animation rotate = new RotateAnimation(60.0f, 0.0f,
                         Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                         0.5f);
-                rotate.setDuration(150);
+                rotate.setDuration(70);
                 rotate.setInterpolator(new DecelerateInterpolator());
 
                 // Scale up animation
                 ScaleAnimation expand = new ScaleAnimation(0.1f, 1f, 0.1f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                expand.setDuration(150);     // animation duration in milliseconds
+                expand.setDuration(80);     // animation duration in milliseconds
                 expand.setInterpolator(new DecelerateInterpolator());
 
                 // Add both animations to animation state

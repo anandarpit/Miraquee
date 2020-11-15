@@ -12,9 +12,12 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,6 +45,7 @@ public class Register extends AppCompatActivity {
     Button register, signin;
     FirebaseAuth mAuth;
     String userId, Email;
+    TextView ChatterText;
     ConstraintLayout activity;
     FirebaseFirestore db;
     Preferences prefs;
@@ -52,16 +56,23 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         email = findViewById(R.id.email);
+        ChatterText = findViewById(R.id.register);
         password = findViewById(R.id.newpass);
         cnfpassword = findViewById(R.id.confirmpass);
         register = findViewById(R.id.button);
         signin = findViewById(R.id.signin);
         activity = findViewById(R.id.register_activity);
 
+        TranslateAnimation animation =new TranslateAnimation(0,0,-50,0);
+        animation.setDuration(1000);
+        animation.setFillAfter(false);
+        ChatterText.setAnimation(animation);
+
+
         mAuth = FirebaseAuth.getInstance();
-
+        register.setAlpha(0f);
+        register.animate().alpha(1).setDuration(2000);
         prefs = new Preferences(getApplicationContext());
-
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
