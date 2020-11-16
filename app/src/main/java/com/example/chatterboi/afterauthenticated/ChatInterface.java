@@ -97,7 +97,8 @@ public class ChatInterface extends AppCompatActivity {
                     chat.put("groupId",Gid);
                     chat.put("username",preferences.getData("username"));
                     chat.put("name",preferences.getData("usernameAdded"));
-                    firestore.collection("aGroups").document(Gid).collection("Chat").add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    firestore.collection("aGroups").document(Gid).collection("Chat")
+                            .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Toast.makeText(ChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
@@ -137,7 +138,7 @@ public class ChatInterface extends AppCompatActivity {
                             , query.getLong("time")
                             , query.getString("name")
                             , query.getString("username")
-                            ));
+                    ));
                 }
                 recycler_interface.setAdapter(new RealChatRecyclerInterface(mUser.getUid(),list));
             }}

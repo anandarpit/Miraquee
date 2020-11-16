@@ -31,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.util.HashMap;
@@ -154,13 +155,18 @@ public class AddGroups extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode ==1000){
-            {
-                if(resultCode == Activity.RESULT_OK){
-                    imageUri = data.getData();
-                    imageView.setImageURI(imageUri);
-                }
+        if(requestCode == 1000 && resultCode == RESULT_OK){
+            Uri imageUri = data.getData();
+            if(imageUri!= null) {
+                UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(200, 200)
+                        .start(AddGroups.this);
             }
+        }
+        else if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
+            imageUri = UCrop.getOutput(data);
+            imageView.setImageURI(imageUri);
         }
     }
 }

@@ -33,6 +33,7 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -50,7 +51,7 @@ public class myProfile extends AppCompatActivity {
     TextView name;
     CircularImageView profilepic;
     Preferences pref;
-    Uri imageUri,downloadUri;
+    Uri downloadUri;
     StorageReference storageReference;
     StorageReference ref;
     String uid;
@@ -77,14 +78,6 @@ public class myProfile extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
         ref = storageReference.child("Profile Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-//        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                downloadUri = uri;
-//                Toast.makeText(getApplicationContext(), "Uri Downloaded through OnCreate Activity !", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
         for(File file : files){
@@ -145,35 +138,39 @@ public class myProfile extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode ==1000){
-            {
-                if(resultCode == Activity.RESULT_OK){
-                    imageUri = data.getData();
-                    Context context;
-                    final ProgressDialog dialog = new ProgressDialog(myProfile.this);
-                    dialog.setMessage("Uploading Image...");
-                    dialog.show();
-                    profilepic.setImageURI(imageUri);
-
-                    ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            final Picasso picasso = Picasso.get();
-                                            picasso.setIndicatorsEnabled(true);
-                                            picasso.load(uri).into(profilepic);
-                                            downloadUri = uri;
-                                            dialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), "Image Uploaded!", Toast.LENGTH_SHORT).show();
-                                            loadImage(uri);
-                                        }
-                                    });
-                                }
-                            });
-                }
+        if(requestCode == 1000 && resultCode == RESULT_OK){
+            Uri imageUri = data.getData();
+            if(imageUri!= null) {
+                UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(200, 200)
+                        .start(myProfile.this);
             }
+        }
+        else if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
+            Uri imageUri = UCrop.getOutput(data);
+            final ProgressDialog dialog = new ProgressDialog(myProfile.this);
+            dialog.setMessage("Uploading Image...");
+            dialog.show();
+            profilepic.setImageURI(imageUri);
+            ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+            {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            final Picasso picasso = Picasso.get();
+                            picasso.setIndicatorsEnabled(true);
+                            picasso.load(uri).into(profilepic);
+                            downloadUri = uri;
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Image Uploaded!",
+                                    Toast.LENGTH_SHORT).show();
+                            loadImage(uri);
+                        }
+                    }); }
+            });
         }
     }
 }

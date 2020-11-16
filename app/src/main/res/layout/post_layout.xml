@@ -91,7 +91,7 @@
             <ImageView
                 android:id="@+id/post_image"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="200dp"
                 android:maxHeight="250dp"
                 android:padding="5dp"
                 android:src="@drawable/avatar_login"

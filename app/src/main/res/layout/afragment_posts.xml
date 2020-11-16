@@ -6,13 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".afterauthenticated.Posts">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_recycleView"
+        android:paddingHorizontal="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        android:text="This feature is coming soon. \n Swipe Left to explore Groups as of now! " />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -2,9 +2,11 @@
 package com.example.chatterboi.afterauthenticated;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +23,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
@@ -43,7 +52,10 @@ public class AddPosts extends AppCompatActivity {
     String textofpost, uid;
     Preferences pref;
     Button post;
+    Uri uri;
     ImageView imageSelected;
+    StorageReference storageReference;
+    Long currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +70,6 @@ public class AddPosts extends AppCompatActivity {
         post = findViewById(R.id.post);
         addPhoto = findViewById(R.id.add_photo_text);
         imageSelected = findViewById(R.id.imageView3);
-
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +77,7 @@ public class AddPosts extends AppCompatActivity {
                 startActivityForResult(openGallery,1000);
             }
         });
-
+        storageReference= FirebaseStorage.getInstance().getReference();
         name.setText(pref.getData("usernameAdded"));
 
         mAuth =  FirebaseAuth.getInstance();
@@ -77,24 +88,49 @@ public class AddPosts extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentTime = System.currentTimeMillis();
+
                 textofpost = textforpost.getText().toString();
                 if(textofpost.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Text can not be Empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else{
+                    ProgressDialog dialog = new ProgressDialog(AddPosts.this);
+                    dialog.setMessage("Posting...");
+                    dialog.show();
+
                     Map<String, Object> post = new HashMap<>();
                     post.put("Text of Post",textofpost);
                     post.put("userid",uid);
                     post.put("name",pref.getData("usernameAdded"));
-                    post.put("time",System.currentTimeMillis());
+                    post.put("time",currentTime);
                     db.collection("All Posts").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
+
                             Toast.makeText(getApplicationContext(), "Text Uploaded", Toast.LENGTH_SHORT).show();
 
                         }
                     });
+                    if(uri != null){
+                        final StorageReference fileref = storageReference.child("Post Photos")
+                                .child(uid + currentTime.toString());
+                        fileref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                Toast.makeText(getApplicationContext(), "Photo Uploaded!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    dialog.dismiss();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    },2000);
                 }
             }
         });
@@ -114,7 +150,7 @@ public class AddPosts extends AppCompatActivity {
             }
         }
         else if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
-            Uri uri = UCrop.getOutput(data);
+           uri = UCrop.getOutput(data);
             imageSelected.setImageURI(uri);
             imageSelected.setVisibility(View.VISIBLE);
         }
