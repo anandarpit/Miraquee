@@ -9,8 +9,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="20dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="4dp"
+        app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,17 +19,17 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="#F2F0F0"
+            android:background="#EDEBEB"
             android:layout_height="wrap_content">
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/circularImageView"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="6dp"
                 android:clickable="true"
                 android:src="@drawable/group_icon"
-                app:civ_border_color="#1A581C"
+                app:civ_border_color="#CDAD7E"
                 app:civ_border_width="1dp"
                 app:layout_constraintBottom_toTopOf="@+id/view4"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,13 +40,13 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/alegreya"
+                android:fontFamily="@font/acme"
                 android:text="Arpit Anand"
                 android:textColor="#001A00"
                 android:textSize="21dp"
                 app:layout_constraintBottom_toBottomOf="@+id/circularImageView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toEndOf="@+id/circularImageView"
                 app:layout_constraintTop_toTopOf="@id/circularImageView"
                 app:layout_constraintVertical_bias="0.05" />
@@ -55,23 +56,24 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/alegreya"
+                android:fontFamily="@font/acme"
                 android:text="On 05/11/2020"
                 android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/circularImageView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toEndOf="@+id/circularImageView"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0" />
 
             <ImageView
+                android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_menu_black"
-                app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintBottom_toTopOf="@+id/view4"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,47 +94,96 @@
                 android:id="@+id/post_image"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1:1"
-                android:maxHeight="250dp"
-                android:padding="5dp"
                 android:src="@drawable/avatar_login"
-                app:layout_constraintBottom_toBottomOf="@id/view4"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="@id/view4"
-                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/view4"
-                app:layout_constraintTop_toTopOf="@+id/view4" />
+                app:layout_constraintTop_toTopOf="@+id/view4"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/alegreya"
-                android:gravity="start|center"
-                android:paddingHorizontal="20dp"
+                android:fontFamily="@font/acme"
+                android:gravity="start|center|top"
+                android:paddingHorizontal="7dp"
                 android:paddingVertical="7dp"
-                android:textColor="#625E5E"
                 android:text="@string/bottom_sheet_behavior"
+                android:textColor="#151414"
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="@+id/view4"
-                app:layout_constraintEnd_toEndOf="@id/view4"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/view4"
-                app:layout_constraintTop_toBottomOf="@+id/post_image"
+                app:layout_constraintTop_toBottomOf="@+id/noOfLikes"
                 app:layout_constraintVertical_bias="0" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                app:layout_constraintVertical_bias="0"
+            <LinearLayout
+                android:id="@+id/layoutLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:layout_marginTop="9dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/bookmark"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text=" Like "
-                android:padding="9dp"
-                android:background="#EFECEC"
-                android:textSize="26dp"
-                android:layout_margin="15dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView5">
-            </TextView>
-            TODO: add like and share button
+                app:layout_constraintTop_toBottomOf="@id/post_image"
+                app:layout_constraintVertical_bias="0">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@drawable/ic_lit_fire" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@drawable/ic_comment" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@drawable/ic_share" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/bookmark"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="8dp"
+                android:src="@drawable/ic_empty_bookmark"
+                app:layout_constraintBottom_toBottomOf="@+id/layoutLinear"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/layoutLinear" />
+
+            <LinearLayout
+                android:id="@+id/noOfLikes"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/layoutLinear"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="312 flames"
+                    android:textSize="16dp"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/acme"
+                    android:gravity="start"
+                    android:layout_marginTop="2dp"
+                    android:paddingHorizontal="7dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,7 @@ import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -111,7 +112,7 @@ public class AddPosts extends AppCompatActivity {
                     Map<String, Object> post = new HashMap<>();
                     post.put("Text of Post",textofpost);
                     post.put("userid",uid);
-                    post.put("name",pref.getData("usernameAdded"));
+                    post.put("name", pref.getData("username"));
                     post.put("time",currentTime);
                     post.put("profileUrl","");
                     post.put("postUrl","");
@@ -224,5 +225,6 @@ public class AddPosts extends AppCompatActivity {
                 profilePic = uri.toString();
             }
         });
+
     }
 }
