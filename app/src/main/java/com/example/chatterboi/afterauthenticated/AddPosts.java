@@ -222,7 +222,6 @@ public class AddPosts extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 profilePic = uri.toString();
-                circularImageView.setImageURI(uri);
             }
         });
     }
