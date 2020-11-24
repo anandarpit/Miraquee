@@ -52,7 +52,6 @@ public class myProfile extends AppCompatActivity {
     CircularImageView profilepic;
     Preferences pref;
     Uri downloadUri;
-    StorageReference storageReference;
     StorageReference ref;
     String uid;
     Compressor compressedFile;
@@ -76,8 +75,7 @@ public class myProfile extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
-        storageReference = FirebaseStorage.getInstance().getReference();
-        ref = storageReference.child("Profile Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        ref = FirebaseStorage.getInstance().getReference().child("Profile Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
         for(File file : files){

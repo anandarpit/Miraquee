@@ -39,7 +39,6 @@ public class Groups extends Fragment {
 
 
     public Groups() {
-
     }
 
     @Override
@@ -74,7 +73,7 @@ public class Groups extends Fragment {
         db.collection("aGroups").orderBy("time", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                 list.clear();
+                list.clear();
                 Log.d("Check", "List Cleared Size Current" + list.size());
                 for(QueryDocumentSnapshot snap: value){
                     list.add(new ChatLists(snap.getString("group"), snap.getId(), snap.getLong("time") ));

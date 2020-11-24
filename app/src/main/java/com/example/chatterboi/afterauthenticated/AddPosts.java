@@ -8,18 +8,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatterboi.Preferences;
 import com.example.chatterboi.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,6 +36,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -49,10 +56,11 @@ public class AddPosts extends AppCompatActivity {
     FirebaseUser mUser;
     CircularImageView circularImageView;
     TextView name,textforpost, addPhoto, X;
-    String textofpost, uid;
+    String textofpost, uid , profilePic = "";
     Preferences pref;
     Button post;
     Uri uri;
+    String documentReferenceId;
     ImageView imageSelected;
     StorageReference storageReference;
     Long currentTime;
@@ -96,7 +104,7 @@ public class AddPosts extends AppCompatActivity {
                     return;
                 }
                 else{
-                    ProgressDialog dialog = new ProgressDialog(AddPosts.this);
+                    final ProgressDialog dialog = new ProgressDialog(AddPosts.this);
                     dialog.setMessage("Posting...");
                     dialog.show();
 
@@ -105,32 +113,67 @@ public class AddPosts extends AppCompatActivity {
                     post.put("userid",uid);
                     post.put("name",pref.getData("usernameAdded"));
                     post.put("time",currentTime);
+                    post.put("profileUrl","");
+                    post.put("postUrl","");
                     db.collection("All Posts").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-
                             Toast.makeText(getApplicationContext(), "Text Uploaded", Toast.LENGTH_SHORT).show();
 
                         }
-                    });
-                    if(uri != null){
-                        final StorageReference fileref = storageReference.child("Post Photos")
-                                .child(uid + currentTime.toString());
-                        fileref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                                Toast.makeText(getApplicationContext(), "Photo Uploaded!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    dialog.dismiss();
-                    new Handler().postDelayed(new Runnable() {
+                    }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
-                        public void run() {
-                            finish();
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            documentReferenceId = task.getResult().getId();
+
+                            if(uri != null) {
+                                final StorageReference fileref = storageReference.child("Post Photos")
+                                        .child(uid + currentTime.toString());
+                                StorageTask uploadTask = fileref.putFile(uri);
+                                uploadTask.continueWithTask(new Continuation() {
+                                    @Override
+                                    public Object then(@NonNull Task task) throws Exception {
+                                        if (!task.isSuccessful()) {
+                                            throw task.getException();
+                                        }
+                                        return fileref.getDownloadUrl();
+                                    }
+                                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Uri> task) {
+                                        final Uri downloadUri = task.getResult();
+                                        String postUri = downloadUri.toString();
+                                        Map<String, Object> profile = new HashMap<>();
+                                        profile.put("postUrl", postUri);
+                                        profile.put("profileUrl", profilePic);
+                                        db.collection("All Posts").document(documentReferenceId)
+                                                .update(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                dialog.dismiss();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        finish();
+                                                    }
+                                                }, 2000);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                Toast.makeText(AddPosts.this, "No Images Selected", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        finish();
+                                    }
+                                }, 2000);
+                            }
                         }
-                    },2000);
+                    });
                 }
             }
         });
@@ -167,5 +210,20 @@ public class AddPosts extends AppCompatActivity {
                         .into(circularImageView);
             }
         }
+        downloaduserPic();
+    }
+
+    private void downloaduserPic() {
+        StorageReference proRef;
+
+        proRef = FirebaseStorage.getInstance().getReference().child("Profile Photos").
+                child(uid);
+        proRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                profilePic = uri.toString();
+                circularImageView.setImageURI(uri);
+            }
+        });
     }
 }
