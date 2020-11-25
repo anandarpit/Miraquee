@@ -69,7 +69,7 @@ public class Posts extends Fragment {
                         for(QueryDocumentSnapshot snap: value) {
                             String profilePic, postPic;
                             String name,text,time,uid;
-
+                            String docId = snap.getId();
                             name = snap.getString("name");
                             text = snap.getString("Text of Post");
                             time = snap.getLong("time").toString();
@@ -77,8 +77,6 @@ public class Posts extends Fragment {
                             profilePic = snap.getString("profileUrl");
                             postPic = snap.getString("postUrl");
 
-                            Log.d("PostCheck", "profilepic " + Uri.parse(profilePic));
-                            Log.d("PostCheck", "postpic " + Uri.parse(postPic));
 
                             list.add(new PostModel(
                                     name,
@@ -86,7 +84,8 @@ public class Posts extends Fragment {
                                     time,
                                     profilePic,
                                     postPic,
-                                    uid
+                                    uid,
+                                    docId
                             ));
                         }
                         Log.d("XXX", "Recycler View Created items:" + list.size());

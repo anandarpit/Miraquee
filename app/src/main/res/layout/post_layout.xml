@@ -134,6 +134,7 @@
                 app:layout_constraintVertical_bias="0">
 
                 <ImageView
+                    android:id="@+id/clickToLike"
                     android:layout_width="45dp"
                     android:layout_height="35dp"
                     android:layout_marginHorizontal="4dp"
@@ -172,8 +173,10 @@
                 app:layout_constraintTop_toBottomOf="@id/layoutLinear"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
+
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/likes"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="312 flames"
                     android:textSize="16dp"
@@ -183,6 +186,7 @@
                     android:layout_marginTop="2dp"
                     android:paddingHorizontal="7dp"
                     android:layout_gravity="center"/>
+
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

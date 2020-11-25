@@ -5,15 +5,24 @@ import android.net.Uri;
 public class PostModel {
     String displayName, postText;
     String profileUri, postUri;
-    String time, uid;
+    String time, uid, docId;
 
-    public PostModel(String displayName, String postText, String time, String profileUri, String postUri, String uid) {
+    public PostModel(String displayName, String postText, String time, String profileUri, String postUri, String uid, String  docId) {
         this.displayName = displayName;
         this.postText = postText;
         this.time = time;
         this.profileUri = profileUri;
         this.postUri = postUri;
         this.uid = uid;
+        this.docId = docId;
+    }
+
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
     }
 
     public String getUid() {

@@ -104,6 +104,10 @@ public class AddPosts extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Text can not be Empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(uri == null){
+                    Toast.makeText(getApplicationContext(), "Photo not choosen", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 else{
                     final ProgressDialog dialog = new ProgressDialog(AddPosts.this);
                     dialog.setMessage("Posting...");
@@ -194,7 +198,7 @@ public class AddPosts extends AppCompatActivity {
             }
         }
         else if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
-           uri = UCrop.getOutput(data);
+            uri = UCrop.getOutput(data);
             imageSelected.setImageURI(uri);
             imageSelected.setVisibility(View.VISIBLE);
         }

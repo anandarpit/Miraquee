@@ -31,6 +31,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
     public Custom_post_adapter(List<PostModel> list, Context context) {
         this.list = list;
         this.context = context;
+        
     }
 
     @NonNull
@@ -61,6 +62,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
 
         public void bind(PostModel postModel) {
 
+            manageLikes(postModel.docId);
             TextView name = itemView.findViewById(R.id.textView4);
             TextView date = itemView.findViewById(R.id.textView6);
             TextView caption = itemView.findViewById(R.id.textView5);
@@ -81,9 +83,13 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
             caption.setText(Html.fromHtml(CaptionWithName));
             name.setText(profileName);
 
-
             Picasso.get().load(profileUri).into(profileImage);
             Picasso.get().load(postUri).into(postImage);
+
+        }
+
+        private void manageLikes(String docId) {
+            Boolean isLiked = false;
 
         }
     }
