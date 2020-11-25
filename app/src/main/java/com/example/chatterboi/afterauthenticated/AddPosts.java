@@ -54,7 +54,6 @@ public class AddPosts extends AppCompatActivity {
 
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    FirebaseUser mUser;
     CircularImageView circularImageView;
     TextView name,textforpost, addPhoto, X;
     String textofpost, uid , profilePic = "";
@@ -130,7 +129,14 @@ public class AddPosts extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
                             documentReferenceId = task.getResult().getId();
-
+                            Map<String, Object> pp = new HashMap<>();
+                            pp.put("likerId","");
+                            db.collection("All Posts").document(documentReferenceId).collection("Likes").add(pp).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    Log.d("XXX", "Likes collection created");
+                                }
+                            });
                             if(uri != null) {
                                 final StorageReference fileref = storageReference.child("Post Photos")
                                         .child(uid + currentTime.toString());
