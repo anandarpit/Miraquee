@@ -72,7 +72,6 @@ public class HomePageArpit extends AppCompatActivity {
     int[] colorIntArray = {R.color.colorAccent,R.color.colorPrimaryDark,0};
     int[] iconIntArray = {R.drawable.ic_add_post, R.drawable.ic_add_group,0};
 
-    TextView title;
     ImageView imageView;
 
     com.example.chatterboi.Preferences pref;
@@ -88,11 +87,9 @@ public class HomePageArpit extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
         myViewPager = findViewById(R.id.myViewPager);
         tabLayout = findViewById(R.id.tablayout);
-        title = findViewById(R.id.title);
         imageView = findViewById(R.id.icon);
 
         setSupportActionBar(toolbar);
-        title.setText("ChatterBoi");
 
 
         mAuth = FirebaseAuth.getInstance();

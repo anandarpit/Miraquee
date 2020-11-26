@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="40dp"
                 android:ellipsize="end"
-                android:fontFamily="@font/alegreya"
+                android:fontFamily="@font/acme"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="5dp"
                 android:text="@string/group_name"
@@ -89,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="69"
+                android:fontFamily="@font/acme"
                 android:textColor="#476328"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
@@ -114,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/admin_name"
+                android:fontFamily="@font/acme"
                 android:textColor="#3F51B5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -124,9 +126,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

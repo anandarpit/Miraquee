@@ -17,9 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.Preferences;
 import com.example.chatterboi.R;
-import com.github.thunder413.datetimeutils.DateTimeStyle;
-import com.github.thunder413.datetimeutils.DateTimeUnits;
-import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
