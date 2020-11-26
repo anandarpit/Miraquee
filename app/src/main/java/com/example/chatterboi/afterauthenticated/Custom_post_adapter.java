@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatterboi.Preferences;
 import com.example.chatterboi.R;
 import com.github.thunder413.datetimeutils.DateTimeStyle;
 import com.github.thunder413.datetimeutils.DateTimeUnits;
@@ -45,10 +46,11 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String uid;
+    Preferences pref;
     public Custom_post_adapter(List<PostModel> list, Context context) {
         this.list = list;
         this.context = context;
-
+        pref = new Preferences(context);
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         uid = mAuth.getCurrentUser().getUid();
@@ -106,6 +108,11 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
             Picasso.get().load(profileUri).into(profileImage);
             Picasso.get().load(postUri).into(postImage);
 
+            if(pref.getData(postModel.docId) == "Y"){
+                clickTolike.setImageDrawable(null);
+                clickTolike.setBackgroundResource(R.drawable.ic_lit_fire);
+            }
+
             final List<LikeModel> list = new ArrayList<>();
             db.collection("All Posts").document(postModel.docId).collection("Likes").addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
@@ -113,21 +120,15 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
                     list.clear();
                     int flag = 0;
                     String culpritId = "";
-                    final Boolean[] isLiked = {false};
                     for(QueryDocumentSnapshot snap: value){
                         list.add(new LikeModel(snap.getString("likerId")));
                         if(snap.getString("likerId") == uid){
-                            flag =1;
+                            flag++;
                             culpritId = snap.getId();
-                            isLiked[0] = true;
-                            clickTolike.setImageDrawable(null);
-                            clickTolike.setBackgroundResource(R.drawable.ic_lit_fire);
+                            pref.setData(postModel.docId,"Y");
                         }
                     }
-                    if(isLiked[0] == true){
-                        clickTolike.setImageDrawable(null);
-                        clickTolike.setBackgroundResource(R.drawable.ic_lit_fire);
-                    }
+
                     likes.setText(list.size() + " flame");
                     final int finalFlag = flag;
                     final String finalCulpritId = culpritId;
@@ -153,7 +154,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
                                     public void onComplete(@NonNull Task<Void> task) {
                                         clickTolike.setImageDrawable(null);
                                         clickTolike.setBackgroundResource(R.drawable.ic_no_fire);
-                                        isLiked[0] = false;
+                                        pref.setData(postModel.docId,"N");
                                     }
                                 });
                             }
