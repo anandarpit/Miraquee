@@ -59,7 +59,7 @@ public class myProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-        name = findViewById(R.id.name);
+        name = findViewById(R.id.userName);
         profilepic = findViewById(R.id.profilepic);
         pref = new Preferences(getApplicationContext());
         name.setText(pref.getData("usernameAdded"));

@@ -84,35 +84,42 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
                 @Override
                 public void onClick(View view) {
 
-                    final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,
-                            R.style.BottomSheetDialogTheme);
-                    View bottomSheetView = LayoutInflater.from(context).inflate(
-                            R.layout.group_preview_dialog, (ConstraintLayout)itemView.findViewById(R.id.constraint_layout));
-                    bottomSheetDialog.setContentView(bottomSheetView);
 
-                    //Todo: Check here by if and else if the blue button should be "Join" or "Send Join Request"
-
-                    TextView group =  bottomSheetDialog.findViewById(R.id.groupname);
-                    group.setText(chatLists.getGroupname());
-
-                    bottomSheetDialog.show();
-
-                    bottomSheetDialog.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(context,ChatInterface.class);
+                    Intent intent = new Intent(context,ChatInterface.class);
                             intent.putExtra("GroupID",chatLists.getId());
                             intent.putExtra("GroupName",chatLists.getGroupname());
                             intent.putExtra("Time", chatLists.getTime());
                             context.startActivity(intent);
-                        }
-                    });
-                    bottomSheetDialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            bottomSheetDialog.dismiss();
-                        }
-                    });
+
+//                    final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,
+//                            R.style.BottomSheetDialogTheme);
+//                    View bottomSheetView = LayoutInflater.from(context).inflate(
+//                            R.layout.group_preview_dialog, (ConstraintLayout)itemView.findViewById(R.id.constraint_layout));
+//                    bottomSheetDialog.setContentView(bottomSheetView);
+//
+//                    //Todo: Check here by if and else if the blue button should be "Join" or "Send Join Request"
+//
+//                    TextView group =  bottomSheetDialog.findViewById(R.id.groupname);
+//                    group.setText(chatLists.getGroupname());
+//
+//                    bottomSheetDialog.show();
+//
+//                    bottomSheetDialog.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Intent intent = new Intent(context,ChatInterface.class);
+//                            intent.putExtra("GroupID",chatLists.getId());
+//                            intent.putExtra("GroupName",chatLists.getGroupname());
+//                            intent.putExtra("Time", chatLists.getTime());
+//                            context.startActivity(intent);
+//                        }
+//                    });
+//                    bottomSheetDialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            bottomSheetDialog.dismiss();
+//                        }
+//                    });
                 }
             });
         }

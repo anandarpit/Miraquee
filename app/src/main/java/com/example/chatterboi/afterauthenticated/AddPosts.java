@@ -3,7 +3,9 @@ package com.example.chatterboi.afterauthenticated;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -162,6 +164,8 @@ public class AddPosts extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 dialog.dismiss();
+                                                MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.thesound);
+                                                mediaPlayer.start();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {

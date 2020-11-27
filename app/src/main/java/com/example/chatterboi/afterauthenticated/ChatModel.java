@@ -2,10 +2,10 @@ package com.example.chatterboi.afterauthenticated;
 
 public class ChatModel {
 
-    String GroupId, messageId, message, userId , name, username;
+    String GroupId, messageId, message, userId , name, username, type;
     Long time;
 
-    public ChatModel(String groupId, String messageId, String message, String userId, Long time, String name, String username) {
+    public ChatModel(String groupId, String messageId, String message, String userId, Long time, String name, String username, String type) {
         GroupId = groupId;
         this.messageId = messageId;
         this.message = message;
@@ -13,6 +13,15 @@ public class ChatModel {
         this.time = time;
         this.name = name;
         this.username = username;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getUsername() {
