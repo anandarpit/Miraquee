@@ -124,7 +124,7 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
                 }
 
 
-                
+
                 cardView.setVisibility(View.VISIBLE);
                 Picasso.get().load(Uri.parse(chatModel.getMessage())).into(image);
 
