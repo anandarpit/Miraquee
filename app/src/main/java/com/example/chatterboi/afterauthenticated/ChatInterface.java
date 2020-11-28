@@ -170,7 +170,7 @@ public class ChatInterface extends AppCompatActivity {
                     .start(ChatInterface.this);
         }
         if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
-             Uri uri = UCrop.getOutput(data);
+            Uri uri = UCrop.getOutput(data);
             final ProgressDialog dialog = new ProgressDialog(ChatInterface.this);
             dialog.setMessage("Posting...");
             dialog.show();
@@ -235,6 +235,7 @@ public class ChatInterface extends AppCompatActivity {
                 else{
                     Log.d("Check", "Snapshot worked");
                     List<ChatModel> list = new ArrayList<>();
+                    list.clear();
                     for(QueryDocumentSnapshot query : value){
                     list.add(new ChatModel(
                               query.getString("groupId")
@@ -244,9 +245,12 @@ public class ChatInterface extends AppCompatActivity {
                             , query.getLong("time")
                             , query.getString("name")
                             , query.getString("username")
-                            ,query.getString("type")
+                            , query.getString("type")
                     ));
                 }
+                    for(ChatModel list1: list) {
+                        Log.d("Sexy", "elements:" + list1.getMessage());
+                    }
                 recycler_interface.setAdapter(new RealChatRecyclerInterface(mUser.getUid(),list));
             }}
         });

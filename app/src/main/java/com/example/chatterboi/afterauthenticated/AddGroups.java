@@ -105,15 +105,13 @@ public class AddGroups extends AppCompatActivity {
                 if (roomname.getText().toString().isEmpty()) {
                     Toast.makeText(this, "Room name should not be empty", Toast.LENGTH_SHORT).show();
                 }
+                if(imageUri == null){
+                    Toast.makeText(this, "Please Choose an Image", Toast.LENGTH_SHORT).show();
+                }
                 else
                     {
-                        Uri urri;
                         room = roomname.getText().toString();
                         if(imageUri != null){
-//                            File filePath = new File(SiliCompressor.with(this)
-//                                    .compress(FileUtils.getPath(this, imageUri),
-//                                            new File(this.getCacheDir(),"temp")));
-//                             urri = Uri.fromFile(filePath);
 
                         final StorageReference fileref = storageReference.child("Groups Photo").child(room);
                         fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

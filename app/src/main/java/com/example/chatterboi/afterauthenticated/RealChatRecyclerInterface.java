@@ -70,15 +70,13 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
         TextView messageText, nameText, nameOverImage;
         CardView cardView ,textCardview;
         ImageView image;
+
         public myInterface(@NonNull View itemView) {
             super(itemView);
+        }
 
-            try {
-                messageText = itemView.findViewById(R.id.arpit_chat_message);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+        public void caller(ChatModel chatModel) {
+
             try {
                 nameText = itemView.findViewById(R.id.name);
             }
@@ -91,26 +89,13 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
             catch (Exception e){
                 e.printStackTrace();
             }
-            try{
-                cardView = itemView.findViewById(R.id.imageCardview);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            try{
-                textCardview = itemView.findViewById(R.id.textCardview);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            try{
-                image = itemView.findViewById(R.id.messageImage);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
 
-        public void caller(ChatModel chatModel) {
+            messageText = itemView.findViewById(R.id.arpit_chat_message);
+            cardView = itemView.findViewById(R.id.imageCardview);
+            textCardview = itemView.findViewById(R.id.textCardview);
+            image = itemView.findViewById(R.id.messageImage);
 
-            if("text".equals(chatModel.getType())) {
+            if(chatModel.getType().equals("text")) {
                 try {
                     messageText.setText(chatModel.getMessage());
                 } catch (Exception e) {
@@ -130,7 +115,7 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
             }
 
 
-            if("image".equals(chatModel.getType())){
+            if(chatModel.getType().equals("image")){
 
                 try {
                     nameText.setText("@" + chatModel.getUsername());
