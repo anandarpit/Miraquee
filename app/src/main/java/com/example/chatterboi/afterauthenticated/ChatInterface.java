@@ -206,7 +206,6 @@ public class ChatInterface extends AppCompatActivity {
                                 .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                showChatMessages();
                                 dialog.dismiss();
                                 Toast.makeText(getApplicationContext(),"Message Sent", Toast.LENGTH_SHORT).show();
                             }

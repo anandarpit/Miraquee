@@ -96,17 +96,8 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
             image = itemView.findViewById(R.id.messageImage);
 
             if(chatModel.getType().equals("text")) {
-                try {
                     messageText.setText(chatModel.getMessage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try{
                     textCardview.setVisibility(View.VISIBLE);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
                 try {
                     nameText.setText("@" + chatModel.getUsername());
                 } catch (Exception e) {
@@ -119,7 +110,7 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
 
                 try {
                     nameText.setText("@" + chatModel.getUsername());
-                } catch (Exception e) {
+                } catch (Exception e){
                     e.printStackTrace();
                 }
                 cardView.setVisibility(View.VISIBLE);

@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatterboi.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -92,6 +94,7 @@ public class Posts extends Fragment {
                     recyclerView.setAdapter(new Custom_post_adapter(list,getContext()));
                     }
                 });
+
         return  view;
     }
 

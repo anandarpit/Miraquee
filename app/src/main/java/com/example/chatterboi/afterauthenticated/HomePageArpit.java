@@ -35,6 +35,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.chatterboi.Preferences;
 import com.example.chatterboi.R;
 import com.example.chatterboi.Register;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -66,6 +68,7 @@ public class HomePageArpit extends AppCompatActivity {
     FirebaseFirestore firestore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+    private InterstitialAd mInterstitialAd;
 
     String  uid;
 
@@ -88,6 +91,9 @@ public class HomePageArpit extends AppCompatActivity {
         myViewPager = findViewById(R.id.myViewPager);
         tabLayout = findViewById(R.id.tablayout);
         imageView = findViewById(R.id.icon);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         setSupportActionBar(toolbar);
 
@@ -222,6 +228,18 @@ public class HomePageArpit extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.profile){
             startActivity(new Intent(this,myProfile.class));
+        }
+        if(item.getItemId() == R.id.ads){
+
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                
+                mInterstitialAd = new InterstitialAd(this);
+                mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
         }
         return true;
     }
