@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="#E60E57"
+    tools:context=".afterauthenticated.myProfile"
     android:layout_height="match_parent"
-    tools:context=".afterauthenticated.myProfile">
+    android:background="#2C2B2B"
+    android:layout_width="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your Current Profile"
-        android:textSize="35dp"
-        android:fontFamily="@font/alegreya"
+        android:fontFamily="@font/bangers"
         android:gravity="center"
-        android:background="#fff"
+        android:text="Profile"
+        android:textColor="#F44336"
+        android:textSize="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profilepic"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginBottom="9dp"
         android:clickable="true"
         android:src="@drawable/group_icon"
-        app:civ_border_color="#1A581C"
-        app:civ_border_width="3dp"
+        app:civ_border_color="#3F51B5"
+        app:civ_border_width="0dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="8dp"
+        app:civ_shadow_color="#2196F3"
         app:layout_constraintBottom_toTopOf="@+id/cardviewforpost"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview" />
 
@@ -40,15 +48,94 @@
         android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/alegreya"
-        android:textColor="#000"
-        android:background="#fff"
-        android:paddingHorizontal="30dp"
-        android:paddingVertical="6dp"
-        android:layout_marginTop="15dp"
-        android:textSize="31dp"
+        android:fontFamily="@font/acme"
+        android:textColor="#fff"
+        android:text="Arpit Anand"
+        android:textSize="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usename" />
+    <TextView
+        android:id="@+id/usename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/acme"
+        android:textColor="#FFEB3B"
+        android:text="arpitanand"
+        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilepic" />
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="18dp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userName">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Posts made:"
+                    android:fontFamily="@font/acme"
+                    android:textColor="#000"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/postCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:text="19"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:paddingRight="50dp"
+                    android:textColor="#000"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Groups Created:"
+                    android:fontFamily="@font/acme"
+                    android:textColor="#000"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/groupCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:text="19"
+                    android:paddingRight="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:textColor="#000"
+                    android:textSize="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

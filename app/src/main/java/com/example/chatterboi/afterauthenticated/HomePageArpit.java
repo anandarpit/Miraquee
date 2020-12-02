@@ -107,8 +107,6 @@ public class HomePageArpit extends AppCompatActivity {
         String CHANNEL_ID = "MESSAGE";
         String CHANNEL_NAME = "MESSAGE";
 
-        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
-
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -159,6 +157,7 @@ public class HomePageArpit extends AppCompatActivity {
                         .into(imageView);
             }
         }
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
@@ -168,8 +167,9 @@ public class HomePageArpit extends AppCompatActivity {
 
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Title")
-                .setContentText("Message")
+                .setContentTitle("Chatter-Boi")
+                .setAutoCancel(false)
+                .setContentText("Chatter-Boi is running...")
                 .build();
         manager.notify(22, notification);
 

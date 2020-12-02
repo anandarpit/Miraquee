@@ -128,6 +128,7 @@ public class AddGroups extends AppCompatActivity {
                         Map<String, Object> group = new HashMap<>();
                         group.put("group",roomname.getText().toString());
                         group.put("time",System.currentTimeMillis());
+                        group.put("uid", mUser.getUid());
                         db.collection("aGroups").add(group)
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override

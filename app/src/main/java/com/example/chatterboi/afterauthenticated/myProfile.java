@@ -54,6 +54,7 @@ public class myProfile extends AppCompatActivity {
     Uri downloadUri;
     StorageReference ref;
     String uid;
+    TextView groupCount;
     Compressor compressedFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,9 @@ public class myProfile extends AppCompatActivity {
         profilepic = findViewById(R.id.profilepic);
         pref = new Preferences(getApplicationContext());
         name.setText(pref.getData("usernameAdded"));
+        groupCount = findViewById(R.id.groupCount);
+
+
 
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override

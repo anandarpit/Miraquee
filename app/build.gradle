@@ -37,6 +37,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.5.1'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
     implementation 'com.google.firebase:firebase-ads:19.5.0'
+
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-inappmessaging-display'
+    implementation 'com.google.firebase:firebase-analytics'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     implementation 'com.github.yalantis:ucrop:2.2.6'

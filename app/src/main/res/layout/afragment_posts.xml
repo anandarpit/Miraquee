@@ -8,8 +8,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_recycleView"
-        android:paddingHorizontal="0dp"
-        android:layout_marginBottom="70dp"
+        android:paddingHorizontal="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
