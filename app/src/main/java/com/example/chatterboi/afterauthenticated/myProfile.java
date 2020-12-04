@@ -8,8 +8,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaDrm;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +25,12 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -53,8 +60,11 @@ public class myProfile extends AppCompatActivity {
     Preferences pref;
     Uri downloadUri;
     StorageReference ref;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
     String uid;
-    TextView groupCount;
+    TextView groupCount, postCount;
     Compressor compressedFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +75,10 @@ public class myProfile extends AppCompatActivity {
         pref = new Preferences(getApplicationContext());
         name.setText(pref.getData("usernameAdded"));
         groupCount = findViewById(R.id.groupCount);
+        postCount = findViewById(R.id.postCount);
 
-
+        mAuth =  FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,9 +87,14 @@ public class myProfile extends AppCompatActivity {
                 startActivityForResult(openGallery,1000);
             }
         });
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
+
+        getGroupCount();
+        getPostsCount();
+
+
+
 
         ref = FirebaseStorage.getInstance().getReference().child("Profile Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -107,6 +124,35 @@ public class myProfile extends AppCompatActivity {
             });
             return;
         }
+    }
+
+    private void getPostsCount() {
+        db.collection("All Users")
+                .document(uid)
+                .collection("No Of Posts").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                int postCoun = 0 ;
+                for(QueryDocumentSnapshot ignored : value){
+                    postCoun = postCoun +1;
+                    postCount.setText(Integer.toString(postCoun));
+                }
+            }
+        });
+    }
+
+    private void getGroupCount() {
+        db.collection("All Users").document(uid)
+                .collection("No of Groups created").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                int groupCoun = 0 ;
+                for(QueryDocumentSnapshot snap: value){
+                    groupCoun++;
+                    groupCount.setText(Integer.toString(groupCoun));
+                }
+            }
+        });
     }
 
 

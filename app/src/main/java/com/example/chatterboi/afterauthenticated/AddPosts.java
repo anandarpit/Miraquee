@@ -166,6 +166,21 @@ public class AddPosts extends AppCompatActivity {
                                                 dialog.dismiss();
                                                 MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.thesound);
                                                 mediaPlayer.start();
+
+                                                Map<String, Object> pro = new HashMap<>();
+                                                pro.put("Post Added", "yaay");
+                                                pro.put("Post ID", documentReferenceId);
+                                                db.collection("All Users")
+                                                        .document(uid)
+                                                        .collection("No Of Posts")
+                                                        .add(pro)
+                                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+
+                                                    }
+                                                });
+
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
@@ -239,6 +254,5 @@ public class AddPosts extends AppCompatActivity {
                 profilePic = uri.toString();
             }
         });
-
     }
 }

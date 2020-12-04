@@ -20,7 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.chatterboi.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -133,15 +135,30 @@ public class AddGroups extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
+                                String documentReferenceId = documentReference.getId();
+
                                 Log.d("Check", "Group Added : " + roomname.getText().toString());
                                 toolbarmenu.findItem(R.id.arpitmenu).setEnabled(false);
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //TODO: Add an intent here to the updated Groups Fragment
-                                        finish();
-                                    }
-                                },1000);
+
+                                Map<String, Object> pro = new HashMap<>();
+                                pro.put("Group Added", "yaay");
+                                pro.put("Group ID", documentReferenceId);
+                                db.collection("All Users")
+                                        .document(mUser.getUid())
+                                        .collection("No of Groups created")
+                                        .add(pro)
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        //TODO: Add an intent here to the updated Groups Fragment
+                                                        finish();
+                                                    }
+                                                },1000);
+                                            }
+                                        });
                             }
                         });
                     }}
