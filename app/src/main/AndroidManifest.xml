@@ -16,11 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".afterauthenticated.comments"></activity>
         <activity
-        android:name="com.yalantis.ucrop.UCropActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".afterauthenticated.myProfile"></activity>
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".afterauthenticated.myProfile" />
         <activity android:name=".afterauthenticated.AddPosts" />
         <activity
             android:name=".afterauthenticated.ChatInterface"

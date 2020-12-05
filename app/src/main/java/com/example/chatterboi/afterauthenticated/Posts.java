@@ -1,5 +1,6 @@
  package com.example.chatterboi.afterauthenticated;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -58,7 +59,7 @@ public class Posts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.afragment_posts, container, false);
-
+final Context context = getContext();
         recyclerView = view.findViewById(R.id.post_recycleView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -91,7 +92,7 @@ public class Posts extends Fragment {
                             ));
                         }
                         Log.d("XXX", "Recycler View Created items:" + list.size());
-                    recyclerView.setAdapter(new Custom_post_adapter(list,getContext()));
+                    recyclerView.setAdapter(new Custom_post_adapter(list,context ));
                     }
                 });
 

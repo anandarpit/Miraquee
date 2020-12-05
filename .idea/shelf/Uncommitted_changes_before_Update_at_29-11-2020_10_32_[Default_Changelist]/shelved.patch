@@ -1,0 +1,162 @@
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"disableWrapperSourceDistributionNotification\" value=\"true\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"14.0.2\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n        <option name=\"useQualifiedModuleNames\" value=\"true\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 2040ff2f2a8507eac58d5cd7b22f3126d8124956)
++++ .idea/gradle.xml	(date 1606626009955)
+@@ -8,7 +8,6 @@
+         <option name="disableWrapperSourceDistributionNotification" value="true" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="gradleJvm" value="14.0.2" />
+         <option name="modules">
+           <set>
+             <option value="$PROJECT_DIR$" />
+Index: app/src/main/java/com/example/chatterboi/Log_in.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.chatterboi;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AlertDialog;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.constraintlayout.widget.ConstraintLayout;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.os.Handler;\r\nimport android.text.TextUtils;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.view.inputmethod.InputMethodManager;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.chatterboi.afterauthenticated.HomePageArpit;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.OnFailureListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.firestore.DocumentReference;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.rengwuxian.materialedittext.MaterialEditText;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\npublic class Log_in extends AppCompatActivity {\r\n\r\n    private AlertDialog.Builder builder;\r\n    private AlertDialog dialog;\r\n    TextView forgotpassword, newuser;\r\n    FirebaseAuth firebaseAuth;\r\n    FirebaseUser users;\r\n    FirebaseFirestore db;\r\n    Button log;\r\n    Preferences pref;\r\n    String userId;\r\n    ConstraintLayout log_in;\r\n    MaterialEditText email, pass;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_log_in);\r\n\r\n        forgotpassword = findViewById(R.id.forgot_password);\r\n        log =  findViewById(R.id.login);\r\n        email= findViewById(R.id.login_email);\r\n        pass= findViewById(R.id.login_password);\r\n        log_in = findViewById(R.id.log_in);\r\n        newuser = findViewById(R.id.new_user);\r\n\r\n        pref = new Preferences(getApplicationContext());\r\n\r\n        firebaseAuth = firebaseAuth.getInstance();\r\n\r\n        newuser.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(Log_in.this, Register.class);\r\n                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                startActivity(intent);\r\n                finish();\r\n            }\r\n        });\r\n\r\n        forgotpassword.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View mview) {\r\n                builder = new AlertDialog.Builder(Log_in.this);\r\n                final View view = getLayoutInflater().inflate(R.layout.popup_forgotpassword,null);\r\n\r\n                builder.setView(view);\r\n                dialog = builder.create();\r\n                dialog.show();\r\n\r\n                final MaterialEditText email = view.findViewById(R.id.email_forgot_enter);\r\n                Button resetEmail = view.findViewById(R.id.button_resend);\r\n                resetEmail.setOnClickListener(new View.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(final View view) {\r\n                        View keyview = getCurrentFocus();\r\n                        if (keyview != null) {\r\n                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);\r\n                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);\r\n                        }\r\n\r\n                        final String Email = email.getText().toString().trim();\r\n                        if (!Email.isEmpty()){\r\n                            Snackbar.make(view, \"Sending Email...\", Snackbar.LENGTH_LONG).show();\r\n                            firebaseAuth.sendPasswordResetEmail(Email).addOnSuccessListener(new OnSuccessListener<Void>() {\r\n                                @Override\r\n                                public void onSuccess(Void aVoid) {\r\n                                    Snackbar.make(view, \"Reset email has been sent to your email\", Snackbar.LENGTH_LONG).show();\r\n                                    new Handler().postDelayed(new Runnable() {\r\n                                        @Override\r\n                                        public void run() {\r\n                                            dialog.dismiss();\r\n                                        }\r\n                                    }, 2500);\r\n                                }\r\n                            }).addOnFailureListener(new OnFailureListener() {\r\n                                @Override\r\n                                public void onFailure(@NonNull Exception e) {\r\n                                    Snackbar.make(view, \"Error Occured!\", Snackbar.LENGTH_LONG).show();\r\n                                }\r\n                            });\r\n                        }\r\n                        else{\r\n                            Snackbar.make(view, \"Email is Empty!\", Snackbar.LENGTH_LONG).show();\r\n                        }\r\n\r\n                    }\r\n                });\r\n\r\n\r\n            }});\r\n\r\n        log.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                View keyview = getCurrentFocus();\r\n                if (keyview != null) {\r\n                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);\r\n                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);\r\n                }\r\n                final String Email=email.getText().toString().trim();\r\n                final String Pass=pass.getText().toString().trim();\r\n                if(TextUtils.isEmpty(Email)) {\r\n\r\n                    email.setError(\"Email is Required\");\r\n                    return;\r\n                }\r\n                if(TextUtils.isEmpty(Pass))\r\n                {\r\n                    pass.setError(\"Password is Required\");\r\n                    return;\r\n                }\r\n                firebaseAuth.signInWithEmailAndPassword(Email,Pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<AuthResult> task) {\r\n                        if (task.isSuccessful())\r\n                        {\r\n\r\n                            users =firebaseAuth.getCurrentUser();\r\n                            if (users.isEmailVerified()) {\r\n                                Snackbar.make(log_in, \"Successful!!\", Snackbar.LENGTH_LONG).setAction(\"Action\", null).show();\r\n                                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();\r\n                                userId= firebaseAuth.getCurrentUser().getUid();\r\n                                db = FirebaseFirestore.getInstance();\r\n                                DocumentReference documentReference=db.collection(\"All Users\").document(userId);\r\n                                Map<String,Object> user=new HashMap<>();\r\n                                user.put(\"Pass\",Pass);\r\n                                documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {\r\n                                    @Override\r\n                                    public void onSuccess(Void aVoid) {\r\n                                        Log.v(\"Tag\",\"On Success: User Profile Created for\"+userId);\r\n                                    }\r\n                                });\r\n                                pref.setData(\"LoggedIn\",\"true\");\r\n\r\n                                new Handler().postDelayed(new Runnable() {\r\n                                    @Override\r\n                                    public void run() {\r\n\r\n                                        Intent intent = new Intent(Log_in.this, HomePageArpit.class);\r\n                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                                        startActivity(intent);\r\n                                        finish();\r\n                                    }\r\n                                }, 1500);\r\n                            }\r\n                            else {\r\n                                    builder = new AlertDialog.Builder(Log_in.this);\r\n                                    View view = getLayoutInflater().inflate(R.layout.popup_verification,null);\r\n                                    builder.setView(view);\r\n                                    dialog = builder.create();\r\n                                    dialog.show();\r\n                                }\r\n                        }\r\n                        else\r\n                            Snackbar.make(log_in, \"Login Failed!\"+task.getException().getMessage(), Snackbar.LENGTH_LONG).setAction(\"Action\", null).show();\r\n                    }\r\n                });\r\n            }\r\n        });\r\n            }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/chatterboi/Log_in.java	(revision 2040ff2f2a8507eac58d5cd7b22f3126d8124956)
++++ app/src/main/java/com/example/chatterboi/Log_in.java	(date 1606626098697)
+@@ -46,6 +46,10 @@
+     String userId;
+     ConstraintLayout log_in;
+     MaterialEditText email, pass;
++
++
++
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/codeStyles/Project.xml	(date 1605423833249)
++++ .idea/codeStyles/Project.xml	(date 1605423833249)
+@@ -0,0 +1,116 @@
++<component name="ProjectCodeStyleConfiguration">
++  <code_scheme name="Project" version="173">
++    <codeStyleSettings language="XML">
++      <indentOptions>
++        <option name="CONTINUATION_INDENT_SIZE" value="4" />
++      </indentOptions>
++      <arrangement>
++        <rules>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>xmlns:android</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>xmlns:.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>BY_NAME</order>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*:id</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*:name</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>name</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>style</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>BY_NAME</order>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>ANDROID_ATTRIBUTE_ORDER</order>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>.*</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>BY_NAME</order>
++            </rule>
++          </section>
++        </rules>
++      </arrangement>
++    </codeStyleSettings>
++  </code_scheme>
++</component>
+\ No newline at end of file

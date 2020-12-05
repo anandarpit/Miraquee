@@ -1,6 +1,8 @@
 package com.example.chatterboi.afterauthenticated;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
@@ -35,6 +37,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapter.myAdapter> {
 
@@ -88,6 +92,18 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
             CircularImageView profileImage= itemView.findViewById(R.id.circularImageView);
             ImageView postImage = itemView.findViewById(R.id.post_image);
             final TextView likes = itemView.findViewById(R.id.likes);
+
+            final ImageView comment = itemView.findViewById(R.id.comment);
+             comment.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View view) {
+                    Intent comment_intent = new Intent(context,comments.class);
+                    comment_intent.putExtra("POST_KEY","POST_KEY");
+                    context.startActivity(comment_intent);
+
+
+                 }
+             });
             Uri profileUri = Uri.parse(postModel.getProfileUri());
             Uri postUri = Uri.parse(postModel.getPostUri());
 
