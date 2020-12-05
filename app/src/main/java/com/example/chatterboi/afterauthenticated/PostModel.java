@@ -1,7 +1,5 @@
 package com.example.chatterboi.afterauthenticated;
 
-import android.net.Uri;
-
 public class PostModel {
     String displayName, postText;
     String profileUri, postUri;

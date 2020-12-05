@@ -25,8 +25,11 @@ public class TabAdapter extends FragmentPagerAdapter {
                 Groups group = new Groups();
                 return group;
             case 2:
-                Explore exp = new Explore();
+                Contacts exp = new Contacts();
                 return exp;
+            case 3:
+                Calls call = new Calls();
+                return call;
             default:
                 return null;
         }
@@ -34,7 +37,7 @@ public class TabAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {       // remember to change this value acc to oyur need
-        return 3;
+        return 4;
     }
 
     @Nullable
@@ -46,7 +49,9 @@ public class TabAdapter extends FragmentPagerAdapter {
             case 1:
                 return "Groups";
             case 2:
-                return "My";   // Explore has been changed to My
+                return "Contacts";   // Contacts has been changed to Contacts
+            case 3:
+                return "Calls";
             default:
                 return null;
         }

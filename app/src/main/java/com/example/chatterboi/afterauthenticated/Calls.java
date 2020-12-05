@@ -9,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatterboi.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Explore#newInstance} factory method to
+ * Use the {@link Calls#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Explore extends Fragment {
+public class Calls extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,9 +25,8 @@ public class Explore extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private AdView mAdView;
 
-    public Explore() {
+    public Calls() {
         // Required empty public constructor
     }
 
@@ -41,11 +36,11 @@ public class Explore extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Explore.
+     * @return A new instance of fragment Calls.
      */
     // TODO: Rename and change types and number of parameters
-    public static Explore newInstance(String param1, String param2) {
-        Explore fragment = new Explore();
+    public static Calls newInstance(String param1, String param2) {
+        Calls fragment = new Calls();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -57,7 +52,6 @@ public class Explore extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -67,11 +61,6 @@ public class Explore extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.afragment_explore, container, false);
-        mAdView = view.findViewById(R.id.adView);
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        return view;
+        return inflater.inflate(R.layout.fragment_calls, container, false);
     }
 }

@@ -112,7 +112,7 @@ public class HomePageArpit extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 myViewPager.setCurrentItem(tab.getPosition());
 
-                if (tab.getPosition() != 2) {
+                if (tab.getPosition() < 2) {
                     animateFab(tab.getPosition());
                 }
                 if(tab.getPosition() == 2){
@@ -178,7 +178,6 @@ public class HomePageArpit extends AppCompatActivity {
         tabAdapter = new TabAdapter(getSupportFragmentManager());
         myViewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(myViewPager);
-
         Thread thread = new Thread() {
             @Override
             public void run() {
