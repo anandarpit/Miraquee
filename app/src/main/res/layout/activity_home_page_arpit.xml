@@ -66,18 +66,15 @@
             android:layout_height="wrap_content"
             android:background="#1F4441"
             app:tabRippleColor="@color/cardview_dark_background"
+            app:tabSelectedTextColor="#ffffff"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:tabGravity="fill"
+            app:tabTextAppearance="@style/MineCustomTabText"
             style="@style/ToolbarTheme"
             app:tabIndicatorColor="#ffffff"
             app:tabIndicatorHeight="1.5dp"
             app:tabMode="fixed"
-            app:tabTextColor="#ffffff" >
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Postsss" />
-        </com.google.android.material.tabs.TabLayout>
+            app:tabTextColor="#BAB6B6" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

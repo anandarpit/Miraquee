@@ -14,9 +14,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.tabs.TabLayout;
 
-public class Contacts extends Fragment {
+public class Chats extends Fragment {
 
-    public Contacts() {
+    public Chats() {
         // Required empty public constructor
     }
 

@@ -25,7 +25,7 @@ public class TabAdapter extends FragmentPagerAdapter {
                 Groups group = new Groups();
                 return group;
             case 2:
-                Contacts exp = new Contacts();
+                Chats exp = new Chats();
                 return exp;
             case 3:
                 Calls call = new Calls();
@@ -49,7 +49,7 @@ public class TabAdapter extends FragmentPagerAdapter {
             case 1:
                 return "Groups";
             case 2:
-                return "Contacts";   // Contacts has been changed to Contacts
+                return "Chats";   // Chats has been changed to Chats
             case 3:
                 return "Calls";
             default:

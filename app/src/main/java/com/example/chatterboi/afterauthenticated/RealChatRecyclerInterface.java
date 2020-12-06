@@ -49,6 +49,7 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
     @Override
     public void onBindViewHolder(@NonNull RealChatRecyclerInterface.myInterface holder, int position) {
         holder.caller(list.get(position));
+        holder.setIsRecyclable(false);  // very important
     }
 
     @Override
