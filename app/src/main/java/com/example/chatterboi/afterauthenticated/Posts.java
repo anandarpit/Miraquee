@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatterboi.R;
+import com.example.chatterboi.afterauthenticated.Custom_post_adapter;
+import com.example.chatterboi.afterauthenticated.PostModel;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;

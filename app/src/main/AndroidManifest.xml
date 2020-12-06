@@ -35,16 +35,16 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".Log_in"
+            android:name=".Auth.Log_in"
             android:launchMode="singleTask" />
         <activity
-            android:name=".username_page"
+            android:name=".Auth.username_page"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Register"
+            android:name=".Auth.Register"
             android:launchMode="singleTask" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".SplashScreen.SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,13 +1,11 @@
 package com.example.chatterboi.afterauthenticated;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +21,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -32,9 +29,9 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.chatterboi.Preferences;
+import com.example.chatterboi.SharedPreferences.Preferences;
 import com.example.chatterboi.R;
-import com.example.chatterboi.Register;
+import com.example.chatterboi.Auth.Register;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,14 +40,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -77,7 +69,7 @@ public class HomePageArpit extends AppCompatActivity {
 
     ImageView imageView;
 
-    com.example.chatterboi.Preferences pref;
+    Preferences pref;
     ViewPager myViewPager;
 
     @Override
@@ -132,7 +124,7 @@ public class HomePageArpit extends AppCompatActivity {
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(new Intent(HomePageArpit.this,AddPosts.class));
+                            startActivity(new Intent(HomePageArpit.this, AddPosts.class));
                         }
                     });
                 }
@@ -228,7 +220,7 @@ public class HomePageArpit extends AppCompatActivity {
             finish();
         }
         if(item.getItemId() == R.id.profile){
-            startActivity(new Intent(this,myProfile.class));
+            startActivity(new Intent(this, myProfile.class));
         }
         if(item.getItemId() == R.id.ads){
 

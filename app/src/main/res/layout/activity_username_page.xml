@@ -6,7 +6,7 @@
     android:id="@+id/username_page"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".username_page">
+    tools:context=".Auth.username_page">
 
 
     <ImageView

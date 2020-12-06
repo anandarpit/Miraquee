@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chatterboi.Preferences;
 import com.example.chatterboi.R;
 import com.squareup.picasso.Picasso;
 

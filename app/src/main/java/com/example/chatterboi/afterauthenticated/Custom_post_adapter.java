@@ -2,22 +2,19 @@ package com.example.chatterboi.afterauthenticated;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chatterboi.Preferences;
+import com.example.chatterboi.SharedPreferences.Preferences;
 import com.example.chatterboi.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,14 +28,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapter.myAdapter> {
 
@@ -127,7 +120,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
             }
 
             final List<LikeModel> list = new ArrayList<>();
-            db.collection("All Posts").document(postModel.docId).collection("Likes").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            db.collection("All Posts").document(postModel.getDocId()).collection("Likes").addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     list.clear();
@@ -151,7 +144,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
                             if(finalFlag == 0) {
                                 Map<String, Object> pp = new HashMap<>();
                                 pp.put("likerId", uid);
-                                db.collection("All Posts").document(postModel.docId).collection("Likes").add(pp).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                db.collection("All Posts").document(postModel.getDocId()).collection("Likes").add(pp).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                         clickTolike.setImageDrawable(null);
@@ -162,7 +155,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
                             if(finalFlag == 1){
                                 Map<String, Object> pp = new HashMap<>();
                                 pp.put("likerId", uid);
-                                db.collection("All Posts").document(postModel.docId).collection("Likes").document(finalCulpritId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                db.collection("All Posts").document(postModel.getDocId()).collection("Likes").document(finalCulpritId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         clickTolike.setImageDrawable(null);

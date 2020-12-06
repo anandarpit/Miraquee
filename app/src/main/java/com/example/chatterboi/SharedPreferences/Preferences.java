@@ -1,4 +1,4 @@
-package com.example.chatterboi;
+package com.example.chatterboi.SharedPreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

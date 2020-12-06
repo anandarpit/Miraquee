@@ -1,4 +1,4 @@
-package com.example.chatterboi;
+package com.example.chatterboi.Auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -15,8 +15,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.chatterboi.SharedPreferences.Preferences;
+import com.example.chatterboi.R;
 import com.example.chatterboi.afterauthenticated.HomePageArpit;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

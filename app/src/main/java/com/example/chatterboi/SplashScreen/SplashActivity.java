@@ -1,4 +1,4 @@
-package com.example.chatterboi;
+package com.example.chatterboi.SplashScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chatterboi.Auth.Log_in;
+import com.example.chatterboi.Auth.Register;
+import com.example.chatterboi.Auth.username_page;
+import com.example.chatterboi.SharedPreferences.Preferences;
 import com.example.chatterboi.afterauthenticated.HomePageArpit;
 
 public class SplashActivity extends AppCompatActivity {
@@ -21,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
         if(Registered.isEmpty() && LoggedIn.isEmpty()){
-            startActivity(new Intent(SplashActivity.this,Register.class));
+            startActivity(new Intent(SplashActivity.this, Register.class));
             finish();
             Log.d("Check", "No Records");
         }

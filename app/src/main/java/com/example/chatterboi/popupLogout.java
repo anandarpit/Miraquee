@@ -6,6 +6,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.chatterboi.R;
+
 public class popupLogout {
 
     Context context;
