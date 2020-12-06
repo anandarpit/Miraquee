@@ -27,34 +27,57 @@ apply plugin: 'com.google.gms.google-services'
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation 'com.google.firebase:firebase-database:16.0.4'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.google.firebase:firebase-firestore:21.4.3'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //Constraint Layout
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+
+    //Coordinator Layout
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+
+    //Material Design
+    implementation 'com.google.android.material:material:1.2.1'
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-firestore:21.4.3'
+    implementation 'com.google.firebase:firebase-database:16.0.4'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.google.firebase:firebase-core:17.5.1'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
     implementation 'com.google.firebase:firebase-ads:19.5.0'
-
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-inappmessaging-display'
     implementation 'com.google.firebase:firebase-analytics'
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    implementation 'com.github.yalantis:ucrop:2.2.6'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation platform('com.google.firebase:firebase-bom:25.12.0')
-    implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+
+    //UCrop
+    implementation 'com.github.yalantis:ucrop:2.2.6'
+
+    //Github
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    //Support
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.squareup.picasso:picasso:2.8'
+
+
     implementation 'com.mikhaellopez:circularimageview:4.2.0'
-    implementation 'id.zelory:compressor:3.0.0'
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+
+    //Multdex
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //Swipe Refresh Layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.8'
 }

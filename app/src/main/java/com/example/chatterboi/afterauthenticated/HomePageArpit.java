@@ -91,6 +91,8 @@ public class HomePageArpit extends AppCompatActivity {
         myViewPager = findViewById(R.id.myViewPager);
         tabLayout = findViewById(R.id.tablayout);
         imageView = findViewById(R.id.icon);
+
+        
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
