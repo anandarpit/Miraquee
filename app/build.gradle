@@ -50,7 +50,6 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
     implementation 'com.google.firebase:firebase-database:16.0.4'
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.google.firebase:firebase-core:17.5.1'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
     implementation 'com.google.firebase:firebase-ads:19.5.0'
@@ -59,6 +58,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.2'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
 
     //UCrop
     implementation 'com.github.yalantis:ucrop:2.2.6'
