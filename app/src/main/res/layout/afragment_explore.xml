@@ -1,36 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".afterauthenticated.Chats">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/myTabLayout"
-        style="@style/ToolbarTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#000000"
-        app:tabIndicatorHeight="1.5dp"
-        app:tabMode="fixed"
-        app:tabRippleColor="@color/cardview_dark_background"
-        app:tabTextColor="#000" />
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/myPager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    <View
+        android:id="@+id/viewChat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/35"
+        android:background="@drawable/view_baackground"
+        app:layout_constraintVertical_bias="0"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myTabLayout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/acme"
+        android:gravity="center"
+        android:padding="30dp"
+        android:text="@string/add_new_contacts"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewChat"
+        app:layout_constraintEnd_toEndOf="@+id/viewChat"
+        app:layout_constraintStart_toStartOf="@+id/viewChat"
+        app:layout_constraintTop_toTopOf="@+id/viewChat" />
+
+    <View
+        android:id="@+id/viewBorder"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-         />
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="#EEEDED"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewChat" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Contacts"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:textColor="#3F51B5"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:fontFamily="@font/bangers"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/viewBorder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewBorder" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

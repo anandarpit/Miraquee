@@ -35,6 +35,8 @@ import com.example.chatterboi.Auth.Register;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -42,13 +44,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomePageArpit extends AppCompatActivity {
 
@@ -100,6 +107,17 @@ public class HomePageArpit extends AppCompatActivity {
 
         String CHANNEL_ID = "MESSAGE";
         String CHANNEL_NAME = "MESSAGE";
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if(task.isSuccessful() && task.getResult() != null){
+                    pref.setData("TOKEN",task.getResult().getToken());
+                    sendFCMTokenToDatabase(task.getResult().getToken());
+                }
+            }
+        });
+
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -199,6 +217,24 @@ public class HomePageArpit extends AppCompatActivity {
         thread.start();
     }
 
+    private void sendFCMTokenToDatabase(String token) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference=db.collection("All Users").document(mUser.getUid());
+        Map<String,Object> user=new HashMap<>();
+        user.put("FCM_token",token);
+        documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(HomePageArpit.this, "Token Updated", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomePageArpit.this, "Token Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -210,14 +246,30 @@ public class HomePageArpit extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.logoutmenu){
 
-            pref.removeData("LoggedIn");
-            pref.removeData("Registered");
-            pref.removeData("usernameAdded");
-            pref.removeData("username");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference documentReference=db.collection("All Users").document(mUser.getUid());
+            Map<String,Object> user=new HashMap<>();
+            user.put("FCM_token", FieldValue.delete());
+            documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(HomePageArpit.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    pref.removeData("LoggedIn");
+                    pref.removeData("Registered");
+                    pref.removeData("usernameAdded");
+                    pref.removeData("username");
+                    pref.removeData("TOKEN");
+                    Intent intent = new Intent(HomePageArpit.this , Register.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(HomePageArpit.this, "Login Faild: "+e.getMessage() , Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            Intent intent = new Intent(HomePageArpit.this , Register.class);
-            startActivity(intent);
-            finish();
         }
         if(item.getItemId() == R.id.profile){
             startActivity(new Intent(this, myProfile.class));
