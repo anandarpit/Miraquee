@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatterboi.SharedPreferences.Preferences;
 import com.example.chatterboi.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +45,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
     FirebaseAuth mAuth;
     String uid;
     Preferences pref;
+    StorageReference storageReference;
     public Custom_post_adapter(List<PostModel> list, Context context) {
         this.list = list;
         this.context = context;
@@ -48,6 +53,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         uid = mAuth.getCurrentUser().getUid();
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     @NonNull
@@ -111,7 +117,15 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
             caption.setText(Html.fromHtml(CaptionWithName));
             name.setText(profileName);
 
-            Picasso.get().load(profileUri).into(profileImage);
+            StorageReference profoleRef = storageReference.child("Profile Photos").child(postModel.getUid());
+            profoleRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Log.d("Check", "Uri has been received");
+                    Picasso.get().load(uri).into(profileImage);
+                }
+            });
+
             Picasso.get().load(postUri).into(postImage);
 
             if(pref.getData(postModel.docId) == "Y"){

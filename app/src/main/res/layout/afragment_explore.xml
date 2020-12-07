@@ -14,7 +14,7 @@
     <View
         android:id="@+id/viewChat"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/35"
+        android:layout_height="80dp"
         android:background="@drawable/view_baackground"
         app:layout_constraintVertical_bias="0"
         android:layout_margin="10dp"

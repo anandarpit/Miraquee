@@ -176,7 +176,7 @@ public class AddPosts extends AppCompatActivity {
                                                     public void run() {
                                                         finish();
                                                     }
-                                                }, 2000);
+                                                }, 1000);
                                             }
                                         });
                                     }
@@ -190,7 +190,7 @@ public class AddPosts extends AppCompatActivity {
                                     public void run() {
                                         finish();
                                     }
-                                }, 2000);
+                                }, 1000);
                             }
                         }
                     });
@@ -206,10 +206,11 @@ public class AddPosts extends AppCompatActivity {
         if(requestCode == 1000 && resultCode == RESULT_OK){
             Uri imageUri = data.getData();
             if(imageUri!= null) {
-                UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )))
-                        .withAspectRatio(1, 1)
-                        .withMaxResultSize(200, 200)
-                        .start(AddPosts.this);
+              UCrop uCrop =  UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )));
+                        uCrop.withAspectRatio(1, 1);
+                        uCrop.withMaxResultSize(1000, 1000);
+                        uCrop.start(AddPosts.this);
+                        uCrop.withOptions(getCropOptions());
             }
         }
         else if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
@@ -217,6 +218,14 @@ public class AddPosts extends AppCompatActivity {
             imageSelected.setImageURI(uri);
             imageSelected.setVisibility(View.VISIBLE);
         }
+    }
+
+    private UCrop.Options getCropOptions() {
+        UCrop.Options options = new UCrop.Options();
+        options.setHideBottomControls(false);
+        options.setCompressionQuality(100);
+        options.setMaxBitmapSize(10000);
+        return options;
     }
 
     private void userpic() {

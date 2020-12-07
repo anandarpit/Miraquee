@@ -7,6 +7,8 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,9 +50,13 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,6 +70,7 @@ public class HomePageArpit extends AppCompatActivity {
     Toolbar toolbar;
     TabLayout tabLayout;
 
+    StorageReference ref;
     FirebaseFirestore firestore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -91,7 +98,7 @@ public class HomePageArpit extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
         imageView = findViewById(R.id.icon);
 
-        
+        pref = new Preferences(getApplicationContext());
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
@@ -159,6 +166,8 @@ public class HomePageArpit extends AppCompatActivity {
             }
         });
 
+        ref = FirebaseStorage.getInstance().getReference().child("Profile Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
         List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
         for(File file : files){
             if(file.getName().equals(uid + ".jpg")){
@@ -169,6 +178,21 @@ public class HomePageArpit extends AppCompatActivity {
                         .into(imageView);
             }
         }
+        File file = new File(getCacheDir() + File.separator + uid + ".jpg");
+        if(!file.exists()){
+            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Toast.makeText(getApplicationContext(), "Uri Downloaded through OnCreate Activity !", Toast.LENGTH_SHORT).show();
+                    Picasso picasso = Picasso.get();
+                    picasso.setIndicatorsEnabled(true);
+                    picasso.load(uri).into(imageView);
+                    loadImage(uri);
+                }
+            });
+            return;
+        }
+
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -186,7 +210,6 @@ public class HomePageArpit extends AppCompatActivity {
         manager.notify(22, notification);
 
 
-        pref = new Preferences(getApplicationContext());
         tabAdapter = new TabAdapter(getSupportFragmentManager());
         myViewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(myViewPager);
@@ -213,6 +236,30 @@ public class HomePageArpit extends AppCompatActivity {
                         }
                     }
                 });
+            }};
+        thread.start();
+    }
+    public void loadImage(final Uri uri){
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Log.d("Checkere", "stuck at file");
+                File file = new File(getCacheDir() + File.separator + uid + ".jpg");
+                Log.d("Checkere", "file" + file);
+                try {
+                    Picasso picasso = Picasso.get();
+                    Bitmap bitmap = picasso.load(uri).get();
+                    Log.d("Checkere", "bitmap working");
+                    FileOutputStream fOut = new FileOutputStream(file);
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 20, out);
+                    out.writeTo(fOut);
+                    fOut.flush();
+                    fOut.close();
+                } catch (Exception e) {
+                    Log.d("Checkere", e.getMessage());
+                    e.printStackTrace();
+                }
             }};
         thread.start();
     }
