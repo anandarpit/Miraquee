@@ -99,9 +99,9 @@ public class HomePageArpit extends AppCompatActivity {
         imageView = findViewById(R.id.icon);
 
         pref = new Preferences(getApplicationContext());
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//        mInterstitialAd = new InterstitialAd(this);
+//        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         setSupportActionBar(toolbar);
 
@@ -321,18 +321,23 @@ public class HomePageArpit extends AppCompatActivity {
         if(item.getItemId() == R.id.profile){
             startActivity(new Intent(this, myProfile.class));
         }
-        if(item.getItemId() == R.id.ads){
-
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-                
-                mInterstitialAd = new InterstitialAd(this);
-                mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
-            }
+        if(item.getItemId() == R.id.addPeople){
+            Intent intent = new Intent(this,AddPeople.class);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
         }
+//        if(item.getItemId() == R.id.ads){
+//
+//            if (mInterstitialAd.isLoaded()) {
+//                mInterstitialAd.show();
+//
+//                mInterstitialAd = new InterstitialAd(this);
+//                mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+//                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//            } else {
+//                Log.d("TAG", "The interstitial wasn't loaded yet.");
+//            }
+//        }
         return true;
     }
 

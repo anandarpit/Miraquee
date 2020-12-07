@@ -20,5 +20,5 @@
     <string name="admin_name">username</string>
     <string name="this_group_is_private">This group is private!</string>
     <string name="request_to_join_or_not">Send join request</string>
-    <string name="add_new_contacts">Any contact you add will display here. Add new contact by searching them in the search bar.</string>
+    <string name="add_new_contacts">Any contact you add will display here. Add new contact by clicking on the add icon.</string>
 </resources>

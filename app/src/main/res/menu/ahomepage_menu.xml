@@ -12,16 +12,16 @@
         android:icon="@drawable/logout"
         app:itemIconTint = "#ffffff"
         app:showAsAction="never"/>
+<!--    <item-->
+<!--        android:id="@+id/ads"-->
+<!--        android:icon="@drawable/ic_advertisement"-->
+<!--        app:showAsAction="always"-->
+<!--        android:title="Support" />-->
     <item
-        android:id="@+id/ads"
-        android:icon="@drawable/ic_advertisement"
+        android:id="@+id/addPeople"
+        android:icon="@drawable/ic_add_white_24dp"
         app:showAsAction="always"
-        android:title="Support" />
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_search"
-        app:showAsAction="always"
-        android:title="Search" />
+        android:title="Add People" />
     <item
         android:id="@+id/notification"
         android:icon="@drawable/ic_notification"

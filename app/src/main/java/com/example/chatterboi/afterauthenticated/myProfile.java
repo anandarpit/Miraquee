@@ -2,11 +2,13 @@ package com.example.chatterboi.afterauthenticated;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -63,7 +65,9 @@ public class myProfile extends AppCompatActivity {
 
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.AddPostStatusBar));
+        }
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

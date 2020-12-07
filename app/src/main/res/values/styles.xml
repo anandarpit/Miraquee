@@ -10,8 +10,8 @@
     </style>
     <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:minWidth">0dip</item>
-        <item name="android:paddingStart">8dip</item>
-        <item name="android:paddingEnd">8dip</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
     </style>
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16sp</item>
