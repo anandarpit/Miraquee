@@ -51,7 +51,7 @@ public class myProfile extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     String uid;
-    TextView groupCount, postCount;
+    TextView groupCount, postCount, username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +62,9 @@ public class myProfile extends AppCompatActivity {
         name.setText(pref.getData("usernameAdded"));
         groupCount = findViewById(R.id.groupCount);
         postCount = findViewById(R.id.postCount);
+        username = findViewById(R.id.usename);
 
+        username.setText(pref.getData("username"));
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         if (Build.VERSION.SDK_INT >= 21) {

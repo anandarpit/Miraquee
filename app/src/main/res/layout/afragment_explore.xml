@@ -51,7 +51,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Contacts"
+        android:text="Contacts "
         android:gravity="center"
         android:textSize="16dp"
         android:textColor="#3F51B5"

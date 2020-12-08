@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchCardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        app:cardCornerRadius="6dp"
+        android:layout_margin="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchConstraint"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/searchChatCiv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:layout_marginVertical="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/group_icon"
+            app:civ_border_color="#3F51B5"
+            app:civ_border_width="2dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="#3F51B5"
+            app:civ_shadow_radius="0dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintStart_toStartOf="@id/searchConstraint"
+            app:layout_constraintTop_toTopOf="@id/searchConstraint"
+            app:layout_constraintBottom_toBottomOf="@id/searchConstraint"/>
+
+        <TextView
+            android:id="@+id/searchname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="45dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/acme"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="@string/group_name"
+            android:textColor="#151515"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/searchChatCiv"
+            app:layout_constraintEnd_toEndOf="@id/searchConstraint"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@id/searchChatCiv"
+            app:layout_constraintTop_toTopOf="@id/searchConstraint"
+            app:layout_constraintVertical_bias="0.17" />
+
+        <TextView
+            android:id="@+id/searchusername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/acme"
+            android:gravity="top"
+            android:paddingHorizontal="10dp"
+            android:text="arpitanand"
+            android:textColor="#959292"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/searchChatCiv"
+            app:layout_constraintEnd_toEndOf="@+id/searchname"
+            app:layout_constraintStart_toStartOf="@+id/searchname"
+            app:layout_constraintTop_toBottomOf="@id/searchname" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_person_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintStart_toEndOf="@+id/searchname"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
