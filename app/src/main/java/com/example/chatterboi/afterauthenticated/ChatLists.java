@@ -1,14 +1,24 @@
 package com.example.chatterboi.afterauthenticated;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class ChatLists {
     String groupname;
     Long time;
     String id;
+    String username;
 
-    public ChatLists(String groupname, String id, Long time) {
+    public ChatLists(String groupname, String id, Long time, String uid) {
         this.groupname = groupname;
         this.time = time;
         this.id = id;
+        this.username = uid;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getGroupname() {

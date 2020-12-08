@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatterboi.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -31,10 +38,16 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
     int i =0;
     StorageReference storageReference;
 
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
+
     public Custom_recycler_adapter(List<ChatLists> list, Context context) {
         this.list = list;
         this.context = context;
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        mAuth =  FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -66,9 +79,13 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
 
         public void bind(final ChatLists chatLists) {
             TextView name = itemView.findViewById(R.id.groupname);
-            CardView cardView = itemView.findViewById(R.id.cardView);
+            ConstraintLayout cardView = itemView.findViewById(R.id.cardView);
             final CircularImageView imageView = itemView.findViewById(R.id.civ);
+            TextView admin = itemView.findViewById(R.id.username);
+
             name.setText(chatLists.getGroupname());
+
+            admin.setText(" @"+chatLists.getUsername());
 
             StorageReference profoleRef = storageReference.child("Groups Photo").child(chatLists.getGroupname());
 

@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.chatterboi.R;
+import com.example.chatterboi.SharedPreferences.Preferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -50,7 +51,7 @@ public class AddGroups extends AppCompatActivity {
     CircularImageView imageView;
     String room;
     Uri imageUri;
-
+    Preferences pref;
     StorageReference storageReference;
 
     @Override
@@ -62,6 +63,7 @@ public class AddGroups extends AppCompatActivity {
         imageView = findViewById(R.id.addimage);
 
 
+        pref = new Preferences(getApplicationContext());
         storageReference= FirebaseStorage.getInstance().getReference();
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +132,7 @@ public class AddGroups extends AppCompatActivity {
                         Map<String, Object> group = new HashMap<>();
                         group.put("group",roomname.getText().toString());
                         group.put("time",System.currentTimeMillis());
-                        group.put("uid", mUser.getUid());
+                        group.put("username", pref.getData("username") );
                         db.collection("aGroups").add(group)
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override

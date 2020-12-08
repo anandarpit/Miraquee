@@ -34,9 +34,6 @@ public class Groups extends Fragment {
 
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    FirebaseUser mUser;
-    ImageSlider imageSlider;
-
 
     public Groups() {
     }
@@ -60,14 +57,14 @@ public class Groups extends Fragment {
 
         final List<ChatLists> list = new ArrayList<>();
 
-        imageSlider = view.findViewById(R.id.imageSlider);
-        List<SlideModel> lista = new ArrayList<>();
-        lista.add(new SlideModel("https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/11/04/622378-cat.jpg","", ScaleTypes.FIT));
-        lista.add(new SlideModel("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*","" +
-                "",ScaleTypes.FIT));
-        lista.add(new SlideModel("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQFTVx3o8xfUiBum_qvU-oSkRpJ0cSeBeK7AQ&usqp=CAU",ScaleTypes.FIT));
-        imageSlider.setImageList(lista,ScaleTypes.FIT);
-        imageSlider.startSliding(2000);
+//        imageSlider = view.findViewById(R.id.imageSlider);
+//        List<SlideModel> lista = new ArrayList<>();
+//        lista.add(new SlideModel("https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/11/04/622378-cat.jpg","", ScaleTypes.FIT));
+//        lista.add(new SlideModel("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*","" +
+//                "",ScaleTypes.FIT));
+//        lista.add(new SlideModel("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQFTVx3o8xfUiBum_qvU-oSkRpJ0cSeBeK7AQ&usqp=CAU",ScaleTypes.FIT));
+//        imageSlider.setImageList(lista,ScaleTypes.FIT);
+//        imageSlider.startSliding(2000);
 
         // Remember Event Listeners are asynchronous so set the Adapter only when the data has been recieved!
         db.collection("aGroups").orderBy("time", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -76,7 +73,7 @@ public class Groups extends Fragment {
                 list.clear();
                 Log.d("Check", "List Cleared Size Current" + list.size());
                 for(QueryDocumentSnapshot snap: value){
-                    list.add(new ChatLists(snap.getString("group"), snap.getId(), snap.getLong("time") ));
+                    list.add(new ChatLists(snap.getString("group"), snap.getId(), snap.getLong("time") , snap.getString("username") ));
                 }
                 Log.d("Check", "Recycler View Created items:" + list.size());
                 recyclerView.setAdapter(new Custom_recycler_adapter(list,getContext())); // this thing

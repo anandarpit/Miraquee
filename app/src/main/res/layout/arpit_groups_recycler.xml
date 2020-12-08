@@ -3,127 +3,136 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="2dp"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="6dp"
+        android:layout_margin="2dp"
         android:layout_marginVertical="2.5dp"
-        android:backgroundTint="#DDEDCB"
-        app:cardCornerRadius="7dp"
+        android:backgroundTint="#FCFCFC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/civ"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:layout_marginVertical="30dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/group_icon"
+            app:civ_border_color="#000000"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="#C0F484"
+            app:civ_shadow_radius="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/civ"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                android:layout_marginVertical="30dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/group_icon"
-                app:civ_border_color="#1A581C"
-                app:civ_border_width="3dp"
-                app:civ_shadow="true"
-                app:civ_shadow_color="#C0F484"
-                app:civ_shadow_radius="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/groupname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/acme"
+            android:gravity="start|top"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="Android Development"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toEndOf="@id/civ"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
 
-            <TextView
-                android:id="@+id/groupname"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="40dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/acme"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="5dp"
-                android:text="@string/group_name"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.05"
-                app:layout_constraintStart_toEndOf="@id/civ"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.1" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/PubPriv"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="5dp"-->
+<!--                        android:src="@drawable/ic_unlock"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/groupname"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/groupname"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/groupname" />-->
 
-            <ImageView
-                android:id="@+id/PubPriv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:src="@drawable/ic_unlock"
-                app:layout_constraintBottom_toBottomOf="@id/groupname"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/groupname"
-                app:layout_constraintTop_toTopOf="@id/groupname" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:src="@drawable/ic_group"-->
+<!--                        android:textColor="#314CE1"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@id/textView2"-->
+<!--                        app:layout_constraintHorizontal_bias="0.9"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/civ"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/groupname"-->
+<!--                        app:layout_constraintVertical_bias="0.0" />-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_group"
-                android:textColor="#314CE1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/textView2"
-                app:layout_constraintHorizontal_bias="0.9"
-                app:layout_constraintStart_toEndOf="@id/civ"
-                app:layout_constraintTop_toBottomOf="@id/groupname"
-                app:layout_constraintVertical_bias="0.0" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="69"-->
+<!--                        android:fontFamily="@font/acme"-->
+<!--                        android:textColor="#476328"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintHorizontal_bias="0.2"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/civ"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/groupname"-->
+<!--                        app:layout_constraintVertical_bias="0" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="69"
-                android:fontFamily="@font/acme"
-                android:textColor="#476328"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintStart_toEndOf="@+id/civ"
-                app:layout_constraintTop_toBottomOf="@id/groupname"
-                app:layout_constraintVertical_bias="0" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:src="@drawable/ic_admin"
-                app:layout_constraintBottom_toBottomOf="@id/username"
-                app:layout_constraintEnd_toStartOf="@id/username"
-                app:layout_constraintHorizontal_bias="1"
-                app:layout_constraintStart_toStartOf="@id/civ"
-                app:layout_constraintTop_toTopOf="@id/username"
-                app:layout_constraintVertical_bias="0.5" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_admin"
+            app:layout_constraintBottom_toBottomOf="@id/username"
+            app:layout_constraintEnd_toStartOf="@id/username"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintStart_toStartOf="@id/civ"
+            app:layout_constraintTop_toTopOf="@id/username" />
 
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/admin_name"
-                android:fontFamily="@font/acme"
-                android:textColor="#3F51B5"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.96"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@id/groupname"
-                app:layout_constraintVertical_bias="0.61" />
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/acme"
+            android:text= "  username"
+            android:textColor="#3F51B5"
+            android:gravity="center"
+            android:paddingBottom="2dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupname"
+            app:layout_constraintVertical_bias="0.7" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#D0CDCD"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
