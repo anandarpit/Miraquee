@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:id="@+id/logout"
     android:layout_height="wrap_content"
+    android:background="#FF2C2B2B"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp">
 
@@ -12,6 +13,7 @@
         android:layout_width="373dp"
         android:layout_height="148dp"
         android:src="@drawable/faceid"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,10 +23,10 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:fontFamily="@font/alegreya"
+        android:fontFamily="@font/acme"
         android:gravity="center"
-        android:layout_marginTop="30dp"
         android:textStyle="bold"
+        android:textColor="#fff"
         android:paddingHorizontal="10dp"
         android:text="Are you sure you want to log out?"
         android:textSize="20dp"
@@ -36,13 +38,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button_resend"
+        android:id="@+id/confirm_logout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@drawable/buttontwo"
-        android:fontFamily="@font/alegreya"
+        android:fontFamily="@font/acme"
         android:paddingHorizontal="10dp"
-        android:layout_marginTop="20dp"
+        android:textStyle="bold"
         android:text="Log out"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="30dp"

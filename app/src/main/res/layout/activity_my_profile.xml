@@ -13,11 +13,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back"
+        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="5dp"
+        android:padding="15dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/buttontwo"
+        android:fontFamily="@font/acme"
+        android:text="Log out"
+        android:textColor="#FFFFFF"
+        android:textSize="12dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintHorizontal_bias="1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/backbutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.14"
+        app:layout_constraintStart_toStartOf="@+id/backbutton"
+        app:layout_constraintTop_toTopOf="@+id/backbutton" />
+
     <TextView
         android:id="@+id/textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bangers"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="Profile"
         android:textColor="#F44336"

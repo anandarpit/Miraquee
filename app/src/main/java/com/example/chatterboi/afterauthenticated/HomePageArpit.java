@@ -63,6 +63,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+
 public class HomePageArpit extends AppCompatActivity {
 
     FloatingActionButton fab;
@@ -291,40 +293,48 @@ public class HomePageArpit extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.logoutmenu){
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference documentReference=db.collection("All Users").document(mUser.getUid());
-            Map<String,Object> user=new HashMap<>();
-            user.put("FCM_token", FieldValue.delete());
-            documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(HomePageArpit.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                    pref.removeData("LoggedIn");
-                    pref.removeData("Registered");
-                    pref.removeData("usernameAdded");
-                    pref.removeData("username");
-                    pref.removeData("TOKEN");
-                    Intent intent = new Intent(HomePageArpit.this , Register.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(HomePageArpit.this, "Login Faild: "+e.getMessage() , Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
+//        if(item.getItemId() == R.id.logoutmenu){
+//
+//            FirebaseFirestore db = FirebaseFirestore.getInstance();
+//            DocumentReference documentReference=db.collection("All Users").document(mUser.getUid());
+//            Map<String,Object> user=new HashMap<>();
+//            user.put("FCM_token", FieldValue.delete());
+//            documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                @Override
+//                public void onSuccess(Void aVoid) {
+//                    Toast.makeText(HomePageArpit.this, "Login Successful", Toast.LENGTH_SHORT).show();
+//                    pref.removeData("LoggedIn");
+//                    pref.removeData("Registered");
+//                    pref.removeData("usernameAdded");
+//                    pref.removeData("username");
+//                    pref.removeData("TOKEN");
+//                    Intent intent = new Intent(HomePageArpit.this , Register.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Toast.makeText(HomePageArpit.this, "Login Faild: "+e.getMessage() , Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//        }
         if(item.getItemId() == R.id.profile){
-            startActivity(new Intent(this, myProfile.class));
+            Intent intent = new Intent(this, myProfile.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
         if(item.getItemId() == R.id.addPeople){
             Intent intent = new Intent(this,AddPeople.class);
             startActivity(intent);
             overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+        }
+        if(item.getItemId() == R.id.requests){
+            Intent intent = new Intent(this, RequestsAndSents.class);
+            intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         }
 //        if(item.getItemId() == R.id.ads){
 //

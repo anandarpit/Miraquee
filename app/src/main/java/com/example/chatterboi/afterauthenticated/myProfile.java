@@ -1,27 +1,36 @@
 package com.example.chatterboi.afterauthenticated;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.chatterboi.SharedPreferences.Preferences;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.example.chatterboi.Auth.Register;
 import com.example.chatterboi.R;
+import com.example.chatterboi.SharedPreferences.Preferences;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,19 +47,22 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class myProfile extends AppCompatActivity {
     TextView name;
     CircularImageView profilepic;
     Preferences pref;
+    Button logout;
     Uri downloadUri;
     StorageReference ref;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    FirebaseUser mUser;
     String uid;
+    ImageView back;
     TextView groupCount, postCount, username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,19 +75,20 @@ public class myProfile extends AppCompatActivity {
         groupCount = findViewById(R.id.groupCount);
         postCount = findViewById(R.id.postCount);
         username = findViewById(R.id.usename);
+        back = findViewById(R.id.backbutton);
+        logout = findViewById(R.id.logout);
+
+        logout.setOnClickListener(view -> confirmLogout());
+
+        back.setOnClickListener(view -> finish());
 
         username.setText(pref.getData("username"));
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.AddPostStatusBar));
-        }
-        profilepic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(openGallery,1000);
-            }
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.AddPostStatusBar));
+        profilepic.setOnClickListener(view -> {
+            Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(openGallery,1000);
         });
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -102,33 +115,57 @@ public class myProfile extends AppCompatActivity {
 
         File file = new File(getCacheDir() + File.separator + uid + ".jpg");
         if(!file.exists()){
-            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Toast.makeText(getApplicationContext(), "Uri Downloaded through OnCreate Activity !", Toast.LENGTH_SHORT).show();
-                    Picasso picasso = Picasso.get();
-                    picasso.setIndicatorsEnabled(true);
-                    picasso.load(uri).into(profilepic);
-                    loadImage(uri);
-                }
+            ref.getDownloadUrl().addOnSuccessListener(uri -> {
+                Toast.makeText(getApplicationContext(), "Uri Downloaded through OnCreate Activity !", Toast.LENGTH_SHORT).show();
+                Picasso picasso = Picasso.get();
+                picasso.setIndicatorsEnabled(true);
+                picasso.load(uri).into(profilepic);
+                loadImage(uri);
             });
-            return;
         }
+    }
+
+    private void confirmLogout() {
+        AlertDialog.Builder builder;
+        AlertDialog dialog;
+        builder = new AlertDialog.Builder(myProfile.this,R.style.myDialog);
+        LayoutInflater inflater = (LayoutInflater) myProfile.this.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View view = inflater.inflate(R.layout.popup_logout,null);
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
+
+        Button logout = view.findViewById(R.id.confirm_logout);
+        logout.setOnClickListener(view1 -> {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference documentReference=db.collection("All Users").document(uid);
+            Map<String,Object> user=new HashMap<>();
+            user.put("FCM_token", FieldValue.delete());
+            documentReference.update(user).addOnSuccessListener(aVoid -> {
+                Toast.makeText(myProfile.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                pref.removeData("LoggedIn");
+                pref.removeData("Registered");
+                pref.removeData("usernameAdded");
+                pref.removeData("username");
+                pref.removeData("TOKEN");
+                Intent intent = new Intent(myProfile.this , Register.class);
+                startActivity(intent);
+                finish();
+            }).addOnFailureListener(e -> Toast.makeText(myProfile.this, "Login Faild: "+e.getMessage() , Toast.LENGTH_SHORT).show());
+        });
     }
 
     private void getPostsCount() {
         db.collection("All Users")
                 .document(uid)
-                .collection("No Of Posts").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                int postCoun = 0 ;
-                for(QueryDocumentSnapshot ignored : value){
-                    postCoun = postCoun +1;
-                    postCount.setText(Integer.toString(postCoun));
-                }
-            }
-        });
+                .collection("No Of Posts").addSnapshotListener((value, error) -> {
+                    int postCoun = 0 ;
+                    for(QueryDocumentSnapshot ignored : value){
+                        postCoun = postCoun +1;
+                        postCount.setText(Integer.toString(postCoun));
+                    }
+                });
     }
 
     private void getGroupCount() {
@@ -218,5 +255,10 @@ public class myProfile extends AppCompatActivity {
         options.setCompressionQuality(100);
         options.setMaxBitmapSize(10000);
         return options;
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

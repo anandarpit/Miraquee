@@ -2,16 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/profile"
-        app:showAsAction="never"
-        android:title="Profile" />
 
-    <item android:id="@+id/logoutmenu"
-        android:title= "Log Out"
-        android:icon="@drawable/logout"
-        app:itemIconTint = "#ffffff"
-        app:showAsAction="never"/>
+
+<!--    <item android:id="@+id/logoutmenu"-->
+<!--        android:title= "Log Out"-->
+<!--        android:icon="@drawable/logout"-->
+<!--        app:itemIconTint = "#ffffff"-->
+<!--        app:showAsAction="never"/>-->
 <!--    <item-->
 <!--        android:id="@+id/ads"-->
 <!--        android:icon="@drawable/ic_advertisement"-->
@@ -23,8 +20,13 @@
         app:showAsAction="always"
         android:title="Add People" />
     <item
-        android:id="@+id/notification"
-        android:icon="@drawable/ic_notification"
+        android:id="@+id/requests"
+        android:icon="@drawable/ic_bino"
         app:showAsAction="always"
-        android:title="Notifications" />
+        android:title="Requests" />
+    <item
+        android:id="@+id/profile"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_user"
+        android:title="Profile" />
 </menu>
