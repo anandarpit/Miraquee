@@ -1,6 +1,7 @@
  package com.example.chatterboi.afterauthenticated;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +47,8 @@ public class Posts extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     RecyclerView recyclerView;
-
+    SwipeRefreshLayout swipeRefreshLayout;
+    Context context;
     int flag;
     public Posts() {
     }
@@ -55,50 +58,64 @@ public class Posts extends Fragment {
         super.onCreate(savedInstanceState);
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        context = getContext();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.afragment_posts, container, false);
-final Context context = getContext();
+
         recyclerView = view.findViewById(R.id.post_recycleView);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        final List<PostModel> list = new ArrayList<>();
-        db.collection("All Posts").orderBy("time", Query.Direction.DESCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        list.clear();
-                        for(QueryDocumentSnapshot snap: value) {
-                            String profilePic, postPic;
-                            String name,text,time,uid;
-                            String docId = snap.getId();
-                            name = snap.getString("name");
-                            text = snap.getString("Text of Post");
-                            time = snap.getLong("time").toString();
-                            uid = snap.getString("userid");
-                            profilePic = snap.getString("profileUrl");
-                            postPic = snap.getString("postUrl");
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(
+                R.color.colorPrimaryDark
+        ));
+        swipeRefreshLayout.setOnRefreshListener(this::getPost);
 
-
-                            list.add(new PostModel(
-                                    name,
-                                    text,
-                                    time,
-                                    profilePic,
-                                    postPic,
-                                    uid,
-                                    docId
-                            ));
-                        }
-                        Log.d("XXX", "Recycler View Created items:" + list.size());
-                    recyclerView.setAdapter(new Custom_post_adapter(list,context ));
-                    }
-                });
-
+        getPost();
         return  view;
     }
 
+    private void getPost() {
+        swipeRefreshLayout.setRefreshing(true);
+        final List<PostModel> list = new ArrayList<>();
+        db.collection("All Posts").orderBy("time", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.getResult() != null && task.isSuccessful())
+                        {
+                            list.clear();
+                            for(QueryDocumentSnapshot snap: task.getResult()) {
+                                String profilePic, postPic;
+                                String name,text,time,uid;
+                                String docId = snap.getId();
+                                name = snap.getString("name");
+                                text = snap.getString("Text of Post");
+                                time = snap.getLong("time").toString();
+                                uid = snap.getString("userid");
+                                profilePic = snap.getString("profileUrl");
+                                postPic = snap.getString("postUrl");
+
+                                list.add(new PostModel(
+                                        name,
+                                        text,
+                                        time,
+                                        profilePic,
+                                        postPic,
+                                        uid,
+                                        docId
+                                ));
+                            }
+                            Log.d("XXX", "Recycler View Created items:" + list.size());
+                            recyclerView.setAdapter(new Custom_post_adapter(list,context ));
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                });
+    }
 }

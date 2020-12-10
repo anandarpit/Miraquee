@@ -30,6 +30,7 @@ public class comments extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         CommentList.setLayoutManager(linearLayoutManager);
 
+
         CommentInputText = findViewById(R.id.comment_input);
         ImageButton send_image= findViewById(R.id.send_img);
     }

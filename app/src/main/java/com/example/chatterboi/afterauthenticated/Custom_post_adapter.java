@@ -97,7 +97,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
                  @Override
                  public void onClick(View view) {
                     Intent comment_intent = new Intent(context,comments.class);
-                    comment_intent.putExtra("POST_KEY","POST_KEY");
+                    comment_intent.putExtra("POST_KEY",postModel.getDocId());
                     context.startActivity(comment_intent);
 
 
