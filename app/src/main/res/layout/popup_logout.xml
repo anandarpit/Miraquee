@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:fontFamily="@font/acme"
         android:gravity="center"
         android:textStyle="bold"
@@ -40,7 +40,7 @@
     <Button
         android:id="@+id/confirm_logout"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="40dp"
         android:background="@drawable/buttontwo"
         android:fontFamily="@font/acme"
         android:paddingHorizontal="10dp"
@@ -48,7 +48,7 @@
         android:text="Log out"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="30dp"
-        android:textSize="19dp"
+        android:textSize="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text"

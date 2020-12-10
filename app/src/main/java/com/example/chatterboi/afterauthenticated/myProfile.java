@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import com.example.chatterboi.Auth.Register;
 import com.example.chatterboi.R;
 import com.example.chatterboi.SharedPreferences.Preferences;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,8 +52,9 @@ import java.util.Map;
 
 public class myProfile extends AppCompatActivity {
     TextView name;
-    CircularImageView profilepic;
+    ImageView changeprofilepic;
     Preferences pref;
+    CircularImageView profilepic;
     Button logout;
     Uri downloadUri;
     StorageReference ref;
@@ -69,12 +68,13 @@ public class myProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         name = findViewById(R.id.userName);
-        profilepic = findViewById(R.id.profilepic);
+        changeprofilepic = findViewById(R.id.changeprofilepic);
         pref = new Preferences(getApplicationContext());
         name.setText(pref.getData("usernameAdded"));
         groupCount = findViewById(R.id.groupCount);
         postCount = findViewById(R.id.postCount);
         username = findViewById(R.id.usename);
+        profilepic = findViewById(R.id.profilepic);
         back = findViewById(R.id.backbutton);
         logout = findViewById(R.id.logout);
 
@@ -82,11 +82,11 @@ public class myProfile extends AppCompatActivity {
 
         back.setOnClickListener(view -> finish());
 
-        username.setText(pref.getData("username"));
+        username.setText("@"+pref.getData("username"));
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.AddPostStatusBar));
-        profilepic.setOnClickListener(view -> {
+        changeprofilepic.setOnClickListener(view -> {
             Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(openGallery,1000);
         });

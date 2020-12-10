@@ -70,13 +70,25 @@
         app:civ_border_color="#3F51B5"
         app:civ_border_width="0dp"
         app:civ_shadow="true"
-        app:civ_shadow_radius="8dp"
         app:civ_shadow_color="#2196F3"
+        app:civ_shadow_radius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/cardviewforpost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview" />
+
+    <ImageView
+        android:id="@+id/changeprofilepic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintBottom_toBottomOf="@+id/profilepic"
+        app:layout_constraintEnd_toEndOf="@+id/profilepic"
+        app:layout_constraintStart_toStartOf="@+id/profilepic"
+        app:layout_constraintTop_toTopOf="@+id/profilepic" />
 
     <TextView
         android:id="@+id/userName"
