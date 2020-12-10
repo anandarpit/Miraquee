@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chatterboi.R;
+import com.example.chatterboi.SharedPreferences.Preferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +44,7 @@ public class AddPeople extends AppCompatActivity {
     List<SearchModel> list;
     String searchTerm;
     TextView totalsearchResults;
+    Preferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class AddPeople extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+        preferences = new Preferences(getApplicationContext());
         list = new ArrayList<>();
 
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -85,6 +88,7 @@ public class AddPeople extends AppCompatActivity {
 
     private void performSearch() {
         db.collection("All Users").whereGreaterThanOrEqualTo("username",searchTerm)
+                .whereNotEqualTo("username",preferences.getData("username"))
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
