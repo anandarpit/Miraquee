@@ -4,17 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".afterauthenticated.RequestsAndSents">
+    android:background="#2C2B2B"
+    tools:context=".afterauthenticated.Requests">
+
+    <ImageView
+        android:id="@+id/goBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="5dp"
+        android:padding="15dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Go Back"
+        android:focusable="true" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textvie243"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/amaranth"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/bangers"
         android:gravity="center"
-        android:text="ADD REQUESTS"
+        android:text="REQUESTS"
         android:textColor="#F44336"
-        android:textSize="32dp"
+        android:textSize="42dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,42 +43,75 @@
     <View
         android:id="@+id/view6"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="#C6C4C4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="15dp"
+        android:background="#3E3D3D"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.01" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:fontFamily="@font/acme"
-        android:text="All"
-        android:textColor="#2196F3"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view6"
+        app:layout_constraintTop_toBottomOf="@+id/textvie243"
         app:layout_constraintVertical_bias="0" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="15dp"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view6"
+        app:layout_constraintVertical_bias="0">
+
+        <Button
+            android:id="@+id/all"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_margin="3dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button_new_unpressed"
+            android:fontFamily="@font/acme"
+            android:text="All"
+            android:textAllCaps="false"
+            android:textColor="#2196F3" />
+
+        <Button
+            android:id="@+id/sent"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:layout_margin="3dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button_new_unpressed"
+            android:fontFamily="@font/acme"
+            android:text="Sent"
+            android:textAllCaps="false"
+            android:textColor="#2196F3" />
+
+        <Button
+            android:id="@+id/recieved"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_margin="3dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button_new_unpressed"
+            android:fontFamily="@font/acme"
+            android:text="Received"
+            android:textAllCaps="false"
+            android:textColor="#2196F3" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/addrequestrecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingHorizontal="5dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,8 +33,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.chatterboi.SharedPreferences.Preferences;
 import com.example.chatterboi.R;
-import com.example.chatterboi.Auth.Register;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,7 +44,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -331,7 +328,7 @@ public class HomePageArpit extends AppCompatActivity {
             overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
         }
         if(item.getItemId() == R.id.requests){
-            Intent intent = new Intent(this, RequestsAndSents.class);
+            Intent intent = new Intent(this, Requests.class);
             intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         }

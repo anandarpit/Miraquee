@@ -85,7 +85,7 @@ public class myProfile extends AppCompatActivity {
         username.setText("@"+pref.getData("username"));
         mAuth =  FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.AddPostStatusBar));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.statusbacground));
         changeprofilepic.setOnClickListener(view -> {
             Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(openGallery,1000);

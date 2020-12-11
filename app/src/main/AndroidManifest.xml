@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".afterauthenticated.RequestsAndSents"></activity>
+        <activity android:name=".afterauthenticated.Requests"></activity>
         <activity android:name=".afterauthenticated.AddPeople" />
         <activity android:name=".afterauthenticated.comments" />
         <activity
