@@ -44,7 +44,7 @@
         android:layout_height="0dp"
         android:clickable="true"
         android:contextClickable="false"
-        android:src="@drawable/back"
+        android:src="@drawable/ic_back_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="100:80"
         app:layout_constraintEnd_toEndOf="parent"

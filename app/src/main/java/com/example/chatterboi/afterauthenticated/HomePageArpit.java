@@ -293,7 +293,6 @@ public class HomePageArpit extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
 //        if(item.getItemId() == R.id.logoutmenu){
 //
 //            FirebaseFirestore db = FirebaseFirestore.getInstance();

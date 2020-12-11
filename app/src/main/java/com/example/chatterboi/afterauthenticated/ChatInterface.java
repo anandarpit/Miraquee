@@ -94,7 +94,7 @@ public class ChatInterface extends AppCompatActivity {
         uid = mUser.getUid();
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_green);
             setTitle(Gname);
         }
 
