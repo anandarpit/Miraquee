@@ -36,6 +36,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+
 public class Register extends AppCompatActivity {
     MaterialEditText email, password, cnfpassword;
     Button register, signin;
@@ -74,7 +76,9 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 Uri uri;
                 Intent intent = new Intent(Register.this, Log_in.class);
+                intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
+
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +154,9 @@ public class Register extends AppCompatActivity {
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("Email", uEmail);
                                     intent.putExtra("Pass",uPass);
+                                    intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(intent);
+
                                     finish();
                                 }
                             }, 2500);
@@ -171,7 +177,10 @@ public class Register extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,0);
     }
 }

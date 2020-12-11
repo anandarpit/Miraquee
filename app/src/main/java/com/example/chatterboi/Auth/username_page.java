@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+
 public class username_page extends AppCompatActivity {
     ImageView back;
     Button join;
@@ -141,11 +143,18 @@ public class username_page extends AppCompatActivity {
                             intent.putExtra("Name", Name);
                             intent.putExtra("Email", Email);
                             intent.putExtra("Pass", Pass);
+                            intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(intent);
+
                             finish();
                         }},1500);
                 }
             }
         });
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,0);
     }
 }

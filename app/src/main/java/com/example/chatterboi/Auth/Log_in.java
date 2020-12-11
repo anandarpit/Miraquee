@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chatterboi.SharedPreferences.Preferences;
@@ -34,6 +35,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+
 public class Log_in extends AppCompatActivity {
 
     private AlertDialog.Builder builder;
@@ -43,6 +46,7 @@ public class Log_in extends AppCompatActivity {
     FirebaseUser users;
     FirebaseFirestore db;
     Button log;
+    ImageView back;
     Preferences pref;
     String userId;
     ConstraintLayout log_in;
@@ -58,6 +62,14 @@ public class Log_in extends AppCompatActivity {
         pass= findViewById(R.id.login_password);
         log_in = findViewById(R.id.log_in);
         newuser = findViewById(R.id.new_user);
+        back = findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         pref = new Preferences(getApplicationContext());
 
@@ -68,7 +80,9 @@ public class Log_in extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Log_in.this, Register.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
+
                 finish();
             }
         });
@@ -174,7 +188,9 @@ public class Log_in extends AppCompatActivity {
 
                                         Intent intent = new Intent(Log_in.this, HomePageArpit.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                                         startActivity(intent);
+
                                         finish();
                                     }
                                 }, 1500);
@@ -194,4 +210,9 @@ public class Log_in extends AppCompatActivity {
             }
         });
             }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,0);
+    }
 }

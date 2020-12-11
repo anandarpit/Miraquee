@@ -50,7 +50,7 @@
                     android:gravity="left|center"
                     android:paddingLeft="4dp"
                     android:fontFamily="@font/acme"
-                    android:text="Chatter-Boi"
+                    android:text="Miraquee"
                     android:textColor="#fff"
                     android:textSize="20dp" />
 
