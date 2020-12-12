@@ -66,10 +66,9 @@
 
         <Button
             android:id="@+id/all"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
             android:layout_margin="3dp"
-            android:layout_marginLeft="20dp"
             android:background="@drawable/button_new_unpressed"
             android:fontFamily="@font/acme"
             android:text="All"
@@ -78,7 +77,7 @@
 
         <Button
             android:id="@+id/sent"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="26dp"
             android:layout_margin="3dp"
             android:layout_marginLeft="20dp"

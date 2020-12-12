@@ -99,8 +99,9 @@ public class AddPosts extends AppCompatActivity {
                     return;
                 }
                 else{
-                    final ProgressDialog dialog = new ProgressDialog(AddPosts.this);
+                    ProgressDialog dialog = new ProgressDialog(AddPosts.this);
                     dialog.setMessage("Posting...");
+                    dialog.setCancelable(false);
                     dialog.show();
 
                     Map<String, Object> post = new HashMap<>();

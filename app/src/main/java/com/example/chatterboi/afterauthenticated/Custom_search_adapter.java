@@ -1,5 +1,6 @@
 package com.example.chatterboi.afterauthenticated;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -88,6 +89,7 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
             image = itemView.findViewById(R.id.searchChatCiv);
             addContact = itemView.findViewById(R.id.addContact);
 
+
             //to denote the users signs when start up
             db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
                     .document(uid).get()
@@ -116,6 +118,7 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
             addContact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     //same thing but only when the user presses it
                     db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
                             .document(uid).get()
@@ -125,11 +128,10 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
                             Boolean status = documentSnapshot.getBoolean("Status");
                             if(status == null){
                                 sendContactRequest(searchModel);
-                                Toast.makeText(context, "Request Sent", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 if(status == false) {
-                                    Toast.makeText(context, "Request in Pending State", Toast.LENGTH_SHORT).show();
+                                    removeRequest(searchModel);
                                 }
                                 if(status == true){
                                     Toast.makeText(context, "Already Friends", Toast.LENGTH_SHORT).show();
@@ -155,6 +157,59 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
                 public void onSuccess(Uri uri) {
                     Log.d("Check", "Uri has been received");
                     Picasso.get().load(uri).into(image);
+                }
+            });
+        }
+
+        private void removeRequest(SearchModel searchModel) {
+            db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
+                    .document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    String SorR = documentSnapshot.getString("SentOrRecieved");
+                    if(SorR.equals("R")){
+                        db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
+                                .document(uid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                removeFromMyContactList(searchModel);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+
+        }
+
+        private void removeFromMyContactList(SearchModel searchModel) {
+            db.collection("All Users").document(uid).collection("Contacts")
+                    .document(searchModel.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    addContact.setEnabled(false);
+                    addContact.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addContact.setEnabled(true);
+                        }
+                    }, 500);
+                    addContact.setBackgroundResource(R.drawable.ic_person_add);
+                    Toast.makeText(context, "Request Deleted", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -191,7 +246,14 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
             documentReference.set(request, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-
+                    addContact.setEnabled(false);
+                    addContact.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addContact.setEnabled(true);
+                        }
+                    }, 500);
+                    Toast.makeText(context, "Request Sent", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
