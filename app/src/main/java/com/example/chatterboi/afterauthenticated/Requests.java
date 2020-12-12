@@ -96,6 +96,23 @@ public class Requests extends AppCompatActivity {
     }
 
     private void receivedList() {
+        inflateButton(received);
+        collapseButton(all);
+        collapseButton(sent);
+        List<Requestmodel> receivedList = new ArrayList<>();
+        db.collection("All Users").document(uid).collection("Contacts")
+                .whereEqualTo("Status",false)
+                .whereEqualTo("SentOrRecieved","S")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        receivedList.clear();
+                        for(QueryDocumentSnapshot snap: value){
+                            receivedList.add(new Requestmodel(snap.getString("OpponentUid"),snap.getString("SentOrRecieved"), snap.getBoolean("Status")));
+                        }
+                        recyclerView.setAdapter(new RequestRecyclerInterface(receivedList,getApplicationContext()));
+                    }
+                });
     }
 
     private void allList() {
