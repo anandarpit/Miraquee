@@ -6,30 +6,52 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_adapter.myAdapter> {
     List<SearchModel> list;
     Context context;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    String uid;
 
     StorageReference storageReference;
 
     public Custom_search_adapter(List<SearchModel> list, Context context) {
         this.list = list;
         this.context = context;
+        db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+        mAuth =  FirebaseAuth.getInstance();
+        uid = mAuth.getCurrentUser().getUid();
     }
 
     @NonNull
@@ -55,6 +77,7 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
     class myAdapter extends RecyclerView.ViewHolder {
         TextView name, username;
         CircularImageView image;
+        Button addContact;
         public myAdapter(@NonNull View itemView) {
             super(itemView);
         }
@@ -63,7 +86,66 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
             name =itemView.findViewById(R.id.searchname);
             username = itemView.findViewById(R.id.searchusername);
             image = itemView.findViewById(R.id.searchChatCiv);
+            addContact = itemView.findViewById(R.id.addContact);
 
+            //to denote the users signs when start up
+            db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
+                    .document(uid).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Boolean status = documentSnapshot.getBoolean("Status");
+                            if(status == null){
+                            }
+                            else{
+                                if(status == false) {
+                                    addContact.setBackgroundResource(R.drawable.ic_doble_tick);
+                                }
+                                if(status == true){
+                                    addContact.setBackgroundResource(R.drawable.ic_friends);
+                                }
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            addContact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //same thing but only when the user presses it
+                    db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
+                            .document(uid).get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Boolean status = documentSnapshot.getBoolean("Status");
+                            if(status == null){
+                                sendContactRequest(searchModel);
+                                Toast.makeText(context, "Request Sent", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                if(status == false) {
+                                    Toast.makeText(context, "Request in Pending State", Toast.LENGTH_SHORT).show();
+                                }
+                                if(status == true){
+                                    Toast.makeText(context, "Already Friends", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+
+            //For Name, username, and Profile Pic
             name.setText(searchModel.getName());
             username.setText("@"+searchModel.getUsername());
 
@@ -73,6 +155,48 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
                 public void onSuccess(Uri uri) {
                     Log.d("Check", "Uri has been received");
                     Picasso.get().load(uri).into(image);
+                }
+            });
+        }
+
+        private void sendContactRequest(SearchModel searchModel) {
+
+            DocumentReference documentReference = db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
+                    .document(uid);
+            Map<String, Object> request = new HashMap<>();
+            request.put("SentOrRecieved","R");
+            request.put("OpponentUid",uid);
+            request.put("Status",false);
+            documentReference.set(request, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    addContact.setBackgroundResource(R.drawable.ic_doble_tick);
+                    updateMyContactlist(searchModel);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void updateMyContactlist(SearchModel searchModel) {
+            DocumentReference documentReference = db.collection("All Users").document(uid).collection("Contacts")
+                    .document(searchModel.getUid());
+            Map<String, Object> request = new HashMap<>();
+            request.put("SentOrRecieved","S");
+            request.put("OpponentUid",searchModel.getUid());
+            request.put("Status",false);
+            documentReference.set(request, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -158,7 +158,9 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
                             if(finalFlag == 0) {
                                 Map<String, Object> pp = new HashMap<>();
                                 pp.put("likerId", uid);
-                                db.collection("All Posts").document(postModel.getDocId()).collection("Likes").add(pp).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                db.collection("All Posts").document(postModel.getDocId()).collection("Likes")
+                                        .add(pp)
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                         clickTolike.setImageDrawable(null);

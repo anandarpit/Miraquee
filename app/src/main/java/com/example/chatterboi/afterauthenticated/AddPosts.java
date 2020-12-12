@@ -84,7 +84,6 @@ public class AddPosts extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         uid = mAuth.getCurrentUser().getUid();
 
-
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
