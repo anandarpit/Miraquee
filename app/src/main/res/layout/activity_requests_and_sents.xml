@@ -24,6 +24,18 @@
         android:contentDescription="Go Back"
         android:focusable="true" />
 
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_info"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="@id/textvie243"
+        app:layout_constraintBottom_toBottomOf="@id/textvie243"
+        app:layout_constraintTop_toTopOf="@id/textvie243"
+        app:layout_constraintEnd_toEndOf="@id/textvie243"/>
+
+
     <TextView
         android:id="@+id/textvie243"
         android:layout_width="match_parent"

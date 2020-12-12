@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.R;
+import com.example.chatterboi.SharedPreferences.Preferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,12 +44,14 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String uid;
+    Preferences prefs;
 
     StorageReference storageReference;
 
     public Custom_search_adapter(List<SearchModel> list, Context context) {
         this.list = list;
         this.context = context;
+        prefs = new Preferences(context);
         db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         mAuth =  FirebaseAuth.getInstance();
@@ -222,6 +225,8 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
             request.put("SentOrRecieved","R");
             request.put("OpponentUid",uid);
             request.put("Status",false);
+            request.put("OpponentUsername", prefs.getData("username"));
+            request.put("OpponentName", prefs.getData("usernameAdded"));
             documentReference.set(request, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -243,6 +248,8 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
             request.put("SentOrRecieved","S");
             request.put("OpponentUid",searchModel.getUid());
             request.put("Status",false);
+            request.put("OpponentUsername",searchModel.getUsername());
+            request.put("OpponentName", searchModel.getName());
             documentReference.set(request, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
