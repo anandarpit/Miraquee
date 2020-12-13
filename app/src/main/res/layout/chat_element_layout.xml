@@ -32,9 +32,10 @@
         app:layout_constraintTop_toTopOf="@id/constraint" />
 
     <TextView
-        android:id="@+id/groupname"
+        android:id="@+id/contactname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="100dp"
         android:ellipsize="end"
         android:fontFamily="@font/acme"
@@ -44,13 +45,31 @@
         android:textColor="#151515"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toBottomOf="@id/ChatCiv"
         app:layout_constraintEnd_toEndOf="@id/constraint"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toEndOf="@id/ChatCiv"
         app:layout_constraintTop_toTopOf="@id/constraint"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.18" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/acme"
+        android:paddingHorizontal="10dp"
+        android:text="user@name"
+        android:gravity="start|top"
+        android:textColor="#888888"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/contactname"
+        app:layout_constraintStart_toStartOf="@+id/contactname"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 
     <ImageView
         android:id="@+id/makeAudioCall"
@@ -60,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/ChatCiv"
         app:layout_constraintEnd_toEndOf="@id/constraint"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@+id/groupname"
+        app:layout_constraintStart_toEndOf="@+id/contactname"
         app:layout_constraintTop_toTopOf="@+id/ChatCiv"
         app:layout_constraintVertical_bias="0.5" />
 

@@ -1,6 +1,5 @@
 package com.example.chatterboi.afterauthenticated;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -16,17 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.R;
 import com.example.chatterboi.SharedPreferences.Preferences;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -36,9 +30,8 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
-public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_adapter.myAdapter> {
+public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycler_adapter.myAdapter> {
     List<SearchModel> list;
     Context context;
     FirebaseFirestore db;
@@ -48,7 +41,7 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
 
     StorageReference storageReference;
 
-    public Custom_search_adapter(List<SearchModel> list, Context context) {
+    public Search_recycler_adapter(List<SearchModel> list, Context context) {
         this.list = list;
         this.context = context;
         prefs = new Preferences(context);
@@ -60,16 +53,16 @@ public class Custom_search_adapter extends RecyclerView.Adapter<Custom_search_ad
 
     @NonNull
     @Override
-    public Custom_search_adapter.myAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Search_recycler_adapter.myAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.chat_search_element,
                         parent,
                         false);
-        return new Custom_search_adapter.myAdapter(view);
+        return new Search_recycler_adapter.myAdapter(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Custom_search_adapter.myAdapter holder, int position) {
+    public void onBindViewHolder(@NonNull Search_recycler_adapter.myAdapter holder, int position) {
         holder.bind(list.get(position));
     }
 

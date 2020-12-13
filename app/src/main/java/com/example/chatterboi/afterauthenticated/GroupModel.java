@@ -1,11 +1,11 @@
 package com.example.chatterboi.afterauthenticated;
 
-public class ChatModel {
+public class GroupModel {
 
     String GroupId, messageId, message, userId , name, username, type;
     Long time;
 
-    public ChatModel(String groupId, String messageId, String message, String userId, Long time, String name, String username, String type) {
+    public GroupModel(String groupId, String messageId, String message, String userId, Long time, String name, String username, String type) {
         GroupId = groupId;
         this.messageId = messageId;
         this.message = message;

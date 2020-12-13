@@ -48,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChatInterface extends AppCompatActivity {
+public class GroupChatInterface extends AppCompatActivity {
 
     String Gname, Gid, time_created;
 
@@ -118,7 +118,7 @@ public class ChatInterface extends AppCompatActivity {
                             .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(ChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GroupChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
                             showChatMessages();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -140,7 +140,7 @@ public class ChatInterface extends AppCompatActivity {
                         "Pdf",
                         "Document"
                 };
-                AlertDialog.Builder builder= new AlertDialog.Builder(ChatInterface.this);
+                AlertDialog.Builder builder= new AlertDialog.Builder(GroupChatInterface.this);
                 builder.setTitle("Choose the type");
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
@@ -166,11 +166,11 @@ public class ChatInterface extends AppCompatActivity {
             UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )))
                     .withAspectRatio(200, 230)
                     .withMaxResultSize(200, 230)
-                    .start(ChatInterface.this);
+                    .start(GroupChatInterface.this);
         }
         if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
             Uri uri = UCrop.getOutput(data);
-            final ProgressDialog dialog = new ProgressDialog(ChatInterface.this);
+            final ProgressDialog dialog = new ProgressDialog(GroupChatInterface.this);
             dialog.setMessage("Posting...");
             dialog.show();
             final Long currentTime = System.currentTimeMillis();
@@ -232,10 +232,10 @@ public class ChatInterface extends AppCompatActivity {
 
                 else{
                     Log.d("Check", "Snapshot worked");
-                    List<ChatModel> list = new ArrayList<>();
+                    List<GroupModel> list = new ArrayList<>();
                     list.clear();
                     for(QueryDocumentSnapshot query : value){
-                    list.add(new ChatModel(
+                    list.add(new GroupModel(
                               query.getString("groupId")
                             , query.getId()
                             , query.getString("message")
@@ -246,7 +246,7 @@ public class ChatInterface extends AppCompatActivity {
                             , query.getString("type")
                     ));
                 }
-                    for(ChatModel list1: list) {
+                    for(GroupModel list1: list) {
                         Log.d("Sexy", "elements:" + list1.getMessage());
                     }
                 recycler_interface.setAdapter(new RealChatRecyclerInterface(mUser.getUid(),list));

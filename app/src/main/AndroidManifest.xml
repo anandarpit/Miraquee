@@ -28,7 +28,7 @@
         <activity android:name=".afterauthenticated.myProfile" />
         <activity android:name=".afterauthenticated.AddPosts" />
         <activity
-            android:name=".afterauthenticated.ChatInterface"
+            android:name=".afterauthenticated.GroupChatInterface"
             android:theme="@style/AppTheme3"
             android:windowSoftInputMode="adjustPan" />
         <activity

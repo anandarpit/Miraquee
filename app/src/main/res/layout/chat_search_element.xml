@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="10dp"
-        app:cardCornerRadius="6dp"
+        app:cardCornerRadius="2dp"
         android:layout_margin="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchConstraint"
-        android:layout_marginVertical="5dp"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="3dp"
+        android:layout_marginHorizontal="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -25,7 +25,6 @@
             android:id="@+id/searchChatCiv"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_margin="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/group_icon"
             app:civ_border_color="#3F51B5"
@@ -58,7 +57,7 @@
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@id/searchChatCiv"
             app:layout_constraintTop_toTopOf="@id/searchConstraint"
-            app:layout_constraintVertical_bias="0.17" />
+            app:layout_constraintVertical_bias="0.1" />
 
         <TextView
             android:id="@+id/searchusername"
@@ -70,12 +69,13 @@
             android:paddingHorizontal="10dp"
             android:text="arpitanand"
             android:textColor="#959292"
-            android:textSize="20dp"
+            android:textSize="16dp"
+            app:layout_constraintVertical_bias="0.8"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/searchChatCiv"
             app:layout_constraintEnd_toEndOf="@+id/searchname"
             app:layout_constraintStart_toStartOf="@+id/searchname"
-            app:layout_constraintTop_toBottomOf="@id/searchname" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/addContact"

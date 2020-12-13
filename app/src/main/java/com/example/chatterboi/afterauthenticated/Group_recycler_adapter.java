@@ -10,20 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -31,7 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycler_adapter.myAdapter> {
+public class Group_recycler_adapter extends RecyclerView.Adapter<Group_recycler_adapter.myAdapter> {
 
     List<ChatLists> list;
     Context context;
@@ -41,7 +34,7 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
     FirebaseFirestore db;
     FirebaseAuth mAuth;
 
-    public Custom_recycler_adapter(List<ChatLists> list, Context context) {
+    public Group_recycler_adapter(List<ChatLists> list, Context context) {
         this.list = list;
         this.context = context;
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -52,7 +45,7 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
 
     @NonNull
     @Override
-    public Custom_recycler_adapter.myAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Group_recycler_adapter.myAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.arpit_groups_recycler,
                 parent,
@@ -62,7 +55,7 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Custom_recycler_adapter.myAdapter holder, int position) {
+    public void onBindViewHolder(@NonNull Group_recycler_adapter.myAdapter holder, int position) {
         holder.bind(list.get(position));
     }
 
@@ -102,7 +95,7 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
                 public void onClick(View view) {
 
 
-                    Intent intent = new Intent(context,ChatInterface.class);
+                    Intent intent = new Intent(context, GroupChatInterface.class);
                             intent.putExtra("GroupID",chatLists.getId());
                             intent.putExtra("GroupName",chatLists.getGroupname());
                             intent.putExtra("Time", chatLists.getTime());
@@ -124,7 +117,7 @@ public class Custom_recycler_adapter extends RecyclerView.Adapter<Custom_recycle
 //                    bottomSheetDialog.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View view) {
-//                            Intent intent = new Intent(context,ChatInterface.class);
+//                            Intent intent = new Intent(context,GroupChatInterface.class);
 //                            intent.putExtra("GroupID",chatLists.getId());
 //                            intent.putExtra("GroupName",chatLists.getGroupname());
 //                            intent.putExtra("Time", chatLists.getTime());

@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapter.myAdapter> {
+public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_adapter.myAdapter> {
 
     List<PostModel> list;
     Context context;
@@ -46,7 +46,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
     String uid;
     Preferences pref;
     StorageReference storageReference;
-    public Custom_post_adapter(List<PostModel> list, Context context) {
+    public Post_recycler_adapter(List<PostModel> list, Context context) {
         this.list = list;
         this.context = context;
         pref = new Preferences(context);
@@ -58,7 +58,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
 
     @NonNull
     @Override
-    public Custom_post_adapter.myAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Post_recycler_adapter.myAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.post_layout,
                         parent,
@@ -67,7 +67,7 @@ public class Custom_post_adapter extends RecyclerView.Adapter<Custom_post_adapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Custom_post_adapter.myAdapter holder, int position) {
+    public void onBindViewHolder(@NonNull Post_recycler_adapter.myAdapter holder, int position) {
         holder.bind(list.get(position));
     }
 
