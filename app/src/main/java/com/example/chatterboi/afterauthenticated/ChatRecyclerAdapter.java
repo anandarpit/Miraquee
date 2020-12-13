@@ -72,7 +72,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         CircularImageView chatCiv;
         TextView contactname;
         TextView username;
-        ImageView openChat;
+        ImageView audioCall;
         ConstraintLayout constraintLayout;
 
         public myAdapter(@NonNull View itemView) {
@@ -83,7 +83,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             chatCiv = itemView.findViewById(R.id.ChatCiv);
             contactname = itemView.findViewById(R.id.contactname);
             username =itemView.findViewById(R.id.username);
-            openChat =itemView.findViewById(R.id.OpenChat);
+            audioCall =itemView.findViewById(R.id.audioCall);
             constraintLayout = itemView.findViewById(R.id.constraint);
 
             StorageReference profoleRef = storageReference.child("Profile Photos").child(searchModel.getUid());
@@ -98,12 +98,14 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             username.setText("@"+searchModel.username);
             contactname.setText(searchModel.getName());
 
-            openChat.setOnClickListener(new View.OnClickListener() {
+            audioCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Audio call", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
 
             constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

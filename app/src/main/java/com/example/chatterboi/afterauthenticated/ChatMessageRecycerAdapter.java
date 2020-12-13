@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -84,7 +85,8 @@ public class ChatMessageRecycerAdapter extends RecyclerView.Adapter<ChatMessageR
                 message.setText(chatModel.getMessage());
             }
             if(chatModel.getType().equals("image")){
-
+                Picasso.get().load(chatModel.getMessage()).into(image);
+                imageCardview.setVisibility(View.VISIBLE);
             }
         }
     }

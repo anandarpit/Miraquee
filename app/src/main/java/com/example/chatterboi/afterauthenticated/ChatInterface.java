@@ -55,7 +55,7 @@ public class ChatInterface extends AppCompatActivity {
     FirebaseFirestore firestore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-
+    String type;
     String message;
     EditText messageEditText;
     StorageReference storageReference;
@@ -107,33 +107,10 @@ public class ChatInterface extends AppCompatActivity {
         send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                type = "text";
                 message = messageEditText.getText().toString();
                 time = System.currentTimeMillis();
-                if(!message.isEmpty()){
-
-                    Map<String, Object> chat = new HashMap<>();
-                    chat.put("message", message);
-                    chat.put("time", time);
-                    chat.put("myUid", mUser.getUid());
-                    chat.put("OpponentUid",Oid);
-                    chat.put("type","text");
-                    chat.put("SorR","S");
-                    chat.put("Ousername",OUsername);
-                    chat.put("Oname",OName);
-                    firestore.collection("All Users").document(mUser.getUid()).collection("Contacts")
-                            .document(Oid).collection("Chats")
-                            .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            sendMessagetoOpponentDatabase();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                sendmessage();
             }
         });
 
@@ -145,22 +122,51 @@ public class ChatInterface extends AppCompatActivity {
                         "Pdf",
                         "Document"
                 };
-                AlertDialog.Builder builder= new AlertDialog.Builder(ChatInterface.this);
-                builder.setTitle("Choose the type");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i == 0){
+//                AlertDialog.Builder builder= new AlertDialog.Builder(ChatInterface.this);
+//                builder.setTitle("Choose the type");
+//                builder.setItems(options, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        if(i == 0){
                             Intent intent = new Intent();
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             intent.setType("image/*");
                             startActivityForResult(intent.createChooser(intent,"Select One Image"),1000);
-                        }
-                    }
-                });
-                builder.show();
+//                        }
+//                    }
+//                });
+//                builder.show();
             }
         });
+    }
+
+    private void sendmessage() {
+
+        if(!message.isEmpty()){
+
+            Map<String, Object> chat = new HashMap<>();
+            chat.put("message", message);
+            chat.put("time", time);
+            chat.put("myUid", mUser.getUid());
+            chat.put("OpponentUid",Oid);
+            chat.put("type",type);
+            chat.put("SorR","S");
+            chat.put("Ousername",OUsername);
+            chat.put("Oname",OName);
+            firestore.collection("All Users").document(mUser.getUid()).collection("Contacts")
+                    .document(Oid).collection("Chats")
+                    .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    sendMessagetoOpponentDatabase();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void sendMessagetoOpponentDatabase() {
@@ -169,7 +175,7 @@ public class ChatInterface extends AppCompatActivity {
         chat.put("time",time);
         chat.put("myUid", Oid);
         chat.put("OpponentUid",mUser.getUid());
-        chat.put("type","text");
+        chat.put("type",type);
         chat.put("SorR","R");
         chat.put("Ousername",preferences.getData("username"));
         chat.put("Oname",preferences.getData("usernameAdded"));
@@ -190,67 +196,50 @@ public class ChatInterface extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 1000 && resultCode == RESULT_OK && data.getData() != null){
-//            Uri imageUri = data.getData();
-//            UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )))
-//                    .withAspectRatio(200, 230)
-//                    .withMaxResultSize(200, 230)
-//                    .start(ChatInterface.this);
-//        }
-//        if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
-//            Uri uri = UCrop.getOutput(data);
-//            final ProgressDialog dialog = new ProgressDialog(ChatInterface.this);
-//            dialog.setMessage("Posting...");
-//            dialog.show();
-//            final Long currentTime = System.currentTimeMillis();
-//            final String time = currentTime + "";
-//            final StorageReference fileref = storageReference.child("Image Messages")
-//                    .child(uid + time);
-//            StorageTask uploadTask = fileref.putFile(uri);
-//            uploadTask.continueWithTask(new Continuation() {
-//                @Override
-//                public Object then(@NonNull Task task) throws Exception {
-//                    if(!task.isSuccessful()){
-//                        throw task.getException();
-//                    }
-//                    return fileref.getDownloadUrl();
-//                }
-//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Uri> task) {
-//                    if(task.isSuccessful()){
-//                        Uri downloadUrl = task.getResult();
-//                        String myUrl = downloadUrl.toString();
-//
-//                        Map<String, Object> chat = new HashMap<>();
-//                        chat.put("message", myUrl);
-//                        chat.put("time", currentTime);
-//                        chat.put("sender", mUser.getUid());
-//                        chat.put("groupId",Gid);
-//                        chat.put("type","image");
-//                        chat.put("username",preferences.getData("username"));
-//                        chat.put("name",preferences.getData("usernameAdded"));
-//                        firestore.collection("aGroups").document(Gid).collection("Chat")
-//                                .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                dialog.dismiss();
-//                                Toast.makeText(getApplicationContext(),"Message Sent", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                }
-//            });
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000 && resultCode == RESULT_OK && data.getData() != null){
+            Uri imageUri = data.getData();
+            UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )))
+                    .withAspectRatio(200, 230)
+                    .withMaxResultSize(200, 230)
+                    .start(ChatInterface.this);
+        }
+        if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
+            Uri uri = UCrop.getOutput(data);
+            final ProgressDialog dialog = new ProgressDialog(ChatInterface.this);
+            dialog.setMessage("Posting...");
+            dialog.show();
+            final Long currentTime = System.currentTimeMillis();
+            final String atime = currentTime + "";
+            final StorageReference fileref = storageReference.child("Image Personal Messages").child(uid)
+                    .child(uid + Oid + atime);
+            StorageTask uploadTask = fileref.putFile(uri);
+            uploadTask.continueWithTask(new Continuation() {
+                @Override
+                public Object then(@NonNull Task task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return fileref.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri downloadUrl = task.getResult();
+                        String myUrl = downloadUrl.toString();
+                        message = myUrl;
+                        time = currentTime;
+                        type = "image";
+                        sendmessage();
+                        dialog.dismiss();
+                    }
+                }
+            });
+        }
+    }
 
     private void showChatMessages() {
         firestore.collection("All Users").document(mUser.getUid()).collection("Contacts")

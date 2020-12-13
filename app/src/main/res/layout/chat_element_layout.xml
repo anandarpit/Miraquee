@@ -72,14 +72,26 @@
 
 
     <ImageView
-        android:id="@+id/OpenChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_chat"
-        android:padding="15dp"
+        android:id="@+id/audioCall"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:src="@drawable/ic_audio_call"
+        android:padding="5dp"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintBottom_toBottomOf="@+id/ChatCiv"
         app:layout_constraintEnd_toEndOf="@id/constraint"
         app:layout_constraintStart_toEndOf="@+id/contactname"
+        app:layout_constraintTop_toTopOf="@+id/ChatCiv" />
+    <ImageView
+        android:id="@+id/VideoCall"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_videocall"
+        android:padding="5dp"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintBottom_toBottomOf="@+id/ChatCiv"
+        app:layout_constraintEnd_toEndOf="@id/constraint"
+        app:layout_constraintStart_toEndOf="@+id/audioCall"
         app:layout_constraintTop_toTopOf="@+id/ChatCiv" />
 
     <View

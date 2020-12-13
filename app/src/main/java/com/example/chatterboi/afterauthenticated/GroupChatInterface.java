@@ -140,20 +140,20 @@ public class GroupChatInterface extends AppCompatActivity {
                         "Pdf",
                         "Document"
                 };
-                AlertDialog.Builder builder= new AlertDialog.Builder(GroupChatInterface.this);
-                builder.setTitle("Choose the type");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i == 0){
+//                AlertDialog.Builder builder= new AlertDialog.Builder(GroupChatInterface.this);
+//                builder.setTitle("Choose the type");
+//                builder.setItems(options, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        if(i == 0){
                             Intent intent = new Intent();
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             intent.setType("image/*");
                             startActivityForResult(intent.createChooser(intent,"Select One Image"),1000);
-                        }
-                    }
-                });
-                builder.show();
+//                        }
+//                    }
+//                });
+//                builder.show();
             }
         });
     }
