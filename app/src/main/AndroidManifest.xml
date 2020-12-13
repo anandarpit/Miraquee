@@ -18,7 +18,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".afterauthenticated.Requests"></activity>
+        <activity android:name=".afterauthenticated.ChatInterface"
+            android:theme="@style/AppTheme3"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".afterauthenticated.Requests" />
         <activity android:name=".afterauthenticated.AddPeople" />
         <activity android:name=".afterauthenticated.comments" />
         <activity

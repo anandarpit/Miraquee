@@ -74,7 +74,7 @@ public class Groups extends Fragment {
 
     private void getGroups() {
         swipeRefreshLayout.setRefreshing(true);
-        final List<ChatLists> list = new ArrayList<>();
+        final List<GroupChatList> list = new ArrayList<>();
         db.collection("aGroups").orderBy("time", Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -84,7 +84,7 @@ public class Groups extends Fragment {
                             list.clear();
                             Log.d("Check", "List Cleared Size Current" + list.size());
                             for (QueryDocumentSnapshot snap : task.getResult()) {
-                                list.add(new ChatLists(snap.getString("group"), snap.getId(), snap.getLong("time"), snap.getString("username")));
+                                list.add(new GroupChatList(snap.getString("group"), snap.getId(), snap.getLong("time"), snap.getString("username")));
                             }
                             Log.d("Check", "Recycler View Created items:" + list.size());
                             swipeRefreshLayout.setRefreshing(false);

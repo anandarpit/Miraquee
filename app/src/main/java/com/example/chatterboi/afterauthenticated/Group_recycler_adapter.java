@@ -26,7 +26,7 @@ import java.util.List;
 
 public class Group_recycler_adapter extends RecyclerView.Adapter<Group_recycler_adapter.myAdapter> {
 
-    List<ChatLists> list;
+    List<GroupChatList> list;
     Context context;
     int i =0;
     StorageReference storageReference;
@@ -34,7 +34,7 @@ public class Group_recycler_adapter extends RecyclerView.Adapter<Group_recycler_
     FirebaseFirestore db;
     FirebaseAuth mAuth;
 
-    public Group_recycler_adapter(List<ChatLists> list, Context context) {
+    public Group_recycler_adapter(List<GroupChatList> list, Context context) {
         this.list = list;
         this.context = context;
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -70,17 +70,17 @@ public class Group_recycler_adapter extends RecyclerView.Adapter<Group_recycler_
             super(itemView);
         }
 
-        public void bind(final ChatLists chatLists) {
+        public void bind(final GroupChatList groupChatList) {
             TextView name = itemView.findViewById(R.id.groupname);
             ConstraintLayout cardView = itemView.findViewById(R.id.cardView);
             final CircularImageView imageView = itemView.findViewById(R.id.civ);
             TextView admin = itemView.findViewById(R.id.username);
 
-            name.setText(chatLists.getGroupname());
+            name.setText(groupChatList.getGroupname());
 
-            admin.setText(" @"+chatLists.getUsername());
+            admin.setText(" @"+ groupChatList.getUsername());
 
-            StorageReference profoleRef = storageReference.child("Groups Photo").child(chatLists.getGroupname());
+            StorageReference profoleRef = storageReference.child("Groups Photo").child(groupChatList.getGroupname());
 
             profoleRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
@@ -96,9 +96,9 @@ public class Group_recycler_adapter extends RecyclerView.Adapter<Group_recycler_
 
 
                     Intent intent = new Intent(context, GroupChatInterface.class);
-                            intent.putExtra("GroupID",chatLists.getId());
-                            intent.putExtra("GroupName",chatLists.getGroupname());
-                            intent.putExtra("Time", chatLists.getTime());
+                            intent.putExtra("GroupID", groupChatList.getId());
+                            intent.putExtra("GroupName", groupChatList.getGroupname());
+                            intent.putExtra("Time", groupChatList.getTime());
                             context.startActivity(intent);
 
 //                    final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,
@@ -110,7 +110,7 @@ public class Group_recycler_adapter extends RecyclerView.Adapter<Group_recycler_
 //                    //Todo: Check here by if and else if the blue button should be "Join" or "Send Join Request"
 //
 //                    TextView group =  bottomSheetDialog.findViewById(R.id.groupname);
-//                    group.setText(chatLists.getGroupname());
+//                    group.setText(groupChatList.getGroupname());
 //
 //                    bottomSheetDialog.show();
 //
@@ -118,9 +118,9 @@ public class Group_recycler_adapter extends RecyclerView.Adapter<Group_recycler_
 //                        @Override
 //                        public void onClick(View view) {
 //                            Intent intent = new Intent(context,GroupChatInterface.class);
-//                            intent.putExtra("GroupID",chatLists.getId());
-//                            intent.putExtra("GroupName",chatLists.getGroupname());
-//                            intent.putExtra("Time", chatLists.getTime());
+//                            intent.putExtra("GroupID",groupChatList.getId());
+//                            intent.putExtra("GroupName",groupChatList.getGroupname());
+//                            intent.putExtra("Time", groupChatList.getTime());
 //                            context.startActivity(intent);
 //                        }
 //                    });

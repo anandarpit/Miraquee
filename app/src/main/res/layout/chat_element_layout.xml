@@ -3,7 +3,7 @@
 <LinearLayout android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,7 +11,7 @@
     android:layout_marginVertical="5dp"
     android:layout_marginHorizontal="5dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/ChatCiv"
@@ -72,25 +72,14 @@
 
 
     <ImageView
-        android:id="@+id/makeAudioCall"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:src="@drawable/ic_audio_call"
+        android:id="@+id/OpenChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_chat"
+        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/ChatCiv"
         app:layout_constraintEnd_toEndOf="@id/constraint"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@+id/contactname"
-        app:layout_constraintTop_toTopOf="@+id/ChatCiv"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <ImageView
-        android:id="@+id/makeVideoCall"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:src="@drawable/ic_videocall"
-        app:layout_constraintBottom_toBottomOf="@+id/ChatCiv"
-        app:layout_constraintEnd_toEndOf="@id/constraint"
-        app:layout_constraintStart_toEndOf="@+id/makeAudioCall"
         app:layout_constraintTop_toTopOf="@+id/ChatCiv" />
 
     <View

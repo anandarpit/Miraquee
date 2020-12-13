@@ -74,6 +74,7 @@ public class RequestRecyclerInterface extends RecyclerView.Adapter<RequestRecycl
         TextView name, username;
         CircularImageView image;
         Button addContact;
+        Long time;
 
         public myAdapter(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +88,9 @@ public class RequestRecyclerInterface extends RecyclerView.Adapter<RequestRecycl
             addContact.setBackgroundResource(R.drawable.ic_doble_tick);
             name.setText(requestmodel.getName());
             username.setText("@"+requestmodel.getUsername());
+
+            time = System.currentTimeMillis();
+
             addContact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -167,6 +171,7 @@ public class RequestRecyclerInterface extends RecyclerView.Adapter<RequestRecycl
                     .document(requestmodel.getUid());
             Map<String, Object> request = new HashMap<>();
             request.put("Status",true);
+            request.put("timeOfFriendship",time);
             documentReference.update(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -186,6 +191,7 @@ public class RequestRecyclerInterface extends RecyclerView.Adapter<RequestRecycl
                     .document(mUid);
             Map<String, Object> request = new HashMap<>();
             request.put("Status",true);
+            request.put("timeOfFriendship",time);
             documentReference.update(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
