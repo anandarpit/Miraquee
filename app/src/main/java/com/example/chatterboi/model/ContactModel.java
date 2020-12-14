@@ -1,11 +1,11 @@
-package com.example.chatterboi.afterauthenticated;
+package com.example.chatterboi.model;
 
 import java.io.Serializable;
 
-public class SearchModel implements Serializable {
+public class ContactModel implements Serializable {
     String name, username, uid;
 
-    public SearchModel(String name, String username, String uid) {
+    public ContactModel(String name, String username, String uid) {
         this.name = name;
         this.uid = uid;
         this.username= username;

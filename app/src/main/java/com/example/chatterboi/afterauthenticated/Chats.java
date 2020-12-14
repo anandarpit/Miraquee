@@ -2,6 +2,7 @@ package com.example.chatterboi.afterauthenticated;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,9 +12,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.chatterboi.R;
+import com.example.chatterboi.listeners.ContactListeners;
+import com.example.chatterboi.model.ContactModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -25,7 +32,7 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
-public class Chats extends Fragment {
+public class Chats extends Fragment implements ContactListeners {
 
     RecyclerView recyclerView;
     FirebaseFirestore db;
@@ -63,7 +70,7 @@ public class Chats extends Fragment {
     }
 
     private void allList() {
-        List<SearchModel> allList = new ArrayList<>();
+        List<ContactModel> allList = new ArrayList<>();
         db.collection("All Users").document(uid).collection("Contacts").whereEqualTo("Status",true)
 //                .orderBy("timeOfFriendship", Query.Direction.DESCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -75,13 +82,53 @@ public class Chats extends Fragment {
                         }
                         else{
                             for (QueryDocumentSnapshot snap : value) {
-                                allList.add(new SearchModel(snap.getString("OpponentName"),
+                                allList.add(new ContactModel(snap.getString("OpponentName"),
                                         snap.getString("OpponentUsername"),
                                         snap.getString("OpponentUid")));
                             }
                         }
-                        recyclerView.setAdapter(new ChatRecyclerAdapter(allList,getContext()));
+                        recyclerView.setAdapter(new ChatRecyclerAdapter(allList,getContext(),Chats.this));
                     }
                 });
     }
+
+    @Override
+    public void initiateVideoMeeting(ContactModel contactModel) {
+
+        db.collection("All Users").document(contactModel.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.getResult() != null && task.isSuccessful()){
+                   String token = task.getResult().getString("FCM_token");
+                   if(token == null || token.isEmpty()){
+                       Toast.makeText(getContext(), "User is logged out of Miraquee", Toast.LENGTH_SHORT).show();
+                   }
+                   else{
+                       Toast.makeText(getContext(), "Initiating Video Call", Toast.LENGTH_SHORT).show();
+                   }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void initiateAudioMeeting(ContactModel contactModel) {
+        db.collection("All Users").document(contactModel.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.getResult() != null && task.isSuccessful()){
+                    String token = task.getResult().getString("FCM_token");
+                    if(token == null || token.isEmpty()){
+                        Toast.makeText(getContext(), "User is logged out of Miraquee", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getContext(), "Initiating Audio Call", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+
+
 }

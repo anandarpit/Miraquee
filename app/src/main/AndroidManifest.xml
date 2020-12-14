@@ -18,40 +18,42 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name="com.example.chatterboi.afterauthenticated.ChatInterface"
+        <activity android:name=".IncomingInvitationActivity"></activity>
+        <activity
+            android:name=".afterauthenticated.ChatInterface"
             android:theme="@style/AppTheme3"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name="com.example.chatterboi.afterauthenticated.Requests" />
-        <activity android:name="com.example.chatterboi.afterauthenticated.AddPeople" />
-        <activity android:name="com.example.chatterboi.afterauthenticated.comments" />
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".afterauthenticated.Requests" />
+        <activity android:name=".afterauthenticated.AddPeople" />
+        <activity android:name=".afterauthenticated.comments" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.example.chatterboi.afterauthenticated.myProfile" />
-        <activity android:name="com.example.chatterboi.afterauthenticated.AddPosts" />
+        <activity android:name=".afterauthenticated.myProfile" />
+        <activity android:name=".afterauthenticated.AddPosts" />
         <activity
-            android:name="com.example.chatterboi.afterauthenticated.GroupChatInterface"
+            android:name=".afterauthenticated.GroupChatInterface"
             android:theme="@style/AppTheme3"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.example.chatterboi.afterauthenticated.HomePageArpit"
+            android:name=".afterauthenticated.HomePageArpit"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.example.chatterboi.afterauthenticated.AddGroups"
+            android:name=".afterauthenticated.AddGroups"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name="com.example.chatterboi.Auth.Log_in"
+            android:name=".Auth.Log_in"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.example.chatterboi.Auth.username_page"
+            android:name=".Auth.username_page"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.example.chatterboi.Auth.Register"
+            android:name=".Auth.Register"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.example.chatterboi.SplashScreen.SplashActivity"
+            android:name=".SplashScreen.SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,7 +70,7 @@
             android:value="ca-app-pub-5780826959412256~8772327189" />
 
         <service
-            android:name="com.example.chatterboi.MessagingService"
+            android:name=".MessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

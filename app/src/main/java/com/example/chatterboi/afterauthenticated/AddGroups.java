@@ -71,7 +71,6 @@ public class AddGroups extends AppCompatActivity {
             }
         });
 
-
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_24);

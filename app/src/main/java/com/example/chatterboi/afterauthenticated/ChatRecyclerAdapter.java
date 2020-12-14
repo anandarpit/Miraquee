@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.R;
 import com.example.chatterboi.SharedPreferences.Preferences;
+import com.example.chatterboi.listeners.ContactListeners;
+import com.example.chatterboi.model.ContactModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,7 +30,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapter.myAdapter> {
-    List<SearchModel> list;
+    List<ContactModel> list;
+    ContactListeners contactListeners;
     Context context;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
@@ -37,8 +40,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     StorageReference storageReference;
 
 
-    public ChatRecyclerAdapter(List<SearchModel> list, Context context) {
+    public ChatRecyclerAdapter(List<ContactModel> list, Context context, ContactListeners contactListeners) {
         this.list = list;
+        this.contactListeners = contactListeners;
         this.context = context;
         prefs = new Preferences(context);
         db = FirebaseFirestore.getInstance();
@@ -72,21 +76,22 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         CircularImageView chatCiv;
         TextView contactname;
         TextView username;
-        ImageView audioCall;
+        ImageView audioCall, videoCall;
         ConstraintLayout constraintLayout;
 
         public myAdapter(@NonNull View itemView) {
             super(itemView);
         }
 
-        public void bind(SearchModel searchModel) {
+        public void bind(ContactModel contactModel) {
             chatCiv = itemView.findViewById(R.id.ChatCiv);
             contactname = itemView.findViewById(R.id.contactname);
             username =itemView.findViewById(R.id.username);
             audioCall =itemView.findViewById(R.id.audioCall);
+            videoCall = itemView.findViewById(R.id.VideoCall);
             constraintLayout = itemView.findViewById(R.id.constraint);
 
-            StorageReference profoleRef = storageReference.child("Profile Photos").child(searchModel.getUid());
+            StorageReference profoleRef = storageReference.child("Profile Photos").child(contactModel.getUid());
             profoleRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
@@ -95,14 +100,15 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                 }
             });
 
-            username.setText("@"+searchModel.username);
-            contactname.setText(searchModel.getName());
+            username.setText("@"+contactModel.getUsername());
+            contactname.setText(contactModel.getName());
 
-            audioCall.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, "Audio call", Toast.LENGTH_SHORT).show();
-                }
+            audioCall.setOnClickListener(view -> {
+                contactListeners.initiateAudioMeeting(contactModel);
+            });
+
+            videoCall.setOnClickListener( view -> {
+                contactListeners.initiateVideoMeeting(contactModel);
             });
 
 
@@ -111,9 +117,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ChatInterface.class);
-                    intent.putExtra("OpponentUid",searchModel.getUid());
-                    intent.putExtra("OpponentName",searchModel.getName());
-                    intent.putExtra("OpponentUsername",searchModel.getUsername());
+                    intent.putExtra("OpponentUid",contactModel.getUid());
+                    intent.putExtra("OpponentName",contactModel.getName());
+                    intent.putExtra("OpponentUsername",contactModel.getUsername());
                     context.startActivity(intent);
                 }
             });

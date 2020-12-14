@@ -27,6 +27,8 @@ import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,7 +159,7 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
             });
         }
 
-        private void removeRequest(SearchModel searchModel) {
+        private void removeRequest(@NotNull SearchModel searchModel) {
             db.collection("All Users").document(searchModel.getUid()).collection("Contacts")
                     .document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
@@ -190,7 +192,7 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
 
         }
 
-        private void removeFromMyContactList(SearchModel searchModel) {
+        private void removeFromMyContactList(@NotNull SearchModel searchModel) {
             db.collection("All Users").document(uid).collection("Contacts")
                     .document(searchModel.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
