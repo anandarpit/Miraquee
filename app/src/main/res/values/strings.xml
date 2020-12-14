@@ -21,4 +21,5 @@
     <string name="this_group_is_private">This group is private!</string>
     <string name="request_to_join_or_not">Send join request</string>
     <string name="add_new_contacts">Any contact you add will display here. Add new contact by clicking on the add icon.</string>
+    <string name="dialog_info">Pressing the pending icon will accept the friend request if you have received it, and will delete the friend request if you have sent it. So be careful on how you use it!</string>
 </resources>

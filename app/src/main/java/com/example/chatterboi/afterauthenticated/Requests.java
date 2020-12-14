@@ -1,21 +1,22 @@
 package com.example.chatterboi.afterauthenticated;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Constraints;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.Spinner;
 
 import com.example.chatterboi.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,7 @@ public class Requests extends AppCompatActivity {
     RecyclerView recyclerView;
     Button all, received, sent;
     FirebaseFirestore db;
-    ImageView goBack;
+    ImageView goBack , info;
     FirebaseAuth mAuth;
     String uid;
     float scale;
@@ -48,6 +49,7 @@ public class Requests extends AppCompatActivity {
         received = findViewById(R.id.recieved);
         sent = findViewById(R.id.sent);
         goBack = findViewById(R.id.goBack);
+        info = findViewById(R.id.info);
         recyclerView = findViewById(R.id.addrequestrecyclerView);
 
         recyclerView.setHasFixedSize(false);
@@ -71,6 +73,23 @@ public class Requests extends AppCompatActivity {
         sent.setOnClickListener(view -> sentList());
 
         goBack.setOnClickListener(view -> finish());
+
+        info.setOnClickListener(view -> showInfo());
+    }
+
+    private void showInfo() {
+        AlertDialog.Builder builder;
+        AlertDialog dialog;
+        builder = new AlertDialog.Builder(Requests.this,R.style.myDialog);
+        LayoutInflater inflater = (LayoutInflater) Requests.this.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View view = inflater.inflate(R.layout.popup_info,null);
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
+
+        Button dismiss = view.findViewById(R.id.confirm_logout);
+        dismiss.setOnClickListener(view1 -> dialog.dismiss());
     }
 
     private void sentList() {
@@ -88,7 +107,11 @@ public class Requests extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         sentList.clear();
                         for(QueryDocumentSnapshot snap: value){
-                            sentList.add(new Requestmodel(snap.getString("OpponentUid"),snap.getString("SentOrRecieved"), snap.getBoolean("Status")));
+                            sentList.add(new Requestmodel(snap.getString("OpponentUid"),
+                                    snap.getString("SentOrRecieved"),
+                                    snap.getBoolean("Status"),
+                                    snap.getString("OpponentUsername"),
+                                    snap.getString("OpponentName")));
                         }
                         recyclerView.setAdapter(new RequestRecyclerInterface(sentList,getApplicationContext()));
                     }
@@ -96,6 +119,27 @@ public class Requests extends AppCompatActivity {
     }
 
     private void receivedList() {
+        inflateButton(received);
+        collapseButton(all);
+        collapseButton(sent);
+        List<Requestmodel> receivedList = new ArrayList<>();
+        db.collection("All Users").document(uid).collection("Contacts")
+                .whereEqualTo("Status",false)
+                .whereEqualTo("SentOrRecieved","R")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        receivedList.clear();
+                        for(QueryDocumentSnapshot snap: value){
+                            receivedList.add(new Requestmodel(snap.getString("OpponentUid"),
+                                    snap.getString("SentOrRecieved"),
+                                    snap.getBoolean("Status"),
+                                    snap.getString("OpponentUsername"),
+                                    snap.getString("OpponentName")));
+                        }
+                        recyclerView.setAdapter(new RequestRecyclerInterface(receivedList,getApplicationContext()));
+                    }
+                });
     }
 
     private void allList() {
@@ -109,13 +153,16 @@ public class Requests extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         allList.clear();
                         for(QueryDocumentSnapshot snap: value){
-                            allList.add(new Requestmodel(snap.getString("OpponentUid"),snap.getString("SentOrRecieved"), snap.getBoolean("Status")));
+                            allList.add(new Requestmodel(snap.getString("OpponentUid"),
+                                    snap.getString("SentOrRecieved"),
+                                    snap.getBoolean("Status"),
+                                    snap.getString("OpponentUsername"),
+                                    snap.getString("OpponentName")));
                         }
                         recyclerView.setAdapter(new RequestRecyclerInterface(allList,getApplicationContext()));
                     }
                 });
     }
-
 
     private void inflateButton(Button button) {
         button.setBackgroundResource(R.drawable.button_new_pressed);

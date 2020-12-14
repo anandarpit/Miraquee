@@ -1,12 +1,14 @@
 package com.example.chatterboi.afterauthenticated;
 
 public class Requestmodel {
-    String uid, SorR;
+    String uid, SorR , username ,name;
     Boolean status;
 
-    public Requestmodel(String uid, String sorR, Boolean status) {
+    public Requestmodel(String uid, String sorR, Boolean status, String username, String name) {
         this.uid = uid;
-        SorR = sorR;
+        this.SorR = sorR;
+        this.username = username;
+        this.name = name;
         this.status = status;
     }
 
@@ -23,7 +25,23 @@ public class Requestmodel {
     }
 
     public void setSorR(String sorR) {
-        SorR = sorR;
+        this.SorR = sorR;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean getStatus() {

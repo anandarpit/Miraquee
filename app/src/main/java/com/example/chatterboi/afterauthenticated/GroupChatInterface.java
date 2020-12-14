@@ -19,8 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.chatterboi.R;
 import com.example.chatterboi.SharedPreferences.Preferences;
+import com.example.chatterboi.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,20 +46,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChatInterface extends AppCompatActivity {
+public class GroupChatInterface extends AppCompatActivity {
 
-    String OName, Oid, OUsername;
+    String Gname, Gid, time_created;
 
     FirebaseFirestore firestore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    String type;
-    String message;
-    EditText messageEditText;
+
+    EditText message;
     StorageReference storageReference;
     ImageView send_message,attach;
     String uid;
-    Long time;
 
     Preferences preferences;
 
@@ -69,9 +67,9 @@ public class ChatInterface extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_chat);
+        setContentView(R.layout.activity_chat_interface);
 
-        messageEditText = findViewById(R.id.message_interface);
+        message = findViewById(R.id.message_interface);
         send_message = findViewById(R.id.send_message_interface);
         recycler_interface = findViewById(R.id.chats_interface);
         attach = findViewById(R.id.attachFiles);
@@ -84,19 +82,18 @@ public class ChatInterface extends AppCompatActivity {
         preferences = new Preferences(getApplicationContext());
         storageReference= FirebaseStorage.getInstance().getReference();
 
-        Oid = getIntent().getStringExtra("OpponentUid");
-        OName = getIntent().getStringExtra("OpponentName");
-        OUsername = getIntent().getStringExtra("OpponentUsername");
+        Gname = getIntent().getStringExtra("GroupName");
+        Gid = getIntent().getStringExtra("GroupID");
+        time_created = getIntent().getStringExtra("Time");
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         firestore = FirebaseFirestore.getInstance();
         uid = mUser.getUid();
-
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_green);
-            setTitle(OName);
+            setTitle(Gname);
         }
 
 
@@ -105,10 +102,31 @@ public class ChatInterface extends AppCompatActivity {
         send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                type = "text";
-                message = messageEditText.getText().toString();
-                time = System.currentTimeMillis();
-                sendmessage();
+                if(!message.getText().toString().isEmpty()){
+
+                    Map<String, Object> chat = new HashMap<>();
+                    chat.put("message", message.getText().toString());
+                    chat.put("time", System.currentTimeMillis());
+                    chat.put("sender", mUser.getUid());
+                    chat.put("groupId",Gid);
+                    chat.put("type","text");
+                    chat.put("username",preferences.getData("username"));
+                    chat.put("name",preferences.getData("usernameAdded"));
+                    firestore.collection("aGroups").document(Gid).collection("Chat")
+                            .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(GroupChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
+                            showChatMessages();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                message.setText(null);
             }
         });
 
@@ -120,7 +138,7 @@ public class ChatInterface extends AppCompatActivity {
                         "Pdf",
                         "Document"
                 };
-//                AlertDialog.Builder builder= new AlertDialog.Builder(ChatInterface.this);
+//                AlertDialog.Builder builder= new AlertDialog.Builder(GroupChatInterface.this);
 //                builder.setTitle("Choose the type");
 //                builder.setItems(options, new DialogInterface.OnClickListener() {
 //                    @Override
@@ -138,62 +156,6 @@ public class ChatInterface extends AppCompatActivity {
         });
     }
 
-    private void sendmessage() {
-
-        if(!message.isEmpty()){
-
-            Map<String, Object> chat = new HashMap<>();
-            chat.put("message", message);
-            chat.put("time", time);
-            chat.put("myUid", mUser.getUid());
-            chat.put("OpponentUid",Oid);
-            chat.put("type",type);
-            chat.put("SorR","S");
-            chat.put("Ousername",OUsername);
-            chat.put("Oname",OName);
-            firestore.collection("All Users").document(mUser.getUid()).collection("Contacts")
-                    .document(Oid).collection("Chats")
-                    .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    sendMessagetoOpponentDatabase();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-    private void sendMessagetoOpponentDatabase() {
-        Map<String, Object> chat = new HashMap<>();
-        chat.put("message", message);
-        chat.put("time",time);
-        chat.put("myUid", Oid);
-        chat.put("OpponentUid",mUser.getUid());
-        chat.put("type",type);
-        chat.put("SorR","R");
-        chat.put("Ousername",preferences.getData("username"));
-        chat.put("Oname",preferences.getData("usernameAdded"));
-        firestore.collection("All Users").document(Oid).collection("Contacts")
-                .document(mUser.getUid()).collection("Chats")
-                .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(ChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
-                showChatMessages();
-                messageEditText.setText(null);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -202,17 +164,17 @@ public class ChatInterface extends AppCompatActivity {
             UCrop.of(imageUri, Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + ".jpg" )))
                     .withAspectRatio(200, 230)
                     .withMaxResultSize(200, 230)
-                    .start(ChatInterface.this);
+                    .start(GroupChatInterface.this);
         }
         if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
             Uri uri = UCrop.getOutput(data);
-            final ProgressDialog dialog = new ProgressDialog(ChatInterface.this);
+            final ProgressDialog dialog = new ProgressDialog(GroupChatInterface.this);
             dialog.setMessage("Posting...");
             dialog.show();
             final Long currentTime = System.currentTimeMillis();
-            final String atime = currentTime + "";
-            final StorageReference fileref = storageReference.child("Image Personal Messages").child(uid)
-                    .child(uid + Oid + atime);
+            final String time = currentTime + "";
+            final StorageReference fileref = storageReference.child("Image Messages")
+                    .child(uid + time);
             StorageTask uploadTask = fileref.putFile(uri);
             uploadTask.continueWithTask(new Continuation() {
                 @Override
@@ -228,11 +190,28 @@ public class ChatInterface extends AppCompatActivity {
                     if(task.isSuccessful()){
                         Uri downloadUrl = task.getResult();
                         String myUrl = downloadUrl.toString();
-                        message = myUrl;
-                        time = currentTime;
-                        type = "image";
-                        sendmessage();
-                        dialog.dismiss();
+
+                        Map<String, Object> chat = new HashMap<>();
+                        chat.put("message", myUrl);
+                        chat.put("time", currentTime);
+                        chat.put("sender", mUser.getUid());
+                        chat.put("groupId",Gid);
+                        chat.put("type","image");
+                        chat.put("username",preferences.getData("username"));
+                        chat.put("name",preferences.getData("usernameAdded"));
+                        firestore.collection("aGroups").document(Gid).collection("Chat")
+                                .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(),"Message Sent", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             });
@@ -240,35 +219,37 @@ public class ChatInterface extends AppCompatActivity {
     }
 
     private void showChatMessages() {
-        firestore.collection("All Users").document(mUser.getUid()).collection("Contacts")
-                .document(Oid).collection("Chats")
+        firestore.collection("aGroups").document(Gid).collection("Chat")
                 .orderBy("time", Query.Direction.DESCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(error != null){
-                            Log.d("Boom", "listen failed: " + error.getMessage());
-                        }
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null){
+                    Log.d("Check", "listen failed: " + error.getMessage());
+                }
 
-                        else{
-                            Log.d("Boom", "Snapshot worked");
-                            List<ChatModel> list = new ArrayList<>();
-                            list.clear();
-                            for(QueryDocumentSnapshot query : value){
-                                list.add(new ChatModel(
-                                        query.getString("message")
-                                        , query.getString("myUid")
-                                        , query.getString("OpponentUid")
-                                        , query.getString("type")
-                                        , query.getString("SorR")
-                                        , query.getString("Ousername")
-                                        , query.getString("Oname")
-                                        , query.getLong("time")
-                                ));
-                            }
-                            recycler_interface.setAdapter(new ChatMessageRecycerAdapter(list,getApplicationContext()));
-                        }}
-                });
+                else{
+                    Log.d("Check", "Snapshot worked");
+                    List<GroupModel> list = new ArrayList<>();
+                    list.clear();
+                    for(QueryDocumentSnapshot query : value){
+                    list.add(new GroupModel(
+                              query.getString("groupId")
+                            , query.getId()
+                            , query.getString("message")
+                            , query.getString("sender")
+                            , query.getLong("time")
+                            , query.getString("name")
+                            , query.getString("username")
+                            , query.getString("type")
+                    ));
+                }
+                    for(GroupModel list1: list) {
+                        Log.d("Sexy", "elements:" + list1.getMessage());
+                    }
+                recycler_interface.setAdapter(new RealChatRecyclerInterface(mUser.getUid(),list));
+            }}
+        });
     }
 
 
@@ -289,11 +270,5 @@ public class ChatInterface extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

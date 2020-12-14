@@ -6,10 +6,10 @@
         android:title= "Settings"
         android:icon="@drawable/menu"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_search"
-        app:showAsAction="always|withText"
-        android:title="Hello" />
+<!--    <item-->
+<!--        android:id="@+id/search"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        app:showAsAction="always|withText"-->
+<!--        android:title="Hello" />-->
 
 </menu>

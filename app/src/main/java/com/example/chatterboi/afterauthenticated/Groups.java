@@ -3,7 +3,6 @@ package com.example.chatterboi.afterauthenticated;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,17 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.chatterboi.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -81,7 +74,7 @@ public class Groups extends Fragment {
 
     private void getGroups() {
         swipeRefreshLayout.setRefreshing(true);
-        final List<ChatLists> list = new ArrayList<>();
+        final List<GroupChatList> list = new ArrayList<>();
         db.collection("aGroups").orderBy("time", Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -91,11 +84,11 @@ public class Groups extends Fragment {
                             list.clear();
                             Log.d("Check", "List Cleared Size Current" + list.size());
                             for (QueryDocumentSnapshot snap : task.getResult()) {
-                                list.add(new ChatLists(snap.getString("group"), snap.getId(), snap.getLong("time"), snap.getString("username")));
+                                list.add(new GroupChatList(snap.getString("group"), snap.getId(), snap.getLong("time"), snap.getString("username")));
                             }
                             Log.d("Check", "Recycler View Created items:" + list.size());
                             swipeRefreshLayout.setRefreshing(false);
-                            recyclerView.setAdapter(new Custom_recycler_adapter(list, getContext()));
+                            recyclerView.setAdapter(new Group_recycler_adapter(list, getContext()));
                         }// this thing
                     }
                 });

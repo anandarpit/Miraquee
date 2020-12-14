@@ -19,7 +19,7 @@ import java.util.List;
 public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecyclerInterface.myInterface> {
 
     String userId;
-    List<ChatModel> list;
+    List<GroupModel> list;
     int flag = 0;
 
     final int SENT = 1;
@@ -27,7 +27,7 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
     String currentUid, newUid, uid = "h";
 
 
-    public RealChatRecyclerInterface(String userId, List<ChatModel> list) {
+    public RealChatRecyclerInterface(String userId, List<GroupModel> list) {
         this.list = list;
         this.userId = userId;
     }
@@ -75,7 +75,7 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
             super(itemView);
         }
 
-        public void caller(ChatModel chatModel) {
+        public void caller(GroupModel groupModel) {
 
             try {
                 nameText = itemView.findViewById(R.id.name);
@@ -95,26 +95,26 @@ public class RealChatRecyclerInterface extends RecyclerView.Adapter<RealChatRecy
             textCardview = itemView.findViewById(R.id.textCardview);
             image = itemView.findViewById(R.id.messageImage);
 
-            if(chatModel.getType().equals("text")) {
-                    messageText.setText(chatModel.getMessage());
+            if(groupModel.getType().equals("text")) {
+                    messageText.setText(groupModel.getMessage());
                     textCardview.setVisibility(View.VISIBLE);
                 try {
-                    nameText.setText("@" + chatModel.getUsername());
+                    nameText.setText("@" + groupModel.getUsername());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
 
-            if(chatModel.getType().equals("image")){
+            if(groupModel.getType().equals("image")){
 
                 try {
-                    nameText.setText("@" + chatModel.getUsername());
+                    nameText.setText("@" + groupModel.getUsername());
                 } catch (Exception e){
                     e.printStackTrace();
                 }
                 cardView.setVisibility(View.VISIBLE);
-                Picasso.get().load(Uri.parse(chatModel.getMessage())).into(image);
+                Picasso.get().load(Uri.parse(groupModel.getMessage())).into(image);
 
             }
         }
