@@ -177,6 +177,9 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
                             }
                         });
                     }
+                    if(SorR.equals("S")){
+                        Toast.makeText(context, "This person has sent you the request! You can only accept it", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

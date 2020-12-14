@@ -123,7 +123,7 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
                 @Override
                 public void onSuccess(Uri uri) {
                     Log.d("Check", "Uri has been received");
-                    Picasso.get().load(uri).networkPolicy(NetworkPolicy.OFFLINE).into(profileImage, );
+                    Picasso.get().load(uri).into(profileImage);
                 }
             });
 
