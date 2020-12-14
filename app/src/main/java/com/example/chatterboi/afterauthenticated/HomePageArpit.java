@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,6 +87,9 @@ public class HomePageArpit extends AppCompatActivity {
     Preferences pref;
     ViewPager myViewPager;
 
+    String CHANNEL_ID = "MESSAGE";
+    String CHANNEL_NAME = "MESSAGE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,92 +102,85 @@ public class HomePageArpit extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
         imageView = findViewById(R.id.icon);
 
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        firestore = FirebaseFirestore.getInstance();
+
+        uid = mAuth.getCurrentUser().getUid();
+        ref = FirebaseStorage.getInstance().getReference().child("Profile Photos").child(uid);
+
         pref = new Preferences(getApplicationContext());
+
+        LoadFragments load = new LoadFragments();
+        load.execute();
+
+        LoadPreferences loadPreferences = new LoadPreferences();
+        loadPreferences.execute();
+
+
+        loadPhotoFirst();
+
+        showNotification();
 //        mInterstitialAd = new InterstitialAd(this);
 //        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
 //        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         setSupportActionBar(toolbar);
 
-
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        firestore = FirebaseFirestore.getInstance();
-
-        uid = mAuth.getCurrentUser().getUid();
-
-        String CHANNEL_ID = "MESSAGE";
-        String CHANNEL_NAME = "MESSAGE";
-
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                if(task.isSuccessful() && task.getResult() != null){
-                    pref.setData("TOKEN",task.getResult().getToken());
+                if (task.isSuccessful() && task.getResult() != null) {
+                    pref.setData("TOKEN", task.getResult().getToken());
                     sendFCMTokenToDatabase(task.getResult().getToken());
                 }
             }
         });
+    }
 
+    private void showNotification() {
+        NotificationManagerCompat manager = NotificationManagerCompat.from(HomePageArpit.this);
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            manager.createNotificationChannel(channel);
+        }
+
+        Notification notification = new NotificationCompat.Builder(HomePageArpit.this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Chatter-Boi")
+                .setAutoCancel(false)
+                .setContentText("Chatter-Boi is running...")
+                .build();
+        manager.notify(22, notification);
+    }
+
+    private void sendFCMTokenToDatabase(String token) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference=db.collection("All Users").document(mUser.getUid());
+        Map<String,Object> user=new HashMap<>();
+        user.put("FCM_token",token);
+        documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                myViewPager.setCurrentItem(tab.getPosition());
-
-                if (tab.getPosition() < 2) {
-                    animateFab(tab.getPosition());
-                }
-                if(tab.getPosition() == 2){
-                    fab.hide();
-                }
-                if(tab.getPosition() == 1){
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startActivity(new Intent(HomePageArpit.this, AddGroups.class));
-                        }
-                    });
-                }
-                if(tab.getPosition() == 0){
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startActivity(new Intent(HomePageArpit.this, AddPosts.class));
-                        }
-                    });
-                }
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(HomePageArpit.this, "Token Updated", Toast.LENGTH_SHORT).show();
             }
-
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomePageArpit.this, "Token Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        ref = FirebaseStorage.getInstance().getReference().child("Profile Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
-        for(File file : files){
-            if(file.getName().equals(uid + ".jpg")){
-                Toast.makeText(getApplicationContext(), "Uri loaded through file", Toast.LENGTH_SHORT).show();
-                Picasso
-                        .get() // if file found then load it
-                        .load(file)
-                        .into(imageView);
-            }
-        }
+    private void loadPhotoFirst() {
         File file = new File(getCacheDir() + File.separator + uid + ".jpg");
-        if(!file.exists()){
+        if (!file.exists()) {
             ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Toast.makeText(getApplicationContext(), "Uri Downloaded through OnCreate Activity !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Photo had to be downloaded", Toast.LENGTH_SHORT).show();
                     Picasso picasso = Picasso.get();
                     picasso.setIndicatorsEnabled(true);
                     picasso.load(uri).into(imageView);
@@ -191,52 +189,15 @@ public class HomePageArpit extends AppCompatActivity {
             });
             return;
         }
-
-        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            manager.createNotificationChannel(channel);
+        if(file.exists()){
+            if (file.getName().equals(uid + ".jpg")) {
+                Toast.makeText(getApplicationContext(), "Photo From Cache", Toast.LENGTH_SHORT).show();
+                Picasso
+                        .get() // if file found then load it
+                        .load(file)
+                        .into(imageView);
+            }
         }
-
-        Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Chatter-Boi")
-                .setAutoCancel(false)
-                .setContentText("Chatter-Boi is running...")
-                .build();
-        manager.notify(22, notification);
-
-
-        tabAdapter = new TabAdapter(getSupportFragmentManager());
-        myViewPager.setAdapter(tabAdapter);
-        tabLayout.setupWithViewPager(myViewPager);
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                DocumentReference docRef = firestore.collection("All Users").document(uid);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                String username = document.getString("username");
-                                String name = document.getString("Name");
-                                Log.d("Check1", "Username " + username);
-                                pref.setData("usernameAdded", name);
-                                pref.setData("username", username);
-                            } else {
-                                Log.d("Check1", "No such document");
-                            }
-                        } else {
-                            Log.d("Check1", "get failed with ", task.getException());
-                        }
-                    }
-                });
-            }};
-        thread.start();
     }
     public void loadImage(final Uri uri){
         Thread thread = new Thread() {
@@ -263,60 +224,14 @@ public class HomePageArpit extends AppCompatActivity {
         thread.start();
     }
 
-    private void sendFCMTokenToDatabase(String token) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference=db.collection("All Users").document(mUser.getUid());
-        Map<String,Object> user=new HashMap<>();
-        user.put("FCM_token",token);
-        documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(HomePageArpit.this, "Token Updated", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(HomePageArpit.this, "Token Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.ahomepage_menu, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if(item.getItemId() == R.id.logoutmenu){
-//
-//            FirebaseFirestore db = FirebaseFirestore.getInstance();
-//            DocumentReference documentReference=db.collection("All Users").document(mUser.getUid());
-//            Map<String,Object> user=new HashMap<>();
-//            user.put("FCM_token", FieldValue.delete());
-//            documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                @Override
-//                public void onSuccess(Void aVoid) {
-//                    Toast.makeText(HomePageArpit.this, "Login Successful", Toast.LENGTH_SHORT).show();
-//                    pref.removeData("LoggedIn");
-//                    pref.removeData("Registered");
-//                    pref.removeData("usernameAdded");
-//                    pref.removeData("username");
-//                    pref.removeData("TOKEN");
-//                    Intent intent = new Intent(HomePageArpit.this , Register.class);
-//                    startActivity(intent);
-//                    finish();
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Toast.makeText(HomePageArpit.this, "Login Faild: "+e.getMessage() , Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//        }
         if(item.getItemId() == R.id.profile){
             Intent intent = new Intent(this, myProfile.class);
             startActivity(intent);
@@ -348,6 +263,70 @@ public class HomePageArpit extends AppCompatActivity {
     }
 
 
+    private class LoadFragments extends AsyncTask  {
+        ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            dialog  = new ProgressDialog(HomePageArpit.this);
+            dialog.setMessage("Posting...");
+            dialog.setCancelable(false);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            dialog.dismiss();
+            super.onPostExecute(o);
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            tabAdapter = new TabAdapter(getSupportFragmentManager());
+            myViewPager.setAdapter(tabAdapter);
+            tabLayout.setupWithViewPager(myViewPager);
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    myViewPager.setCurrentItem(tab.getPosition());
+
+                    if (tab.getPosition() < 2) {
+                        animateFab(tab.getPosition());
+                    }
+                    if(tab.getPosition() == 2){
+                        fab.hide();
+                    }
+                    if(tab.getPosition() == 1){
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(HomePageArpit.this, AddGroups.class));
+                            }
+                        });
+                    }
+                    if(tab.getPosition() == 0){
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(HomePageArpit.this, AddPosts.class));
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+            return null;
+        }
+    }
     protected void animateFab(final int position) {
         fab.clearAnimation();
 
@@ -394,6 +373,35 @@ public class HomePageArpit extends AppCompatActivity {
         });
         fab.startAnimation(shrink);
     }
+
+    private class LoadPreferences extends AsyncTask{
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            DocumentReference docRef = firestore.collection("All Users").document(uid);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            String username = document.getString("username");
+                            String name = document.getString("Name");
+                            Log.d("Check1", "Username " + username);
+                            pref.setData("usernameAdded", name);
+                            pref.setData("username", username);
+                            Toast.makeText(getApplicationContext(), "Shared preferences ready", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.d("Check1", "No such document");
+                        }
+                    } else {
+                        Log.d("Check1", "get failed with ", task.getException());
+                    }
+                }
+            });
+            return null;
+        }
+    }
+
     @Override
     public void finish() {
         super.finish();
