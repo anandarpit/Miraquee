@@ -1,5 +1,6 @@
 package com.example.chatterboi.afterauthenticated;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.chatterboi.OutgoingInvitationActivity;
 import com.example.chatterboi.R;
 import com.example.chatterboi.listeners.ContactListeners;
 import com.example.chatterboi.model.ContactModel;
@@ -105,6 +107,10 @@ public class Chats extends Fragment implements ContactListeners {
                    }
                    else{
                        Toast.makeText(getContext(), "Initiating Video Call", Toast.LENGTH_SHORT).show();
+                       Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
+                       intent.putExtra("contact", contactModel);
+                       intent.putExtra("type","video");
+                       startActivity(intent);
                    }
                 }
             }
@@ -124,6 +130,10 @@ public class Chats extends Fragment implements ContactListeners {
                     }
                     else{
                         Toast.makeText(getContext(), "Initiating Audio Call", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
+                        intent.putExtra("contact", contactModel);
+                        intent.putExtra("type","audio");
+                        startActivity(intent);
                     }
                 }
             }
