@@ -1,9 +1,12 @@
 package com.example.chatterboi;
 
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.chatterboi.Constants.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -18,8 +21,29 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        if(remoteMessage.getNotification() != null){
-            Log.d("FCM","Remote Message Recieved:" + remoteMessage.getNotification().getBody());
+
+
+        String type = remoteMessage.getData().get(Constants.REMOTE_MSG_TYPE);
+        if(type != null){
+            if(type.equals(Constants.REMOTE_MSG_INVITATION)){
+
+                Intent intent = new Intent(getApplicationContext(),IncomingInvitationActivity.class);
+                intent.putExtra(
+                        Constants.REMOTE_MSG_MEETING_TYPE,
+                        remoteMessage.getData().get(Constants.REMOTE_MSG_MEETING_TYPE)
+                );
+                intent.putExtra(
+                        "name",remoteMessage.getData().get("name")
+                );
+                intent.putExtra(
+                        "username",remoteMessage.getData().get("username")
+                );
+                intent.putExtra(
+                        "uid", remoteMessage.getData().get("uid")
+                );
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         }
 
     }

@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static android.content.ContentValues.TAG;
 
@@ -106,10 +107,11 @@ public class Chats extends Fragment implements ContactListeners {
                        Toast.makeText(getContext(), "User is logged out of Miraquee", Toast.LENGTH_SHORT).show();
                    }
                    else{
-                       Toast.makeText(getContext(), "Initiating Video Call", Toast.LENGTH_SHORT).show();
+//                       Toast.makeText(getContext(), "Initiating Video Call", Toast.LENGTH_SHORT).show();
                        Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
                        intent.putExtra("contact", contactModel);
                        intent.putExtra("type","video");
+                       intent.putExtra("token",token);
                        startActivity(intent);
                    }
                 }
@@ -129,10 +131,11 @@ public class Chats extends Fragment implements ContactListeners {
                         Toast.makeText(getContext(), "User is logged out of Miraquee", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Toast.makeText(getContext(), "Initiating Audio Call", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Initiating Audio Call", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
                         intent.putExtra("contact", contactModel);
                         intent.putExtra("type","audio");
+                        intent.putExtra("token",token);
                         startActivity(intent);
                     }
                 }

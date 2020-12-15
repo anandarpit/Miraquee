@@ -8,8 +8,8 @@ public class ApiClient {
 
     private static Retrofit retrofit = null;
 
-    private static Retrofit getClient(){
-        if(retrofit == null){
+    public static Retrofit getClient(){
+        if(retrofit == null){                          //https://fcm.googleapis.com/fcm/
             retrofit = new Retrofit.Builder().baseUrl("https://fcm.googleapis.com/fcm/")
                     .addConverterFactory(ScalarsConverterFactory.create()).build();
         }

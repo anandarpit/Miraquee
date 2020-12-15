@@ -130,6 +130,7 @@ public class Register extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     firebaseUser = mAuth.getCurrentUser();
                     userId= mAuth.getCurrentUser().getUid();
+                    prefs.setData("uid",userId);
                     db = FirebaseFirestore.getInstance();
                     DocumentReference documentReference=db.collection("All Users").document(userId);
                     Map<String,Object> user=new HashMap<>();

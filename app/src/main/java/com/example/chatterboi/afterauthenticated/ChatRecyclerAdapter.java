@@ -90,12 +90,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             audioCall =itemView.findViewById(R.id.audioCall);
             videoCall = itemView.findViewById(R.id.VideoCall);
             constraintLayout = itemView.findViewById(R.id.constraint);
-
             StorageReference profoleRef = storageReference.child("Profile Photos").child(contactModel.getUid());
             profoleRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Log.d("Check", "Uri has been received");
                     Picasso.get().load(uri).into(chatCiv);
                 }
             });
@@ -123,7 +121,6 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                     context.startActivity(intent);
                 }
             });
-
         }
     }
 }
