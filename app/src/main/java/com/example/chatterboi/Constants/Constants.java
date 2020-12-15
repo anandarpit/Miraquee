@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Constants {
     public static final String REMOTE_MSG_AUTHORIZATION = "Authorization";
-    public static  final String REMOTE_MSG_CONTENT_TYPE = "Content-Type";
+    public static  final String REMOTE_MSG_CONTENT_TYPE = "Content-Type";  // not Content_Type LOL
     public static  final String REMOTE_MSG_TYPE = "type";
     public static final String REMOTE_MSG_INVITATION = "invitation";
     public static final String REMOTE_MSG_MEETING_TYPE = "meetingType";
