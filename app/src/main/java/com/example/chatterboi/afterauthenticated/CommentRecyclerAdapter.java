@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,13 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         }
 
         public void bind(CommentModel commentModel) {
+            TextView username, comment;
+            username = itemView.findViewById(R.id.commentUsername);
+            comment = (TextView) itemView.findViewById(R.id.commentMessage);
+
+            username.setText("@"+commentModel.getUsername());
+            comment.setText(commentModel.getComment());
+
         }
     }
 }

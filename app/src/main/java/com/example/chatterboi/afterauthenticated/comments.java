@@ -115,6 +115,7 @@ public class comments extends AppCompatActivity {
         else{
             Toast.makeText(this, "Empty!", Toast.LENGTH_SHORT).show();
         }
+        commentInputText.setText("");
     }
 
     @Override

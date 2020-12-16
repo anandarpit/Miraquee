@@ -3,50 +3,54 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
+    android:maxWidth="300dp"
+    android:minWidth="150dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/comment_others"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/comment_others"
-        android:minWidth="200dp"
+
+    <TextView
+        android:id="@+id/commentUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:fontFamily="@font/acme"
+        android:paddingLeft="10dp"
+        android:text="Commenter Username"
+        android:textColor="#222831"
+        android:textSize="14dp"
+        android:gravity="start"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="100dp"
+        android:layout_height="0.5dp"
+        android:background="#456268"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentUsername" />
+
+    <TextView
+        android:id="@+id/commentMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/amaranth"
+        android:paddingHorizontal="10dp"
         android:maxWidth="300dp"
-        android:orientation="vertical"
+        android:paddingVertical="4dp"
+        android:text="Superb bro😍"
+        android:textColor="#3A5876"
+        android:textSize="12dp"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/acme"
-            android:paddingLeft="10dp"
-            android:text="Commenter Username"
-            android:textColor="#222831"
-            android:textSize="14dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="90dp"
-            android:background="#456268" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:layout_weight="1"
-            android:textSize="12dp"
-            android:textColor="#3A5876"
-            android:fontFamily="@font/amaranth"
-            android:paddingVertical="4dp"
-            android:text="Superb bro😍hhhhhhhhhhhhhhhvffff"/>
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
