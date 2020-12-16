@@ -1,18 +1,25 @@
 package com.example.chatterboi.afterauthenticated;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -77,6 +84,8 @@ public class HomePageArpit extends AppCompatActivity {
     FirebaseUser mUser;
     private InterstitialAd mInterstitialAd;
 
+    private static int REQUEST_CODE_BATTERY_OPTIMIZATION = 1000;
+
     String  uid;
 
     int[] colorIntArray = {R.color.colorAccent,R.color.colorPrimaryDark,0};
@@ -121,11 +130,13 @@ public class HomePageArpit extends AppCompatActivity {
         loadPhotoFirst();
 
         showNotification();
+
 //        mInterstitialAd = new InterstitialAd(this);
 //        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
 //        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         setSupportActionBar(toolbar);
+        checkForBatteryOptimizations();
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
@@ -399,6 +410,40 @@ public class HomePageArpit extends AppCompatActivity {
                 }
             });
             return null;
+        }
+    }
+
+    private void checkForBatteryOptimizations(){
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            if(!powerManager.isIgnoringBatteryOptimizations(getPackageName())){
+                Context context;
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomePageArpit.this);
+                        alertDialog.setTitle("Warning")
+                                .setMessage("Battery Optimization is Enabled. It can interrupt Background Services and also you won't be able to receive Calls")
+                                .setPositiveButton("DISABLE", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                                        startActivityForResult(intent,REQUEST_CODE_BATTERY_OPTIMIZATION);
+                                    }
+                                });
+                        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i){
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        alertDialog.create().show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_BATTERY_OPTIMIZATION){
+            checkForBatteryOptimizations();
         }
     }
 

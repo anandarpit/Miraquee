@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        ndk.abiFilters 'armeabi-v7a'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -21,7 +22,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
