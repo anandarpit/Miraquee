@@ -46,7 +46,6 @@
         android:layout_margin="5dp"
         android:layout_height="230dp"
         android:layout_gravity="end"
-        android:src="@drawable/placeholder"
         />
     </androidx.cardview.widget.CardView>
 </LinearLayout>

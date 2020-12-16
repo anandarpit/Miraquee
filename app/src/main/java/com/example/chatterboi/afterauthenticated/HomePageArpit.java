@@ -164,7 +164,7 @@ public class HomePageArpit extends AppCompatActivity {
         documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(HomePageArpit.this, "Token Updated", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(HomePageArpit.this, "Token Updated", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -180,7 +180,7 @@ public class HomePageArpit extends AppCompatActivity {
             ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Toast.makeText(getApplicationContext(), "Photo had to be downloaded", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Photo had to be downloaded", Toast.LENGTH_SHORT).show();
                     Picasso picasso = Picasso.get();
                     picasso.setIndicatorsEnabled(true);
                     picasso.load(uri).into(imageView);
@@ -191,7 +191,7 @@ public class HomePageArpit extends AppCompatActivity {
         }
         if(file.exists()){
             if (file.getName().equals(uid + ".jpg")) {
-                Toast.makeText(getApplicationContext(), "Photo From Cache", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Photo From Cache", Toast.LENGTH_SHORT).show();
                 Picasso
                         .get() // if file found then load it
                         .load(file)
@@ -264,19 +264,19 @@ public class HomePageArpit extends AppCompatActivity {
 
 
     private class LoadFragments extends AsyncTask  {
-        ProgressDialog dialog;
+//        ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
-            dialog  = new ProgressDialog(HomePageArpit.this);
-            dialog.setMessage("Posting...");
-            dialog.setCancelable(false);
-            dialog.show();
+//            dialog  = new ProgressDialog(HomePageArpit.this);
+//            dialog.setMessage("Posting...");
+//            dialog.setCancelable(false);
+//            dialog.show();
             super.onPreExecute();
         }
 
         @Override
         protected void onPostExecute(Object o) {
-            dialog.dismiss();
+//            dialog.dismiss();
             super.onPostExecute(o);
         }
 
@@ -389,7 +389,7 @@ public class HomePageArpit extends AppCompatActivity {
                             Log.d("Check1", "Username " + username);
                             pref.setData("usernameAdded", name);
                             pref.setData("username", username);
-                            Toast.makeText(getApplicationContext(), "Shared preferences ready", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "Shared preferences ready", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d("Check1", "No such document");
                         }

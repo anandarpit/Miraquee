@@ -67,7 +67,7 @@ dependencies {
     //Github
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     implementation 'com.mikhaellopez:circularimageview:4.2.0'
-    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+//    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
 
     //Support
     implementation 'com.android.support:design:26.1.0'
@@ -85,5 +85,8 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.8'
+
+    //Jitsi meet
+    implementation ('org.jitsi.react:jitsi-meet-sdk:2.8.2') { transitive = true }
 
 }

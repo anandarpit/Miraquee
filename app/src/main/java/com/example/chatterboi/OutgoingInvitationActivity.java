@@ -35,8 +35,13 @@ import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.URL;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +59,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String uid;
+    String meetingRoom = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,12 +142,19 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             JSONObject body = new JSONObject();
             JSONObject data = new JSONObject();
 
+
+
+
             data.put(Constants.REMOTE_MSG_TYPE,Constants.REMOTE_MSG_INVITATION); // yes! you are being invited, not inviting
             data.put(Constants.REMOTE_MSG_MEETING_TYPE,meetingType);    // audio or video which type to be initiated
             data.put("name",prefs.getData("usernameAdded")); // inviter name(i.e my)
             data.put("username",prefs.getData("username"));  // inviter username(i.e. my)
             data.put("uid", uid);                                // inviter uid(i.e. my)
             data.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken); // inviter token(i.e my token)
+
+            meetingRoom = uid+ "_" + UUID.randomUUID().toString().substring(0,5);
+            data.put(Constants.REMOTE_MSG_MEETING_ROOM, meetingRoom);
+
 
             body.put(Constants.REMOTE_MSG_DATA,data);
             body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
@@ -212,7 +225,21 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
             if(type != null){
                 if(type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)){
-                    Toast.makeText(getApplicationContext(), "Accepted", Toast.LENGTH_SHORT).show();
+                    try {
+
+                        URL serverUrl = new URL("https://meet.jit.si");
+                        JitsiMeetConferenceOptions conferenceOptions = new JitsiMeetConferenceOptions.Builder()
+                                .setServerURL(serverUrl)
+                                .setWelcomePageEnabled(false)
+                                .setRoom(meetingRoom)
+                                .build();
+                        JitsiMeetActivity.launch(OutgoingInvitationActivity.this,conferenceOptions);
+                        finish();
+
+                    }catch (Exception e){
+                        Toast.makeText(OutgoingInvitationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                 }
                 else if(type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)){
                     Toast.makeText(OutgoingInvitationActivity.this, "Rejected", Toast.LENGTH_SHORT).show();

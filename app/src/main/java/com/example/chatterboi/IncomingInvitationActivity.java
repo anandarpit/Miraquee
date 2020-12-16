@@ -1,4 +1,4 @@
-package com.example.chatterboi;
+ package com.example.chatterboi;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +27,13 @@ import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.jitsi.meet.sdk.JitsiMeet;
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -136,16 +141,35 @@ public class IncomingInvitationActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.isSuccessful()){
                     if(type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)){
-                        Toast.makeText(IncomingInvitationActivity.this,"Invitation Accepted!",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(IncomingInvitationActivity.this,"Invitation Accepted!",Toast.LENGTH_SHORT).show();
+
+                        try {
+
+                            URL serverUrl = new URL("https://meet.jit.si");
+                            JitsiMeetConferenceOptions conferenceOptions = new JitsiMeetConferenceOptions.Builder()
+                                    .setServerURL(serverUrl)
+                                    .setWelcomePageEnabled(false)
+                                    .setRoom(getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM))
+                                    .build();
+                            JitsiMeetActivity.launch(IncomingInvitationActivity.this,conferenceOptions);
+                            finish();
+
+                        }catch (Exception e){
+                            Toast.makeText(IncomingInvitationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
                     }
                     else{
                         Toast.makeText(IncomingInvitationActivity.this, "Invitation Rejected", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 }
                 else{
                     Toast.makeText(IncomingInvitationActivity.this, "Invitation Failed: "+ response.message(), Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-                finish();
+
             }
 
             @Override
