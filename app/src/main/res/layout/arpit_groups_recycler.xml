@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/acme"
             android:text= "  username"
-            android:textColor="#3F51B5"
+            android:textColor="#1F4441"
             android:gravity="center"
             android:paddingBottom="2dp"
             android:layout_marginRight="20dp"

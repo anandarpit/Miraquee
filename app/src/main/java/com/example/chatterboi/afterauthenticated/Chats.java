@@ -134,7 +134,7 @@ public class Chats extends Fragment implements ContactListeners {
 //                        Toast.makeText(getContext(), "Initiating Audio Call", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
                         intent.putExtra("contact", contactModel);
-                        intent.putExtra("type","audio");
+                        intent.putExtra("type","video");
                         intent.putExtra("token",token);
                         startActivity(intent);
                     }

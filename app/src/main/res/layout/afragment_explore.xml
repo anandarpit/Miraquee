@@ -53,7 +53,7 @@
         android:text="Contacts "
         android:gravity="center"
         android:textSize="16dp"
-        android:textColor="#3F51B5"
+        android:textColor="#1F4441"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
         android:fontFamily="@font/bangers"

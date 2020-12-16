@@ -148,11 +148,6 @@
                     android:onClick="bind"
                     android:src="@drawable/ic_comment" />
 
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="35dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:src="@drawable/ic_share" />
             </LinearLayout>
 
             <ImageView

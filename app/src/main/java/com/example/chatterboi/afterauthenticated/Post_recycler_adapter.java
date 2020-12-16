@@ -1,8 +1,10 @@
 package com.example.chatterboi.afterauthenticated;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -99,9 +101,8 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
                  public void onClick(View view) {
                     Intent comment_intent = new Intent(context,comments.class);
                     comment_intent.putExtra("POST_KEY",postModel.getDocId());
-                    context.startActivity(comment_intent);
-
-
+                    Bundle bundle = ActivityOptions.makeCustomAnimation(context,  R.anim.slide_in_up, R.anim.slide_out_up).toBundle();
+                    context.startActivity(comment_intent , bundle);
                  }
              });
             Uri profileUri = Uri.parse(postModel.getProfileUri());

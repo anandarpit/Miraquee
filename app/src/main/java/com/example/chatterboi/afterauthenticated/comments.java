@@ -1,6 +1,7 @@
 package com.example.chatterboi.afterauthenticated;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,8 +30,14 @@ public class comments extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         CommentList.setLayoutManager(linearLayoutManager);
 
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.white));
+
 
         CommentInputText = findViewById(R.id.comment_input);
-        ImageButton send_image= findViewById(R.id.send_img);
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_from_top,R.anim.slide_in_top);
     }
 }

@@ -420,7 +420,13 @@ public class HomePageArpit extends AppCompatActivity {
                 Context context;
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomePageArpit.this);
                         alertDialog.setTitle("Warning")
-                                .setMessage("Battery Optimization is Enabled. It can interrupt Background Services and also you won't be able to receive Calls")
+                                .setMessage("Battery Optimization is Enabled. You won't be able to receive calls when your app is in background." +
+                                        " Remember though that even if you follow this step and " +
+                                        "turn off the background optimization, still there is a chance that you won't receive incoming calls " +
+                                        "in background state. There is nothing I can do as popular apps " +
+                                        " are whitelisted by google " +
+                                        "hence they can carry on with their background services" +
+                                        " without any restrictions. Still give it a try. In any case the call should work fine when apps on both side are active!")
                                 .setPositiveButton("DISABLE", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
