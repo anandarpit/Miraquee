@@ -100,7 +100,7 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
                  @Override
                  public void onClick(View view) {
                     Intent comment_intent = new Intent(context,comments.class);
-                    comment_intent.putExtra("POST_KEY",postModel.getDocId());
+                    comment_intent.putExtra("postId",postModel.getDocId());
                     Bundle bundle = ActivityOptions.makeCustomAnimation(context,  R.anim.slide_in_up, R.anim.slide_out_up).toBundle();
                     context.startActivity(comment_intent , bundle);
                  }

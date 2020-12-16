@@ -8,6 +8,7 @@
     <color name="secondaryText">#757575</color>
     <color name="deviderColor">#BDBDBD</color>
     <color name="white">#ffffff</color>
+    <color name="comment">#ACCBD6</color>
     <color name="AddPostStatusBar">#2C2B2B</color>
     <color name="statusbacground">#252222</color>
     <color name="invitation">#009688</color>
