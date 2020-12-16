@@ -146,12 +146,16 @@ public class IncomingInvitationActivity extends AppCompatActivity {
                         try {
 
                             URL serverUrl = new URL("https://meet.jit.si");
-                            JitsiMeetConferenceOptions conferenceOptions = new JitsiMeetConferenceOptions.Builder()
+                            JitsiMeetConferenceOptions.Builder conferenceOptions = new JitsiMeetConferenceOptions.Builder()
                                     .setServerURL(serverUrl)
                                     .setWelcomePageEnabled(false)
-                                    .setRoom(getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM))
-                                    .build();
-                            JitsiMeetActivity.launch(IncomingInvitationActivity.this,conferenceOptions);
+                                    .setRoom(getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM));
+
+                            if(type.equals("audio")){
+                                conferenceOptions.setVideoMuted(true);
+                            }
+
+                            JitsiMeetActivity.launch(IncomingInvitationActivity.this,conferenceOptions.build());
                             finish();
 
                         }catch (Exception e){

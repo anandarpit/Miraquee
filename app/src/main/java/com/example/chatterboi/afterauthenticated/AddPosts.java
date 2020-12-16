@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,12 +48,13 @@ public class AddPosts extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     CircularImageView circularImageView;
-    TextView name,textforpost, addPhoto, X;
+    TextView name,textforpost, X;
     String textofpost, uid , profilePic = "";
     Preferences pref;
     Button post;
     Uri uri;
     String documentReferenceId;
+    LinearLayout addPhoto;
     ImageView imageSelected;
     StorageReference storageReference;
     Long currentTime;
@@ -68,7 +70,7 @@ public class AddPosts extends AppCompatActivity {
         X = findViewById(R.id.x);
         textforpost = findViewById(R.id.textforpost);
         post = findViewById(R.id.post);
-        addPhoto = findViewById(R.id.add_photo_text);
+        addPhoto = findViewById(R.id.linearLayout);
         imageSelected = findViewById(R.id.imageView3);
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

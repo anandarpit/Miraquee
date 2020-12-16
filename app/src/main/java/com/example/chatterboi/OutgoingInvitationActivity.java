@@ -228,12 +228,15 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
                     try {
 
                         URL serverUrl = new URL("https://meet.jit.si");
-                        JitsiMeetConferenceOptions conferenceOptions = new JitsiMeetConferenceOptions.Builder()
+                        JitsiMeetConferenceOptions.Builder conferenceOptions = new JitsiMeetConferenceOptions.Builder()
                                 .setServerURL(serverUrl)
                                 .setWelcomePageEnabled(false)
-                                .setRoom(meetingRoom)
-                                .build();
-                        JitsiMeetActivity.launch(OutgoingInvitationActivity.this,conferenceOptions);
+                                .setRoom(meetingRoom);
+                        if(type.equals("audio")){
+                            conferenceOptions.setVideoMuted(true);
+                        }
+
+                        JitsiMeetActivity.launch(OutgoingInvitationActivity.this,conferenceOptions.build());
                         finish();
 
                     }catch (Exception e){
