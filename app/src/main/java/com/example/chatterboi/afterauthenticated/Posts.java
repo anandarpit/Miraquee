@@ -108,6 +108,4 @@ public class Posts extends Fragment{
                     }
                 });
     }
-
-
 }

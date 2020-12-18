@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatterboi.SharedPreferences.Preferences;
 import com.example.chatterboi.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_adapter.myAdapter> {
 
     List<PostModel> list;
@@ -81,6 +84,8 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
     }
 
     class myAdapter extends RecyclerView.ViewHolder {
+        ImageView clickTolike;
+        TextView likes;
         public myAdapter(@NonNull View itemView) {
             super(itemView);
         }
@@ -90,10 +95,10 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
             TextView name = itemView.findViewById(R.id.textView4);
             TextView date = itemView.findViewById(R.id.textView6);
             TextView caption = itemView.findViewById(R.id.textView5);
-            final ImageView clickTolike = itemView.findViewById(R.id.clickToLike);
+            clickTolike = itemView.findViewById(R.id.clickToLike);
             CircularImageView profileImage= itemView.findViewById(R.id.circularImageView);
             ImageView postImage = itemView.findViewById(R.id.post_image);
-            TextView likes = itemView.findViewById(R.id.likes);
+            likes = itemView.findViewById(R.id.likes);
             TextView noOfComments = itemView.findViewById(R.id.noOfComments);
 
             final ImageView comment = itemView.findViewById(R.id.comment);
@@ -140,64 +145,85 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
                 }
             });
 
+            pref.removeData(postModel.docId);
+
             Picasso.get().load(postUri).into(postImage);
 
-            if(pref.getData(postModel.docId) == "Y"){
-                clickTolike.setImageDrawable(null);
-                clickTolike.setBackgroundResource(R.drawable.ic_lit_fire);
-            }
+            clickTolike.setImageResource(R.drawable.ic_no_fire);
 
+            getTotalLikes(postModel);
+
+        }
+
+        private void getTotalLikes(PostModel postModel) {
             final List<LikeModel> list = new ArrayList<>();
             db.collection("All Posts").document(postModel.getDocId()).collection("Likes").addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     list.clear();
-                    int flag = 0;
-                    String culpritId = "";
+
                     for(QueryDocumentSnapshot snap: value){
                         list.add(new LikeModel(snap.getString("likerId")));
-                        if(snap.getString("likerId") == uid){
-                            flag++;
-                            culpritId = snap.getId();
-                            pref.setData(postModel.docId,"Y");
+                        if(snap.getString("likerId").equals(uid)){
+                            clickTolike.setImageResource(R.drawable.ic_lit_fire);
                         }
                     }
 
                     likes.setText(list.size() + " flame");
-                    final int finalFlag = flag;
-                    final String finalCulpritId = culpritId;
                     clickTolike.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if(finalFlag == 0) {
-                                Map<String, Object> pp = new HashMap<>();
-                                pp.put("likerId", uid);
-                                db.collection("All Posts").document(postModel.getDocId()).collection("Likes")
-                                        .add(pp)
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                                        clickTolike.setImageDrawable(null);
-                                        clickTolike.setBackgroundResource(R.drawable.ic_lit_fire);
-                                    }
-                                });
+                            int flag = 0;
+                            for(LikeModel likerId: list){
+                                if(likerId.getLikerId().equals(uid)){
+                                    removeLike(postModel);
+                                    flag = 1;
+                                }
                             }
-                            if(finalFlag == 1){
-                                Map<String, Object> pp = new HashMap<>();
-                                pp.put("likerId", uid);
-                                db.collection("All Posts").document(postModel.getDocId()).collection("Likes").document(finalCulpritId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        clickTolike.setImageDrawable(null);
-                                        clickTolike.setBackgroundResource(R.drawable.ic_no_fire);
-                                        pref.setData(postModel.docId,"N");
-                                    }
-                                });
+                            if(flag == 0){
+                                addLike(postModel);
                             }
                         }
                     });
                 }
             });
+
+        }
+
+        private void removeLike(PostModel postModel) {
+            
+            db.collection("All Posts").document(postModel.getDocId()).collection("Likes")
+                    .document(uid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    clickTolike.setImageResource(R.drawable.ic_no_fire);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void addLike(PostModel postModel) {
+            Map<String, Object> pp = new HashMap<>();
+            pp.put("likerId", uid);
+            db.collection("All Posts")
+                    .document(postModel.getDocId())
+                    .collection("Likes")
+                    .document(uid)
+                    .set(pp).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            clickTolike.setImageResource(R.drawable.ic_lit_fire);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 }
