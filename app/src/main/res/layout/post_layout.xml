@@ -147,8 +147,20 @@
                     android:clickable="true"
                     android:onClick="bind"
                     android:src="@drawable/ic_comment" />
+                <TextView
+                    android:id="@+id/noOfComments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="2"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginLeft="-7dp"
+                    android:gravity="start|top"
+                    android:fontFamily="@font/acme"
+                    android:textSize="17dp"
+                    android:textColor="#070707"/>
 
             </LinearLayout>
+
 
             <ImageView
                 android:id="@+id/bookmark"

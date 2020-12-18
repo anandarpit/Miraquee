@@ -93,7 +93,8 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
             final ImageView clickTolike = itemView.findViewById(R.id.clickToLike);
             CircularImageView profileImage= itemView.findViewById(R.id.circularImageView);
             ImageView postImage = itemView.findViewById(R.id.post_image);
-            final TextView likes = itemView.findViewById(R.id.likes);
+            TextView likes = itemView.findViewById(R.id.likes);
+            TextView noOfComments = itemView.findViewById(R.id.noOfComments);
 
             final ImageView comment = itemView.findViewById(R.id.comment);
              comment.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +108,17 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
              });
             Uri profileUri = Uri.parse(postModel.getProfileUri());
             Uri postUri = Uri.parse(postModel.getPostUri());
+
+            db.collection("All Posts").document(postModel.getDocId()).collection("Comments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    int i = 0;
+                    for (QueryDocumentSnapshot snap : value){
+                        i++;
+                    }
+                    noOfComments.setText(Integer.toString(i));
+                }
+            });
 
             String postTime = postModel.getTime();
             date.setText(postTime);
