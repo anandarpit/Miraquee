@@ -126,8 +126,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/bookmark"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/post_image"
                 app:layout_constraintVertical_bias="0">
@@ -147,32 +145,21 @@
                     android:clickable="true"
                     android:onClick="bind"
                     android:src="@drawable/ic_comment" />
+
                 <TextView
                     android:id="@+id/noOfComments"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:text="2"
-                    android:layout_marginTop="-5dp"
                     android:layout_marginLeft="-7dp"
-                    android:gravity="start|top"
+                    android:layout_marginTop="-5dp"
                     android:fontFamily="@font/acme"
-                    android:textSize="17dp"
-                    android:textColor="#070707"/>
+                    android:gravity="start|top"
+                    android:text="2"
+                    android:textColor="#070707"
+                    android:textSize="17dp" />
 
             </LinearLayout>
 
-
-            <ImageView
-                android:id="@+id/bookmark"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_marginHorizontal="8dp"
-                android:src="@drawable/ic_empty_bookmark"
-                app:layout_constraintBottom_toBottomOf="@+id/layoutLinear"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/layoutLinear" />
 
             <LinearLayout
                 android:id="@+id/noOfLikes"

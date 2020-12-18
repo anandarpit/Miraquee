@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".afterauthenticated.Calls">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/CallsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:padding="5dp"/>
 
 </FrameLayout>

@@ -18,6 +18,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+
         <service
             android:name=".MessagingService"
             android:exported="false">
@@ -25,10 +26,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <activity android:name=".OutgoingInvitationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".IncomingInvitationActivity"
-            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".OutgoingInvitationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".IncomingInvitationActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".afterauthenticated.ChatInterface"
             android:theme="@style/AppTheme3"
@@ -78,8 +82,6 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5780826959412256~8772327189" />
-
-
     </application>
 
 </manifest>

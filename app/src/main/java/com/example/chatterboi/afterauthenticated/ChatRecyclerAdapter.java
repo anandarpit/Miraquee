@@ -19,15 +19,19 @@ import com.example.chatterboi.R;
 import com.example.chatterboi.SharedPreferences.Preferences;
 import com.example.chatterboi.listeners.ContactListeners;
 import com.example.chatterboi.model.ContactModel;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapter.myAdapter> {
     List<ContactModel> list;
@@ -90,6 +94,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             audioCall =itemView.findViewById(R.id.audioCall);
             videoCall = itemView.findViewById(R.id.VideoCall);
             constraintLayout = itemView.findViewById(R.id.constraint);
+
             StorageReference profoleRef = storageReference.child("Profile Photos").child(contactModel.getUid());
             profoleRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
@@ -102,10 +107,79 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             contactname.setText(contactModel.getName());
 
             audioCall.setOnClickListener(view -> {
-                contactListeners.initiateAudioMeeting(contactModel);
-            });
+                        contactListeners.initiateAudioMeeting(contactModel);
+                        Long time = System.currentTimeMillis();
+                        HashMap<String, Object> pp = new HashMap<>();
+                        pp.put("time", time);
+                        pp.put("SorR", "S");
+                        pp.put("uid", contactModel.getUid());
+                        pp.put("name", contactModel.getName());
+                        pp.put("username", contactModel.getUsername());
+                        db.collection("All Users").document(uid).collection("Calls")
+                                .add(pp)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        HashMap<String, Object> ppt = new HashMap<>();
+                                        ppt.put("time", time);
+                                        ppt.put("SorR", "R");
+                                        ppt.put("uid", uid);
+                                        ppt.put("name", prefs.getData("usernameAdded"));
+                                        ppt.put("username", prefs.getData("username"));
+                                        db.collection("All Users").document(contactModel.getUid()).collection("Calls")
+                                                .add(ppt)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
 
-            videoCall.setOnClickListener( view -> {
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(context, "Failed to add to Calls", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    }
+                                });
+                    });
+
+            videoCall.setOnClickListener(view -> {
+
+                Long time = System.currentTimeMillis();
+                HashMap<String, Object> pp = new HashMap<>();
+                pp.put("time", time);
+                pp.put("SorR", "S");
+                pp.put("uid", contactModel.getUid());
+                pp.put("name", contactModel.getName());
+                pp.put("username", contactModel.getUsername());
+                db.collection("All Users").document(uid).collection("Calls")
+                        .add(pp)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                HashMap<String, Object> ppt = new HashMap<>();
+                                ppt.put("time", time);
+                                ppt.put("SorR", "R");
+                                ppt.put("uid", uid);
+                                ppt.put("name", prefs.getData("usernameAdded"));
+                                ppt.put("username", prefs.getData("username"));
+                                db.collection("All Users").document(contactModel.getUid()).collection("Calls")
+                                        .add(ppt)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(context, "Failed to add to Calls", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                        });
                 contactListeners.initiateVideoMeeting(contactModel);
             });
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,12 +95,13 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
         public void bind(final PostModel postModel) {
 
             TextView name = itemView.findViewById(R.id.textView4);
-            TextView date = itemView.findViewById(R.id.textView6);
+            TextView dateee = itemView.findViewById(R.id.textView6);
             TextView caption = itemView.findViewById(R.id.textView5);
             clickTolike = itemView.findViewById(R.id.clickToLike);
             CircularImageView profileImage= itemView.findViewById(R.id.circularImageView);
             ImageView postImage = itemView.findViewById(R.id.post_image);
             likes = itemView.findViewById(R.id.likes);
+
             TextView noOfComments = itemView.findViewById(R.id.noOfComments);
 
             final ImageView comment = itemView.findViewById(R.id.comment);
@@ -125,8 +128,52 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
                 }
             });
 
+            String wordMonth = null;
             String postTime = postModel.getTime();
-            date.setText(postTime);
+
+            String date = convertDate(postTime,"dd");
+            String month = convertDate(postTime,"MM");
+
+            if(month.equals("01")){
+                wordMonth = "Jan";
+            }
+            if(month.equals("02")){
+                wordMonth = "Feb";
+            }
+            if(month.equals("03")){
+                wordMonth = "March";
+            }
+            if(month.equals("04")){
+                wordMonth = "April";
+            }
+            if(month.equals("05")){
+                wordMonth = "May";
+            }
+            if(month.equals("06")){
+                wordMonth = "June";
+            }
+            if(month.equals("07")){
+                wordMonth = "July";
+            }
+            if(month.equals("08")){
+                wordMonth = "Aug";
+            }
+            if(month.equals("09")){
+                wordMonth = "Sep";
+            }
+            if(month.equals("10")){
+                wordMonth = "Oct";
+            }
+            if(month.equals("11")){
+                wordMonth = "Nov";
+            }
+            if(month.equals("12")){
+                wordMonth = "Dec";
+            }
+
+            String time = convertDate(postTime,"hh:mm");
+
+            dateee.setText(wordMonth +" " + date + ", " + time +" "+convertDate(postTime,"a") );
 
             String profileName = postModel.getDisplayName();
             String postCaption = postModel.getPostText();
@@ -191,7 +238,7 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
         }
 
         private void removeLike(PostModel postModel) {
-            
+
             db.collection("All Posts").document(postModel.getDocId()).collection("Likes")
                     .document(uid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -224,6 +271,9 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
                             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+        }
+        public String convertDate(String dateInMilliseconds,String dateFormat) {
+            return DateFormat.format(dateFormat, Long.parseLong(dateInMilliseconds)).toString();
         }
     }
 }
