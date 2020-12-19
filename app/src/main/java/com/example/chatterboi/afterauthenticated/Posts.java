@@ -40,6 +40,7 @@ public class Posts extends Fragment{
     SwipeRefreshLayout swipeRefreshLayout;
     Context context;
     int flag;
+
     public Posts() {
     }
 
