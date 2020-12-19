@@ -77,7 +77,6 @@
             android:src="@drawable/ic_gallery" />
 
         <TextView
-            android:id="@+id/add_photo_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -5,21 +5,9 @@
     <string name="forgot_password">Please enter your email to receive the reset email</string>
 
 
-    <string name="hint_create_room">Enter room name&#8230;</string>
-    <string name="create_room">Create room</string>
-    <string name="error_empty_room">Please enter a room name</string>
-
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="hint_message_text">Type a message&#8230;</string>
-    <string name="error_empty_message">Please enter a message</string>
-    <string name="error_message_failed">Failed to send your message</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="group_description"> Dummy Text\n  Place a CardView inside another CardView and apply a transparent background to your outer CardView and remove its corner radius ("cornerRadios = 0dp"). Your inner CardView will have a cornerRadius value of 3dp, for example. Then apply a marginTop to your inner CardView, so its bottom bounds will be cut by the outer CardView. This way, the bottom corner radius of your inner CardView will be hidden.</string>
     <string name="group_name">Arpit Anand</string>
-    <string name="admin_name">username</string>
-    <string name="this_group_is_private">This group is private!</string>
-    <string name="request_to_join_or_not">Send join request</string>
     <string name="add_new_contacts">Any contact you add will display here. Add new contact by clicking on the add icon.</string>
     <string name="dialog_info">Pressing the pending icon will accept the friend request if you have received it, and will delete the friend request if you have sent it. So be careful on how you use it!</string>
 </resources>

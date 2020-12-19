@@ -84,7 +84,7 @@ public class CallsRecyclerAdapter extends RecyclerView.Adapter<CallsRecyclerAdap
                 }
             });
             name.setText(callsModel.getName());
-            username.setText(callsModel.getUsername());
+            username.setText("@"+callsModel.getUsername());
             if(callsModel.getSorR().equals("S")){
                 callsDirection.setImageResource(R.drawable.ic_call_made);
             }

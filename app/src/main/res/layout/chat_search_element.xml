@@ -7,7 +7,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/searchCardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="10dp"
