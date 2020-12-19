@@ -77,6 +77,7 @@
             android:src="@drawable/ic_gallery" />
 
         <TextView
+            android:id="@+id/linearlayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -85,6 +86,21 @@
             android:textColor="#265628"
             android:textSize="20dp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/patience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:fontFamily="@font/amaranth"
+        android:textSize="15dp"
+        android:textColor="#9A0202"
+        android:visibility="invisible"
+        android:text="It may take a while... Have Patience!"
+        app:layout_constraintBottom_toTopOf="@+id/post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
         android:id="@+id/post"

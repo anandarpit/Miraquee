@@ -54,10 +54,11 @@ public class AddPosts extends AppCompatActivity {
     Button post;
     Uri uri;
     String documentReferenceId;
-    LinearLayout addPhoto;
+    TextView addPhoto;
     ImageView imageSelected;
     StorageReference storageReference;
     Long currentTime;
+    TextView patience;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +71,14 @@ public class AddPosts extends AppCompatActivity {
         X = findViewById(R.id.x);
         textforpost = findViewById(R.id.textforpost);
         post = findViewById(R.id.post);
-        addPhoto = findViewById(R.id.linearLayout);
+        patience = findViewById(R.id.patience);
+        addPhoto = findViewById(R.id.linearlayout1);
         imageSelected = findViewById(R.id.imageView3);
+
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                patience.setVisibility(View.VISIBLE);
                 Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(openGallery,1000);
             }
@@ -205,6 +209,7 @@ public class AddPosts extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        patience.setVisibility(View.INVISIBLE);
         if(requestCode == 1000 && resultCode == RESULT_OK){
             Uri imageUri = data.getData();
             if(imageUri!= null) {
@@ -234,7 +239,7 @@ public class AddPosts extends AppCompatActivity {
         List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
         for(File file : files){
             if(file.getName().equals(uid + ".jpg")){
-                Toast.makeText(getApplicationContext(), "Uri loaded through file", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Uri loaded through file", Toast.LENGTH_SHORT).show();
                 Picasso
                         .get() // if file found then load it
                         .load(file)

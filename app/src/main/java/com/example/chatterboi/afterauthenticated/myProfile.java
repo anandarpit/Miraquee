@@ -104,7 +104,7 @@ public class myProfile extends AppCompatActivity {
         List<File> files = new ArrayList<>(Arrays.asList(getCacheDir().listFiles()));
         for(File file : files){
             if(file.getName().equals(uid + ".jpg")){
-                Toast.makeText(getApplicationContext(), "Uri loaded through file", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Uri loaded through file", Toast.LENGTH_SHORT).show();
                 Picasso
                         .get() // if file found then load it
                         .load(file)
@@ -116,7 +116,7 @@ public class myProfile extends AppCompatActivity {
         File file = new File(getCacheDir() + File.separator + uid + ".jpg");
         if(!file.exists()){
             ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                Toast.makeText(getApplicationContext(), "Uri Downloaded through OnCreate Activity !", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Uri Downloaded through OnCreate Activity !", Toast.LENGTH_SHORT).show();
                 Picasso picasso = Picasso.get();
                 picasso.setIndicatorsEnabled(true);
                 picasso.load(uri).into(profilepic);
@@ -143,7 +143,7 @@ public class myProfile extends AppCompatActivity {
             Map<String,Object> user=new HashMap<>();
             user.put("FCM_token", FieldValue.delete());
             documentReference.update(user).addOnSuccessListener(aVoid -> {
-                Toast.makeText(myProfile.this, "Login Successful", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(myProfile.this, "Login Successful", Toast.LENGTH_SHORT).show();
                 pref.removeData("LoggedIn");
                 pref.removeData("Registered");
                 pref.removeData("usernameAdded");

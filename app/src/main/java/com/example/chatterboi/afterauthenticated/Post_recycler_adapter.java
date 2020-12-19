@@ -261,16 +261,16 @@ public class Post_recycler_adapter extends RecyclerView.Adapter<Post_recycler_ad
                     .collection("Likes")
                     .document(uid)
                     .set(pp).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            clickTolike.setImageResource(R.drawable.ic_lit_fire);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                @Override
+                public void onSuccess(Void aVoid) {
+                    clickTolike.setImageResource(R.drawable.ic_lit_fire);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         public String convertDate(String dateInMilliseconds,String dateFormat) {
             return DateFormat.format(dateFormat, Long.parseLong(dateInMilliseconds)).toString();

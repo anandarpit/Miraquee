@@ -305,10 +305,10 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
                             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                 if(response.code() == 200){
                                     if(response.body().success != 1){
-                                        Toast.makeText(context, "Failed to send notification!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Failed! The user is inactive", Toast.LENGTH_SHORT).show();
                                     }
                                     else{
-                                        Toast.makeText(context, "FCM sent", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(context, "FCM sent", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }

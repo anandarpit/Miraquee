@@ -193,7 +193,7 @@ public class ChatInterface extends AppCompatActivity {
                 .add(chat).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(ChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
                 showChatMessages();
                 messageEditText.setText(null);
                 sendCloudNotification(message, Oid, OUsername);
@@ -226,7 +226,7 @@ public class ChatInterface extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "Failed to send notification!", Toast.LENGTH_SHORT).show();
                                 }
                                 else{
-                                    Toast.makeText(getApplicationContext(), "FCM sent", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getApplicationContext(), "FCM sent", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
