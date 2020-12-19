@@ -95,11 +95,18 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Boolean status = documentSnapshot.getBoolean("Status");
+                            String SorR = documentSnapshot.getString("SentOrRecieved");
                             if(status == null){
                             }
                             else{
                                 if(status == false) {
-                                    addContact.setBackgroundResource(R.drawable.ic_doble_tick);
+                                    if(SorR.equals("R")){
+                                        addContact.setBackgroundResource(R.drawable.ic_request_sent);
+                                    }
+                                    if(SorR.equals("S")){
+                                        addContact.setBackgroundResource(R.drawable.ic_request_received);
+                                    }
+
                                 }
                                 if(status == true){
                                     addContact.setBackgroundResource(R.drawable.ic_friends);
@@ -228,7 +235,7 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
             documentReference.set(request, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    addContact.setBackgroundResource(R.drawable.ic_doble_tick);
+                    addContact.setBackgroundResource(R.drawable.ic_request_sent);
                     updateMyContactlist(searchModel);
                 }
             }).addOnFailureListener(new OnFailureListener() {

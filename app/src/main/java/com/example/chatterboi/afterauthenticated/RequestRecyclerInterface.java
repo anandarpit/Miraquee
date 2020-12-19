@@ -84,7 +84,14 @@ public class RequestRecyclerInterface extends RecyclerView.Adapter<RequestRecycl
             username = itemView.findViewById(R.id.searchusername);
             image = itemView.findViewById(R.id.searchChatCiv);
             addContact = itemView.findViewById(R.id.addContact);
-            addContact.setBackgroundResource(R.drawable.ic_doble_tick);
+
+            if(requestmodel.getSorR().equals("S")){
+                addContact.setBackgroundResource(R.drawable.ic_request_sent);
+            }
+            if(requestmodel.getSorR().equals("R")){
+                addContact.setBackgroundResource(R.drawable.ic_request_received);
+            }
+
             name.setText(requestmodel.getName());
             username.setText("@"+requestmodel.getUsername());
 
