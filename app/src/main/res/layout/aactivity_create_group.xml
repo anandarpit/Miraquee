@@ -7,27 +7,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Image:"
+        android:textSize="25dp"
+        android:paddingLeft="20dp"
+
+        android:fontFamily="@font/acme"/>
+        <Button
+            android:id="@+id/addimage"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/buttontwo"
+            android:text="Choose"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Name: "
+            android:textSize="25dp"
+            android:paddingLeft="20dp"
+
+            android:fontFamily="@font/acme"/>
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/add_room_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Group name"
+            android:layout_margin="8dp"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:paddingHorizontal="20dp"
+            app:met_baseColor="#000000"
+            app:met_errorColor="#F44336"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Photo:"
+        android:textSize="30dp"
+        android:fontFamily="@font/acme"
+        android:textColor="#4B4A4A"
+        android:visibility="invisible"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"/>
+
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/addimage"
+        android:id="@+id/showimage"
         android:layout_width="170dp"
         android:layout_height="170dp"
-        android:layout_marginTop="50dp"
+        android:visibility="invisible"
         android:layout_gravity="center"
         android:src="@drawable/group_icon" />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/add_room_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter group name"
-        android:layout_margin="8dp"
-        android:textSize="20dp"
-        android:gravity="center"
-        app:met_baseColor="#000000"
-        app:met_errorColor="#F44336"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextColor="@color/colorAccent"
-        app:met_primaryColor="?colorAccent"
-        app:met_singleLineEllipsis="true" />
+
 
 </LinearLayout>

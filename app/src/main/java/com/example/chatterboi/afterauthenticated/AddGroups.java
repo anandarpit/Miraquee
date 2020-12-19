@@ -14,8 +14,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chatterboi.R;
@@ -46,10 +48,12 @@ public class AddGroups extends AppCompatActivity {
     FirebaseUser mUser;
     FirebaseFirestore db;
     Menu toolbarmenu;
-    CircularImageView imageView;
+    Button imageView;
     String room;
+    TextView selected;
     Uri imageUri;
     Preferences pref;
+    CircularImageView showimage;
     StorageReference storageReference;
 
     @Override
@@ -59,7 +63,8 @@ public class AddGroups extends AppCompatActivity {
 
         roomname = findViewById(R.id.add_room_name);
         imageView = findViewById(R.id.addimage);
-
+        showimage = findViewById(R.id.showimage);
+        selected = findViewById(R.id.selected);
 
         pref = new Preferences(getApplicationContext());
         storageReference= FirebaseStorage.getInstance().getReference();
@@ -121,7 +126,8 @@ public class AddGroups extends AppCompatActivity {
                                 fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        Picasso.get().load(uri).into(imageView);
+                                        showimage.setVisibility(View.VISIBLE);
+                                        Picasso.get().load(uri).into(showimage);
                                     }
                                 });
                             }
@@ -181,7 +187,9 @@ public class AddGroups extends AppCompatActivity {
         }
         else if(requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK){
             imageUri = UCrop.getOutput(data);
-            imageView.setImageURI(imageUri);
+            selected.setVisibility(View.VISIBLE);
+            showimage.setVisibility(View.VISIBLE);
+            showimage.setImageURI(imageUri);
         }
     }
 }
