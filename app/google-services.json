@@ -1,42 +1,33 @@
 {
   "project_info": {
-    "project_number": "25604276904",
-    "firebase_url": "https://chatter-boi.firebaseio.com",
-    "project_id": "chatter-boi",
-    "storage_bucket": "chatter-boi.appspot.com"
+    "project_number": "1074000861676",
+    "project_id": "miraquee-35e50",
+    "storage_bucket": "miraquee-35e50.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:25604276904:android:4bad723f5ce3185a1bf89d",
+        "mobilesdk_app_id": "1:1074000861676:android:0c08bb8f99fd2a92bc88c9",
         "android_client_info": {
-          "package_name": "com.example.chatterboi"
+          "package_name": "com.arpit.miraquee"
         }
       },
       "oauth_client": [
         {
-          "client_id": "25604276904-7ah3511fqovfr79af7pfd4b335ci8opu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.chatterboi",
-            "certificate_hash": "0a373854a9e659f9c4af1cc701888c26f2ec08bd"
-          }
-        },
-        {
-          "client_id": "25604276904-hn8qsg33v33pfn8bogtk7h5lm7p57ms9.apps.googleusercontent.com",
+          "client_id": "1074000861676-0a16fr1o3u9h5pk7004ko86e4rdor858.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBFrx8oOJGi0SMLzmA--ByS-way3CQw5ZQ"
+          "current_key": "AIzaSyAnaD-zh9oGovddSskBgYtRyHxlWad63Ls"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "25604276904-hn8qsg33v33pfn8bogtk7h5lm7p57ms9.apps.googleusercontent.com",
+              "client_id": "1074000861676-0a16fr1o3u9h5pk7004ko86e4rdor858.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2C2B2B"
-    tools:context=".afterauthenticated.Requests">
+    tools:context="com.arpit.miraquee.afterauthenticated.Requests">
 
     <ImageView
         android:id="@+id/goBack"

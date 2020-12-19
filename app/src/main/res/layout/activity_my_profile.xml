@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".afterauthenticated.myProfile"
+    tools:context="com.arpit.miraquee.afterauthenticated.myProfile"
     android:layout_height="match_parent"
     android:background="#2C2B2B"
     android:layout_width="match_parent">

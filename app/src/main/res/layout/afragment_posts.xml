@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_gravity="center"
     android:layout_height="match_parent"
-    tools:context=".afterauthenticated.Posts">
+    tools:context="com.arpit.miraquee.afterauthenticated.Posts">
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.chatterboi">
+    package="com.arpit.miraquee">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,7 +20,7 @@
         tools:targetApi="m">
 
         <service
-            android:name=".MessagingService"
+            android:name="com.arpit.miraquee.MessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -28,46 +28,46 @@
         </service>
 
         <activity
-            android:name=".OutgoingInvitationActivity"
+            android:name="com.arpit.miraquee.OutgoingInvitationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".IncomingInvitationActivity"
+            android:name="com.arpit.miraquee.IncomingInvitationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".afterauthenticated.ChatInterface"
+            android:name="com.arpit.miraquee.afterauthenticated.ChatInterface"
             android:theme="@style/AppTheme3"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".afterauthenticated.Requests" />
-        <activity android:name=".afterauthenticated.AddPeople" />
-        <activity android:name=".afterauthenticated.comments" />
+        <activity android:name="com.arpit.miraquee.afterauthenticated.Requests" />
+        <activity android:name="com.arpit.miraquee.afterauthenticated.AddPeople" />
+        <activity android:name="com.arpit.miraquee.afterauthenticated.comments" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".afterauthenticated.myProfile" />
-        <activity android:name=".afterauthenticated.AddPosts" />
+        <activity android:name="com.arpit.miraquee.afterauthenticated.myProfile" />
+        <activity android:name="com.arpit.miraquee.afterauthenticated.AddPosts" />
         <activity
-            android:name=".afterauthenticated.GroupChatInterface"
+            android:name="com.arpit.miraquee.afterauthenticated.GroupChatInterface"
             android:theme="@style/AppTheme3"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".afterauthenticated.HomePageArpit"
+            android:name="com.arpit.miraquee.afterauthenticated.HomePageArpit"
             android:launchMode="singleTask" />
         <activity
-            android:name=".afterauthenticated.AddGroups"
+            android:name="com.arpit.miraquee.afterauthenticated.AddGroups"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".Auth.Log_in"
+            android:name="com.arpit.miraquee.Auth.Log_in"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Auth.username_page"
+            android:name="com.arpit.miraquee.Auth.username_page"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Auth.Register"
+            android:name="com.arpit.miraquee.Auth.Register"
             android:launchMode="singleTask" />
         <activity
-            android:name=".SplashScreen.SplashActivity"
+            android:name="com.arpit.miraquee.SplashScreen.SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
