@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:title= "Settings"
-        android:icon="@drawable/menu"
-        app:showAsAction="never"/>
+<!--    <item-->
+<!--        android:title= "Settings"-->
+<!--        android:icon="@drawable/menu"-->
+<!--        app:showAsAction="never"/>-->
 <!--    <item-->
 <!--        android:id="@+id/search"-->
 <!--        android:icon="@drawable/ic_search"-->

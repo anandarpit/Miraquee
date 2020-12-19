@@ -129,7 +129,7 @@ public class HomePageArpit extends AppCompatActivity {
 
         loadPhotoFirst();
 
-        showNotification();
+//        showNotification();
 
 //        mInterstitialAd = new InterstitialAd(this);
 //        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");

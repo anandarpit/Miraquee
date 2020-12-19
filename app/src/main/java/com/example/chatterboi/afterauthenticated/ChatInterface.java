@@ -20,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.chatterboi.R;
+import com.example.chatterboi.RequestNotif.ApiServe;
+import com.example.chatterboi.RequestNotif.Client;
+import com.example.chatterboi.RequestNotif.Data;
+import com.example.chatterboi.RequestNotif.MyResponse;
+import com.example.chatterboi.RequestNotif.NotificationSender;
 import com.example.chatterboi.SharedPreferences.Preferences;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +34,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -46,10 +52,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ChatInterface extends AppCompatActivity {
 
     String OName, Oid, OUsername;
-
+    ApiServe apiServe;
     FirebaseFirestore firestore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -76,6 +86,7 @@ public class ChatInterface extends AppCompatActivity {
         recycler_interface = findViewById(R.id.chats_interface);
         attach = findViewById(R.id.attachFiles);
 
+        apiServe = Client.getClient("https://fcm.googleapis.com/").create(ApiServe.class);
         recycler_interface.setHasFixedSize(false);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         manager.setReverseLayout(true);
@@ -185,11 +196,47 @@ public class ChatInterface extends AppCompatActivity {
                 Toast.makeText(ChatInterface.this, "Message Sent", Toast.LENGTH_SHORT).show();
                 showChatMessages();
                 messageEditText.setText(null);
+                sendCloudNotification(message, Oid, OUsername);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
 
+            }
+        });
+    }
+
+    private void sendCloudNotification(String message, String uid, String username) {
+        //get opponents token
+        firestore.collection("All Users").document(Oid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String opponentsToken;
+                opponentsToken = documentSnapshot.getString("FCM_token");
+                if(opponentsToken!= null){
+                    String Title = "@"+preferences.getData("username");
+                    String Message = message;
+                    Data data = new Data(Title, Message);
+                    NotificationSender sender= new NotificationSender(data, opponentsToken);
+                    apiServe.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                        @Override
+                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                            if(response.code() == 200){
+                                if(response.body().success != 1){
+                                    Toast.makeText(getApplicationContext(), "Failed to send notification!", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "FCM sent", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MyResponse> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), "Failed!"+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }

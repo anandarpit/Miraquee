@@ -14,6 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterboi.R;
+import com.example.chatterboi.RequestNotif.ApiServe;
+import com.example.chatterboi.RequestNotif.Client;
+import com.example.chatterboi.RequestNotif.Data;
+import com.example.chatterboi.RequestNotif.MyResponse;
+import com.example.chatterboi.RequestNotif.NotificationSender;
 import com.example.chatterboi.SharedPreferences.Preferences;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +38,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycler_adapter.myAdapter> {
     List<SearchModel> list;
     Context context;
@@ -40,7 +49,7 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
     FirebaseAuth mAuth;
     String uid;
     Preferences prefs;
-
+    ApiServe apiServe;
     StorageReference storageReference;
 
     public Search_recycler_adapter(List<SearchModel> list, Context context) {
@@ -51,6 +60,7 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
         storageReference = FirebaseStorage.getInstance().getReference();
         mAuth =  FirebaseAuth.getInstance();
         uid = mAuth.getCurrentUser().getUid();
+        apiServe = Client.getClient("https://fcm.googleapis.com/").create(ApiServe.class);
     }
 
     @NonNull
@@ -263,6 +273,7 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
                         @Override
                         public void run() {
                             addContact.setEnabled(true);
+                            sendCloudNotification(searchModel);
                         }
                     }, 500);
                     Toast.makeText(context, "Request Sent", Toast.LENGTH_SHORT).show();
@@ -271,6 +282,43 @@ public class Search_recycler_adapter extends RecyclerView.Adapter<Search_recycle
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void sendCloudNotification(SearchModel searchModel) {
+
+
+            //get opponents token
+            db.collection("All Users").document(searchModel.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    String opponentsToken;
+                    opponentsToken = documentSnapshot.getString("FCM_token");
+                    if(opponentsToken!= null){
+                        String Title = "New Request!";
+                        String Message = "@"+prefs.getData("username") + " wants to be your Contact! Open Requests in the application to see all pending requests";
+                        Data data = new Data(Title, Message);
+                        NotificationSender sender= new NotificationSender(data, opponentsToken);
+                        apiServe.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                            @Override
+                            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                if(response.code() == 200){
+                                    if(response.body().success != 1){
+                                        Toast.makeText(context, "Failed to send notification!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        Toast.makeText(context, "FCM sent", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<MyResponse> call, Throwable t) {
+                                Toast.makeText(context, "Failed!"+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             });
         }
